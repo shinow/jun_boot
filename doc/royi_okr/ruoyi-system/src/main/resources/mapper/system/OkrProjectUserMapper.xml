@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.OkrProjectUserMapper">
+    
+    <resultMap type="OkrProjectUser" id="OkrProjectUserResult">
+        <result property="id"    column="id"    />
+        <result property="groupId"    column="group_id"    />
+        <result property="userid"    column="userid"    />
+        <result property="groupName"    column="group_name"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="projectCode"    column="project_code"    />
+        <result property="email"    column="email"    />
+        <result property="phonenumber"    column="phonenumber"    />
+        <result property="userName"    column="user_name"    />
+        <result property="deptName"    column="dept_name"    />
+    </resultMap>
+
+    <sql id="selectOkrProjectUserVo">
+        select id, group_id, userid from okr_project_user
+    </sql>
+
+    <sql id="selectOkrProjectUserInfoVo">
+        SELECT
+            r.id,
+            r.group_id,
+            r.userid,
+            g.group_name,
+            g.parent_id,
+            g.project_code,
+            u.email,
+            u.login_name,
+            u.phonenumber,
+            u.user_name,
+            u.dept_name,
+            u.dept_id
+        FROM
+            okr_project_user r
+        LEFT JOIN okr_project_group g ON r.group_id = g.group_id
+        LEFT JOIN (
+            SELECT
+                DISTINCT(u.user_id),
+                u.dept_id,
+                u. LANGUAGE,
+                u.login_name,
+                u.user_name,
+                u.user_type,
+                u.email,
+                u.avatar,
+                u.phonenumber,
+                d.parent_id,
+                d.dept_name,
+                d.order_num,
+                d.leader,
+                d. STATUS AS dept_status,
+                u.del_flag
+            FROM
+                sys_user u
+            LEFT JOIN sys_dept d ON u.dept_id = d.dept_id
+            LEFT JOIN sys_user_role ur ON u.user_id = ur.user_id
+        ) u ON r.userid = u.user_id
+        WHERE
+            g.del_flag = 0
+        AND u.del_flag = 0
+    </sql>
+
+    <select id="selectOkrProjectUserList" parameterType="OkrProjectUser" resultMap="OkrProjectUserResult">
+        <include refid="selectOkrProjectUserInfoVo"/>
+        <if test="projectCode != null  and projectCode != ''"> and g.project_code = #{projectCode}</if>
+        <if test="groupId != null  and groupId != ''"> and g.group_id = #{groupId}</if>
+    </select>
+
+
+    <select id="selectOkrProjectUserExist" parameterType="OkrProjectUser" resultMap="OkrProjectUserResult">
+        <include refid="selectOkrProjectUserVo"/>
+        <where>
+            <if test="userid != null  and userid != ''"> and userid = #{userid}</if>
+            <if test="groupId != null  and groupId != ''"> and group_id = #{groupId}</if>
+        </where>
+
+    </select>
+    
+    <select id="selectOkrProjectUserById" parameterType="Long" resultMap="OkrProjectUserResult">
+        <include refid="selectOkrProjectUserVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertOkrProjectUser" parameterType="OkrProjectUser" useGeneratedKeys="true" keyProperty="id">
+        insert into okr_project_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="groupId != null ">group_id,</if>
+            <if test="userid != null ">userid,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="groupId != null ">#{groupId},</if>
+            <if test="userid != null ">#{userid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOkrProjectUser" parameterType="OkrProjectUser">
+        update okr_project_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="groupId != null ">group_id = #{groupId},</if>
+            <if test="userid != null ">userid = #{userid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOkrProjectUserById" parameterType="Long">
+        delete from okr_project_user where id = #{id}
+    </delete>
+
+    <delete id="deleteOkrProjectUserByIds" parameterType="String">
+        delete from okr_project_user where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head>
+	<th:block th:include="include :: header('搜索列表')" />
+</head>
+<body class="gray-bg">
+	<div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="data-form">
+					<ul id="liAppend">
+						<li th:each="data : ${list}">
+							id：<span th:text="${data['id']}"></span>
+							姓名：<span th:text="${data['name']}"></span>
+							年龄：<span th:text="${data['age']}"></span>
+							电话：<span th:text="${data['phone']}"></span>
+							备注：<span th:text="${data['remark']}"></span>
+						</li><br>
+					</ul>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script th:inline="javascript">
+		var searchList = [[${list}]];
+		if(searchList.length==0){
+			$("#liAppend").append("<li>暂无数据</li>")
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.front.zcool.mapper.MessageMapper">
+
+	<resultMap type="Message" id="MessageResult">
+		<id property="id"       column="id"      />
+		<result property="userId"       column="user_id"      />
+
+		<result property="msgType"       column="msg_type"       />
+		<result property="content"       column="content"       />
+		<result property="readFlag"       column="read_flag"       />
+
+		<result property="createTime"       column="create_time"       />
+
+	</resultMap>
+
+	<select id="selectByMsgType" parameterType="String" resultMap="MessageResult">
+		select * from zcool_message
+		<where>
+			msg_type = #{msgType}
+			<if test="msgType != null  and msgType != 'public' "> and user_id = #{userId}</if>
+		</where>
+
+	</select>
+
+	<select id="selectByAllType" parameterType="String" resultMap="MessageResult">
+
+		(SELECT * from  zcool_message where msg_type='public' ORDER BY create_time desc LIMIT 1)
+		UNION ALL
+		(SELECT * from  zcool_message where msg_type='system' and user_id=#{userId} ORDER BY create_time desc LIMIT 1)
+		UNION ALL
+		(SELECT * from  zcool_message where msg_type='recommend' and user_id=#{userId} ORDER BY create_time desc LIMIT 1)
+		UNION ALL
+		(SELECT * from  zcool_message where msg_type='focus' and user_id=#{userId} ORDER BY create_time desc LIMIT 1)
+		UNION ALL
+		(SELECT * from  zcool_message where msg_type='team' and user_id=#{userId} ORDER BY create_time desc LIMIT 1)
+	</select>
+	<select id="countMessages" parameterType="String" resultType="map">
+		select * from(
+		(select count(1) as mcount from zcool_message where user_id=#{userId} and read_flag=0) a,
+		(select count(1) as pcount from zcool_private_msg where to_id=#{userId} and read_flag=0) b
+		)
+	</select>
+	<update id="updateReadFlag" parameterType="String">
+		update zcool_message
+		set read_flag=1
+		where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper> 

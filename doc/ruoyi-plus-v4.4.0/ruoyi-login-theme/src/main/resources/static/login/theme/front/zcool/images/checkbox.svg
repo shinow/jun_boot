@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="14px" height="14px" viewBox="0 0 14 14" version="1.1">
+    <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 35</title>
+    <desc>Created with Sketch.</desc>
+    <defs/>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD" transform="translate(-1164.000000, -27.000000)">
+            <g id="Group-35" transform="translate(1164.000000, 27.000000)">
+                <rect id="Rectangle" fill="#FFFFFF" x="0" y="0" width="14" height="14" rx="4"/>
+                <g id="checkbox" fill="#BBBBBB">
+                    <path d="M10.5,0 L3.5,0 C1.575,0 0,1.575 0,3.5 L0,10.5 C0,12.425 1.575,14 3.5,14 L10.5,14 C12.425,14 14,12.425 14,10.5 L14,3.5 C14,1.575 12.425,0 10.5,0 Z M10.5,0.875 C11.9875,0.875 13.125,2.0125 13.125,3.5 L13.125,10.5 C13.125,11.9875 11.9875,13.125 10.5,13.125 L3.5,13.125 C2.0125,13.125 0.875,11.9875 0.875,10.5 L0.875,3.5 C0.875,2.0125 2.0125,0.875 3.5,0.875 L10.5,0.875 Z" id="XMLID_2_"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

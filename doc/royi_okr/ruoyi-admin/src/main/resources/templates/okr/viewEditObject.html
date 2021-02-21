@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html th:lang="${language}"  xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header(#{okr.updateOjectInfo})" />
+    <th:block th:include="include :: ztree-css" />
+    <th:block th:include="include :: okr-css" />
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content" th:object="${okrInfo}" >
+    <form class="form-horizontal m row" id="form-info-edit" >
+        <div class="edit-object">
+            <input id="id" name="id" th:field="*{id}" type="hidden">
+            <input id="type" name="type" th:field="*{rowType}" type="hidden">
+			<input id="rowId" name="rowId" th:field="*{rowId}" type="hidden">
+            <input name="synergyUsers" th:field="*{synergyUsers}" class="form-control" type="hidden">
+            <!-- 协同对齐容器 -->
+            <div class="col-sm-3 synergyBox border-right">
+                <div class="tip-box">
+                    <a class="tip" href="javascript:;">
+                        <i class="fa fa-exclamation-triangle"></i>
+                    </a>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-12"><p class="synergyTitle">[[#{okr.collaborative}]]:</p></label>
+                    <div class="col-sm-12">
+                        <div id="synergyTrees" class="ztree"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- OKR信息容器 -->
+            <div class="col-sm-9 okrBox border-left">
+                <!-- Object内容 -->
+                <div class="objectContent">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>
+                                <i class="fa fa-hourglass-half"></i>
+                                <span>Objective:[[*{content}]]</span>
+                            </h5>
+                            <span class="label label-primary pull-right">[[#{okr.targetType}]]：[[#{okr.TypePerson}]]</span>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="content-box row" >
+                                <div class="col-sm-8">
+                                    <table class="table table-no-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th colspan="3">
+                                                <i class="fa fa-male"></i>
+                                                <span>[[#{okr.dept}]]：[[*{deptName}]]</span>
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td> <p>[[#{okr.targetType}]]：[[#{okr.TypePerson}]]</p></td>
+                                            <td> <p>[[#{okr.deadline}]]：[[${okrCycle.endTime}]]</p></td>
+                                            <td> <p>[[#{okr.updateTime}]]：[[${#dates.format(okrInfo.updateTime, 'yyyy-MM-dd HH:mm')}]]</p></td>
+                                        </tr>
+                                        <tr>
+                                            <td> <p>[[#{okr.objectProgress}]]：[[*{process}]]% </p></td>
+                                            <td colspan="2">
+                                                <div class="progress progress-mini">
+                                                    <div th:style="'width:'+(*{process})+'%'" class="progress-bar"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-sm-4">
+                                    <table class="table table-no-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                <i class="fa fa-male"></i>
+                                                <span>[[#{okr.chargePerson}]]</span>
+                                            </th>
+                                            <th>
+                                                <i class="fa fa-flag"></i>
+                                                <span>[[#{okr.average}]]</span>
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>[[*{userName}]]</td>
+                                            <td>[[*{scoreStar}]]</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- KeyResult内容 -->
+                <div class="ibox kResultContent">
+                    <div class="ibox-content">
+                        <h4>
+                            <i class="fa fa-plus-circle"></i>
+                            <span>Key Results：</span>
+                        </h4>
+                        <ul class="sortable-list contentList agile-list ui-sortable">
+                            <li class="success-element kr-list row" th:each="entries,stat:${okrKReultInfo}">
+                                <input class="" th:name="'krInfos[' + ${stat.index} + '].id'" type="hidden" th:value="${entries.id}">
+                                <div class="kr-key-num">[[${entries.rowCode}]]</div>
+                                <div class="col-sm-1 col-xs-12 kr-key-p0 kr-progress">
+                                    <div class="kr-progress-box">
+                                        <canvas class="kr-progress-canvas" th:percent="${entries.process}" th:id="kr-progress-canvas-+${stat.count}" ></canvas>
+                                        <div class="kr-progress-desc">[[#{okr.krProess}]]</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-11 col-xs-12 kr-key-pl0 kr-detail">
+                                    <div class="form-group">
+                                        <span class="col-sm-2 control-label">[[#{okr.krDetail}]]：</span>
+                                        <h4 class="kr-content col-sm-8">[[${entries.content}]]</h4>
+                                        <span class="col-sm-2 control-label">
+                                            <i class="fa fa-gg"></i>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="col-sm-2 control-label">[[#{okr.rowStar}]]：</span>
+                                        <h4 class="kr-star col-sm-8">
+                                            <input class="score-star" th:name="'krInfos[' + ${stat.index} + '].scoreStar'" type="hidden" min=0 max=1 step=0.1  data-size="xs" th:value="${entries.scoreStar}">
+                                        </h4>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="col-sm-2 control-label">[[#{okr.rowConfidence}]]：</span>
+                                        <h4 class="kr-confidence col-sm-8">
+                                            <input class="confidence-star" th:name="'krInfos[' + ${stat.index}  + '].confidenceStar'" type="hidden" min=1 max=10 step=1 data-size="xs" th:value="${entries.confidenceStar}">
+                                        </h4>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="col-sm-2 control-label">[[#{okr.rowProess}]]：</span>
+                                        <h4 class="kr-score col-sm-8">
+                                            <div class="kr-bootstrap-box">
+                                                <div class="clear-rating clear-rating-active" title="Clear">
+                                                    <i class="glyphicon glyphicon-minus-sign"></i>
+                                                </div>
+                                                <div class="progress" th:id="progress-mini-+${stat.count}">
+                                                    <div th:style="'width:'+${entries.process}+'%'" class="progress-bar"></div>
+                                                    <input class="progress-star" th:name="'krInfos[' + ${stat.index} + '].process'" th:value="${entries.process}" type="hidden" >
+                                                </div>
+                                                <div class="caption">
+                                                    <span class="label label-default">[[${entries.process}]]%</span>
+                                                </div>
+                                            </div>
+                                        </h4>
+                                    </div>
+									<div class="form-group"  th:if="${not #strings.isEmpty(okrInfo.projectList)} and ${okrInfo.projectList.size()} gt 0">
+                                        <label class="col-sm-2 control-label">[[#{okr.projects}]]：</label>
+                                        <div class="col-sm-6" >
+                                            <label class="checkbox-inline check-box"  th:each="project : ${okrInfo.projectList}">
+                                                <input type="checkbox" th:name="'krInfos[' + ${stat.index} + '].projects'" th:value="${project.projectCode}" th:checked="${project.selected}" />
+                                                <span th:text="${project.projectCode}"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                     <div class="form-group">
+                                        <span class="col-sm-2 control-label">[[#{okr.rowPriority}]]：</span>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" th:name="'krInfos[' + ${stat.index} + '].priority'" readonly th:with="type=${@dict.getType('okr_level')}">
+                                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:selected="${dict.dictValue} == ${entries.priority}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" th:if="${entries.gradeRemark}">
+                                        <span class="col-sm-2 control-label" >[[#{okr.gradeRemark}]]：</span>
+                                        <div class="col-sm-6">
+                                            <div class="remark-content-box accordion-inner" th:utext="${entries.gradeRemark}"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" th:if="${entries.remarkContent}">
+                                        <span class="col-sm-2 control-label">[[#{okr.progressNotes}]]：</span>
+                                        <div class="col-sm-6">
+                                            <div class="accordion-group">
+                                                <div class="accordion-heading" style="padding-top: 7px; margin-bottom: 0;">
+                                                    <a class="accordion-toggle" data-toggle="collapse" th:href="'#remark-'+${stat.count}">
+                                                        [[${#strings.abbreviate(entries.remarkTextContent,26)}]]
+                                                    </a>
+                                                </div>
+                                                <div th:id="'remark-'+${stat.count}" class="accordion-body collapse" style="height: 0px; ">
+                                                    <div class="remark-content-box accordion-inner" th:utext="${entries.remarkContent}"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- 评论列表内容 -->
+                <div class="comment-list row" th:if="${comments.rows.size()} gt 0">
+                    <h4>
+                        <i class="fa fa-yelp"></i>
+                        <span>评论：</span>
+                    </h4>
+                    <ul class="col-sm-12 comment-list-box">
+                        <li th:each="comment,stat:${comments.rows}">
+                            <div class="comment-item" >
+                                <a class="avatar" href="javascript:;">
+                                    <img th:src="${comment.avatar}">
+                                </a>
+                                <div class="comment-detail">
+                                    <div class="user-info">
+                                        <a class="name" href="javascript:;" target="_blank" >[[${comment.userName}]]</a>
+                                        <span class="create-time">[[${comment.addShowTime}]]</span>
+                                    </div>
+                                    <p class="content" th:utext="${comment.content}"></p>
+                                    <div type="attachments" th:if="${comment.metaComments.size()} gt 0">
+                                        <ul class="attachments-ul">
+                                            <li class="attachment-li" th:each="file,stat:${comment.metaComments}" >
+                                                <a class="attachment-title" th:target="${file.metaKey == 'file'} ? '_blank':'' " th:href="${file.metaKey == 'image'} ?'javascript:;' : ${file.metaValue}" th:classappend="${file.metaKey == 'image'} ? 'showImage' : 'showFile' ">
+                                                    <img width="50" src="/img/exe.svg"  th:if="${file.metaKey} eq 'file'">
+                                                    <img width="50" onerror="reSetImgUrl(this,this.src,3)" th:src="${file.metaValue}" th:if="${file.metaKey} eq 'image'">
+                                                    <br/>
+                                                    <span>[[${file.metaKey}]]</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="reply">
+                                        <span class="reply-btn" th:parentId="${comment.id}" th:commentId="${comment.id}" type="2">回复</span>
+                                        <span class="reply-num" th:if="${comment.replyComments.size()} gt 0">&nbsp;⋅&nbsp;
+                                                        <span>[[${comment.replyComments.size()}]]条回复</span>
+                                                        <i class="fa fa-angle-down"></i>
+                                                    </span>
+                                        <span class="digg" title="点赞" th:onclick="'submitDigg('+${comment.id}+','+2+',this)'">
+                                                        <span >[[${comment.thumbNum}]]&nbsp;</span>
+                                                        <i class="fa fa-thumbs-o-up"></i>
+                                                    </span>
+                                    </div>
+                                    <div class="comment-reply-list" style="display: none;" >
+                                        <div class="comment-reply-box">
+                                            <div class="comment-item" th:each="replyComment:${comment.replyComments}" th:if="${comment.replyComments.size()} gt 0">
+                                                <a class="avatar" href="javascript:;">
+                                                    <img th:src="${replyComment.avatar}">
+                                                </a>
+                                                <div class="comment-detail">
+                                                    <div class="user-info">
+                                                        <a class="name" href="javascript:;" target="_blank">[[${replyComment.userName}]]</a>
+                                                        <span class="create-time">[[${replyComment.addShowTime}]]</span>
+                                                    </div>
+                                                    <p class="content" th:utext="${replyComment.content}" th:userid="${replyComment.userId}"></p>
+                                                    <div class="reply">
+                                                        <span class="reply-btn" th:parentId="${comment.id}" th:commentId="${replyComment.id}" type="3">回复</span>
+                                                        <span class="digg" title="点赞" th:onclick="'submitDigg('+${replyComment.id}+','+2+',this)'">
+                                                                        <span >[[${replyComment.thumbNum}]]&nbsp;</span>
+                                                                        <i class="fa fa-thumbs-o-up"></i>
+                                                                    </span>
+                                                    </div>
+                                                    <div class="comment-reply-list" style="display: none;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="col-sm-12 load-more-comment" th:if="${comments.total} gt ${comments.rows.size()}"><button type="button" th:left="${comments.total} - ${comments.rows.size()}" page=2 th:onclick="'showMoreComment('+*{id}+',this)'" >查看更多[[${comments.total} - ${comments.rows.size()}]]条评论</button></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- 评论输入框 -->
+<div class="comment-box row">
+    <div class="col-sm-12">
+        <div class="comment-main row">
+            <div class="col-sm-1">
+                <div class="avatar-wrap">
+                    <img th:src="(${user.avatar} == '') ? @{/img/LOGO.jpg} : @{${user.avatar}}" class="img-circle" alt="User Image">
+                </div>
+            </div>
+            <div class="col-sm-11 comment">
+                <input class="comment-input" placeholder="评论内容,文字上限2000(Ctrl+Enter发送)" />
+                <div class="comment-add-body">
+                    <!-- 上传的文本框 -->
+                    <div class="comment-add-text">
+                        <textarea class="form-control txt-comment" id="txt-comment" placeholder="评论内容,文字上限2000(Ctrl+Enter发送)" emojis="true" maxlength="2000"></textarea>
+                    </div>
+                    <!-- 上传的附件显示框 -->
+                    <div class="comment-attachment-wrap">
+                        <div type="attachments">
+                            <ul class="attachment-list-wrap"></ul>
+                            <div class="progress progress-file"><div class="progress-bar"></div></div>
+                        </div>
+                    </div>
+                    <!-- 附件，表情包，@人物，关联其他OKR 和 开始上传按钮  -->
+                    <div class="comment-add-footer clearfix d-flex align-items-center">
+                        <ul class="tool-bar  flex-grow-1" th:orkId="*{id}">
+                            <li class="pbox-file">
+                                <a href="javascript:;" title="上传附件" class="btn btn-link btn-link-file">
+                                    <input class="file-attachment" id="file-attachment" type="file" name="file" multiple="true" maxlength="6" />
+                                    <i class="fa fa-paperclip"></i>
+                                </a>
+                            </li>
+                            <li class="pbox-smile" >
+                                <a href="javascript:;" class="btn btn-link btn-link-smile">
+                                    <i class="fa fa-smile-o"></i>
+                                </a>
+                            </li>
+                            <li class="pbox-at">
+                                <a href="javascript:;" class="btn btn-link btn-link-at">
+                                    <i class="fa fa-at"></i>
+                                </a>
+                            </li>
+                            <li class="pbox-associated" >
+                                <a href="javascript:;" class="btn btn-link btn-link-associated">
+                                    <i class="fa fa-chain"></i>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="submit-box">
+                            <a href="javascript:;" class="btn btn-link btn-link-default" >取消</a>
+                            <button class="btn btn-primary btn-sm layui-layer-btn" th:onclick="'submitContent('+*{id}+','+*{rowType}+');return false;'">发送</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer" />
+<th:block th:include="include :: star-rating-js" />
+<th:block th:include="include :: ztree-js" />
+<th:block th:include="include :: qqFace" />
+<th:block th:include="include :: okr-js" />
+<th:block th:include="include :: comment-js" />
+<script type="text/javascript">
+
+    let prefix = ctx + "okr/info";
+    //加载结构组织树木
+    $(function() {
+        let url = prefix + "/okrSynergyTreeData?id="+ $("#id").val();
+        let options = {
+            id: "synergyTrees",
+            url: url,
+            check: { enable: true },
+            showCheckBox: true,
+            expandLevel: 1,
+        };
+        $.tree.init(options);
+    });
+
+    $(function() {
+        //显示进度KR条
+        let width = height = $(".kr-progress-box").width();
+
+        //初始化 容器高度
+        $(".kr-progress-canvas").attr({width:width,height:height});
+
+        //初始化 圆形进度条
+        $(".kr-progress-canvas").each( function(index,value){ progressCircle('circle',value); });
+
+        //初始化 直线进度条
+        $(".kr-bootstrap-box").each( function(index,value){ progressBootstrap('bootstrap',value); });
+
+        //初始化 目标评分
+        $('.score-star').rating({
+            hoverOnClear: false,
+            min:0,
+            max:1,
+            step:0.1,
+            starCaptions: {
+                0: '0',
+                0.1: '0.1',
+                0.2: '0.2',
+                0.3: '0.3',
+                0.4: '0.4',
+                0.5: '0.5',
+                0.6: '0.6',
+                0.7: '0.7',
+                0.8: '0.8',
+                0.9: '0.9',
+                1: '1'
+            },
+            starCaptionClasses:{
+                0:   'label',
+                0.1: 'label',
+                0.2: 'label',
+                0.3: 'label',
+                0.4: 'label',
+                0.5: 'label',
+                0.6: 'label',
+                0.7: 'label badge-success-true',
+                0.8: 'label badge-success-true',
+                0.9: 'label badge-success-true',
+                1  : 'label badge-success-true'
+            },
+            clearValue:0,
+            zeroAsNull:false,
+            clearCaption: "0",
+        });
+
+        //初始话 信心指数
+        $('.confidence-star').rating({
+            hoverOnClear: false,
+            min:0,
+            max:10,
+            step:1,
+            starCaptions: {
+                0: '0',
+                1: '1',
+                2: '2',
+                3: '3',
+                4: '4',
+                5: '5',
+                6: '6',
+                7: '7',
+                8: '8',
+                9: '9',
+                10: '10'
+            },
+            starCaptionClasses:{
+                0: 'label',
+                1: 'label',
+                2: 'label',
+                3: 'label',
+                4: 'label',
+                5: 'label',
+                6: 'label',
+                7: 'label badge-success-true',
+                8: 'label badge-success-true',
+                9: 'label badge-success-true',
+                10:'label badge-success-true'
+            },
+            clearValue:0,
+            zeroAsNull:false,
+            clearCaption: "0",
+            filledStar: '<i class="glyphicon glyphicon-heart"></i>',
+            emptyStar:  '<i class="glyphicon glyphicon-heart-empty"></i>'
+        });
+
+        //初始化 提示
+        $('.tip').tooltip({
+            animation:true,
+            title:"[[#{okr.tip}]]",
+            trigger:'hover',
+            placement:"bottom",
+        });
+    });
+
+    /*
+     * 园形进度条初始化
+     * @param value 是jquery DOM ;
+     * return 当前对象
+     */
+    function progressCircle(type,value){
+        new Progress({
+            type: type,
+            el: value.getAttribute("id"), //canvas元素id
+            deg: parseFloat(value.getAttribute("percent")),
+            timer: 2,
+            lineWidth: 5,
+            lineBgColor: '#fffff',
+            lineColor: '#409eff',
+            textColor: '#000000',
+            fontSize: 16,
+            circleRadius: 30,
+            width:100,
+            height:100,
+        });
+    }
+
+    /*
+     * 直线进度条初始化
+     * @param value 是jquery DOM ;
+     * return 当前对象
+     */
+    function progressBootstrap(type,value){
+        new Progress({
+            type: type,
+            el:value.querySelector(".progress"),
+            textId:value.querySelector(".caption span"),
+            clearId:value.querySelector(".clear-rating"),
+            bgColor:"progress-striped",
+        });
+    }
+
+    // 点击确定执行函数
+    function submitHandler() {
+        if ($.validate.form()) {
+            $("#synergyUsers").val($.tree.getCheckedNodes("userId"));
+            $.operate.save(prefix + "/edit", $('#form-info-edit').serialize());
+        }
+    }
+</script>
+</body>
+</html>

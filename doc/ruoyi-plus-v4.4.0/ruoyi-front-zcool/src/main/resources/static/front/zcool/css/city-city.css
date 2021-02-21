@@ -1,0 +1,58 @@
+@charset "UTF-8";
+/*-- 页面辅助文字 --*/
+/*-- 页面辅助文字 --*/
+/* -- 按钮 -- */
+/*-- 文本截取，超出一行行加省略号 --*/
+/*-- 文本截取，超出两行加省略号 --*/
+/*-- 圆角 --*/
+/*-- inline-block --*/
+/*-- 透明度 --*/
+/*-- 一级下拉菜单样式 --*/
+/*-- 导航下拉菜单原始样式 --*/
+/*-- 导航下拉菜单hover样式 --*/
+/*-- new标记 --*/
+/*-- 分隔符 --*/
+/*-- 按钮通用 --*/
+/*-- 卡片透明度 --*/
+/*-- 小三角朝下投影效果 --*/
+.city-plug-parent { position: relative; }
+
+.js-tab-city { cursor: pointer; }
+
+.city-panel-layer { width: 363px; line-height: normal; background: #fff; box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1); position: absolute; left: 0; top: 34px; z-index: 3; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; }
+
+.city-panel-layer .city-title { padding: 20px 30px; }
+
+.city-panel-layer .city-content { height: 234px; }
+
+.city-panel-layer .city-content .city-city-list, .city-panel-layer .city-content .city-province-list { overflow: hidden; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+
+.city-panel-layer .city-content .province-scroll-div, .city-panel-layer .city-content .city-scroll-div { height: 234px; overflow: hidden; }
+
+.city-panel-layer .city-content .city-province-list { width: 148px; margin-top: 11px; position: relative; }
+
+.city-panel-layer .city-content .city-province-list dl dt { height: 20px; line-height: 20px; margin: 10px 0; text-indent: 30px; color: #999999; background: #fbfbfb; font-size: 12px; }
+
+.city-panel-layer .city-content .city-province-list dl > dd { cursor: pointer; text-indent: 30px; height: 32px; line-height: 32px; }
+
+.city-panel-layer .city-content .city-province-list dl > dd a { display: block; padding-right: 20px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
+
+.city-panel-layer .city-content .city-province-list dl > dd a:hover { background: #f2f2f2; }
+
+.city-panel-layer .city-content .city-province-list dl > dd a.active { background: #f2f2f2; }
+
+.city-panel-layer .city-content .city-city-list { width: 215px; padding: 15px 0px 20px 20px; }
+
+.city-panel-layer .city-content .city-city-list .city-children3 { display: inline-block; cursor: pointer; }
+
+.city-panel-layer .city-content .city-city-list .city-children3 span, .city-panel-layer .city-content .city-city-list .city-children3 a { padding: 2px 6px; margin: 5px; display: inline-block; }
+
+.city-panel-layer .city-content .city-city-list .city-children3 a { border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; }
+
+.city-panel-layer .city-content .city-city-list .city-children3 a:hover { background: #f2f2f2; }
+
+.city-panel-layer .city-content .city-city-list .city-children3 a.active { background: #f2f2f2; }
+
+.city-panel-layer .city-content .city-city-list ul { width: 164px; }
+
+.city-panel-layer .city-content .city-city-list ul > li { border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; display: inline-block; }

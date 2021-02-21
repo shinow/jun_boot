@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html th:lang="${language}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header(#{system.user.title})" />
+</head>
+
+<body class="gray-bg">
+    <div class="row  border-bottom white-bg dashboard-header">
+        Hello World!
+    </div>
+    <div class="wrapper wrapper-content">  </div>
+    <th:block th:include="include :: footer" />
+</body>
+</html>

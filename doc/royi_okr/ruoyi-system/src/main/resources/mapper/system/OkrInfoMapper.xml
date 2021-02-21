@@ -1,0 +1,725 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.OkrInfoMapper">
+
+    <resultMap type="OkrInfo" id="OkrInfoResult">
+        <result property="id"    column="id"    />
+        <result property="rowId"    column="row_id"    />
+        <result property="sortId"    column="sort_id"    />
+        <result property="rowCode"    column="row_code"    />
+        <result property="content"    column="content"    />
+        <result property="rowType"    column="row_type"    />
+        <result property="confidenceStar"    column="confidence_star"    />
+        <result property="userId"    column="user_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="scoreStar"    column="score_star"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="cycleId"    column="cycle_id"    />
+        <result property="process"    column="process"    />
+        <result property="status"    column="status"    />
+        <result property="priority"    column="priority"    />
+        <result property="loginName"    column="login_name"    />
+        <result property="userName"    column="user_name"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="cycleStatus"    column="cycle_status"    />
+    </resultMap>
+
+    <resultMap type="OkrAlignResult" id="OkrAlignResult">
+        <result property="id"    column="id"    />
+        <result property="okrId"    column="okr_id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="okrKeys"    column="okr_keys"    />
+        <result property="rId"    column="r_id"    />
+    </resultMap>
+
+
+    <resultMap type="OkrProjectRoleResult" id="OkrProjectRoleResult">
+        <result property="projectCode"    column="project_code"    />
+        <result property="userId"    column="userid"    />
+        <result property="okrId"    column="okr_id"    />
+    </resultMap>
+
+    <resultMap type="SynergyOkrInfo" id="SynergyOkrInfoResult">
+        <result property="id"    column="id"    />
+        <result property="rowId"    column="row_id"    />
+        <result property="sortId"    column="sort_id"    />
+        <result property="rowCode"    column="row_code"    />
+        <result property="content"    column="content"    />
+        <result property="rowType"    column="row_type"    />
+        <result property="confidenceStar"    column="confidence_star"    />
+        <result property="userId"    column="user_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="scoreStar"    column="score_star"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="cycleId"    column="cycle_id"    />
+        <result property="process"    column="process"    />
+        <result property="status"    column="status"    />
+        <result property="priority"    column="priority"    />
+        <result property="loginName"    column="login_name"    />
+        <result property="userName"    column="user_name"    />
+        <result property="deptName"    column="dept_name"    />
+    </resultMap>
+
+    <sql id="selectOkrInfoVo">
+            SELECT
+                *
+            FROM
+                (
+                    SELECT
+                        id,
+                        row_id,
+                        sort_id,
+                        row_code,
+                        content,
+                        row_type,
+                        confidence_star,
+                        user_id,
+                        create_time,
+                        update_time,
+                        score_star,
+                        parent_id,
+                        cycle_id,
+                        cycle_type,
+                        process,
+                        STATUS,
+                        priority
+                    FROM
+                        okr_info
+                    RIGHT JOIN (
+                        SELECT
+                            id AS cId,
+                            cycle_type
+                        FROM
+                            okr_cycle
+                            WHERE
+                            `status`=0
+                            AND
+                             cycle_type = 0
+                    ) B ON cycle_id = B.cId
+                ) O
+            LEFT JOIN (
+                SELECT
+                    u.user_id AS sys_user_id,
+                    u.dept_id,
+                    u.login_name,
+                    u.user_name,
+                    d.dept_name
+                FROM
+                    sys_user u
+                LEFT JOIN sys_dept d ON u.dept_id = d.dept_id
+            ) d ON O.user_id = d.sys_user_id
+    </sql>
+
+    <sql id="selectOkrInfoWithSynergyVo">
+            SELECT
+                *
+            FROM
+                (
+                    SELECT
+                        id,
+                        row_id,
+                        sort_id,
+                        row_code,
+                        content,
+                        row_type,
+                        confidence_star,
+                        user_id,
+                        create_time,
+                        update_time,
+                        score_star,
+                        parent_id,
+                        cycle_id,
+                        cycle_type,
+                        process,
+                        STATUS,
+                        priority
+                    FROM
+                        okr_info
+                    RIGHT JOIN (
+                        SELECT
+                            id AS cId,
+                            cycle_type
+                        FROM
+                            okr_cycle
+                            WHERE
+                            `status`=0
+                            AND
+                             cycle_type = 0
+                    ) B ON cycle_id = B.cId
+                ) O
+            LEFT JOIN (
+                SELECT
+                    u.user_id AS sys_user_id,
+                    u.dept_id,
+                    u.login_name,
+                    u.user_name,
+                    d.dept_name
+                FROM
+                    sys_user u
+                LEFT JOIN sys_dept d ON u.dept_id = d.dept_id
+            ) d ON O.user_id = d.sys_user_id
+    </sql>
+
+    <sql id="selectManagerOkrInfoVo">
+            SELECT
+                *
+            FROM
+                (
+                    SELECT
+                        id,
+                        row_id,
+                        sort_id,
+                        row_code,
+                        content,
+                        row_type,
+                        confidence_star,
+                        user_id,
+                        create_time,
+                        update_time,
+                        score_star,
+                        parent_id,
+                        cycle_id,
+                        cycle_type,
+                        process,
+                        STATUS,
+                        priority
+                    FROM
+                        okr_info
+                    RIGHT JOIN (
+                        SELECT
+                            id AS cId,
+                            cycle_type
+                        FROM
+                            okr_cycle
+                    ) B ON cycle_id = B.cId
+                ) O
+            LEFT JOIN (
+                SELECT
+                    u.user_id AS sys_user_id,
+                    u.dept_id,
+                    u.login_name,
+                    u.user_name,
+                    d.dept_name
+                FROM
+                    sys_user u
+                LEFT JOIN sys_dept d ON u.dept_id = d.dept_id
+            ) d ON O.user_id = d.sys_user_id
+    </sql>
+
+    <sql id="selectOkrInfoByIdVo">
+            SELECT
+                *
+            FROM
+                (
+                    SELECT
+                        id,
+                        row_id,
+                        sort_id,
+                        row_code,
+                        content,
+                        row_type,
+                        confidence_star,
+                        user_id,
+                        create_time,
+                        update_time,
+                        score_star,
+                        parent_id,
+                        cycle_id,
+                        cycle_type,
+                        process,
+                        STATUS,
+                        priority
+                    FROM
+                        okr_info
+                    RIGHT JOIN (
+                        SELECT
+                            id AS cId,
+                            cycle_type
+                        FROM
+                            okr_cycle
+                            WHERE
+                            `status`=0
+                    ) B ON cycle_id = B.cId
+                ) O
+            LEFT JOIN (
+                SELECT
+                    u.user_id AS sys_user_id,
+                    u.dept_id,
+                    u.login_name,
+                    u.user_name,
+                    d.dept_name
+                FROM
+                    sys_user u
+                LEFT JOIN sys_dept d ON u.dept_id = d.dept_id
+            ) d ON O.user_id = d.sys_user_id
+    </sql>
+
+    <sql id="selectMyOkrInfoVo">
+        select id, row_id,  sort_id, row_code, content, row_type, confidence_star, user_id, create_time, score_star, parent_id, cycle_id, process, status, priority from okr_info  right JOIN
+        (SELECT
+            id as cId,
+            cycle_type
+        FROM
+            okr_cycle
+        WHERE
+            `status` = 0) B  ON cycle_id=B.cId
+    </sql>
+
+    <sql id="selectMyAllOkrInfoVo">
+            select id, row_id,  sort_id, row_code, content, row_type, confidence_star, user_id, create_time, score_star, parent_id, cycle_id, process, status, priority,cycle_status from okr_info  right JOIN
+        (SELECT
+            id as cId,
+            cycle_type,
+						`status` as cycle_status
+        FROM
+            okr_cycle ) B  ON cycle_id=B.cId
+    </sql>
+
+    <sql id="selectProjectOkrInfoVo">
+      SELECT
+        r.project_code,
+        r.okr_id,
+        o.*, g.group_name
+    FROM
+        okr_project_role r
+    LEFT JOIN (
+        SELECT
+            *
+        FROM
+            (
+                SELECT
+                    id,
+                    row_id,
+                    sort_id,
+                    row_code,
+                    content,
+                    row_type,
+                    confidence_star,
+                    user_id,
+                    create_time,
+                    update_time,
+                    score_star,
+                    parent_id,
+                    cycle_id,
+                    cycle_type,
+                    process,
+                    STATUS,
+                    priority
+                FROM
+                    okr_info
+                RIGHT JOIN (
+                    SELECT
+                        id AS cId,
+                        cycle_type
+                    FROM
+                        okr_cycle
+                    WHERE
+                        `status` = 0
+                ) B ON cycle_id = B.cId
+            ) O
+        LEFT JOIN (
+            SELECT
+                u.user_id AS sys_user_id,
+                u.dept_id,
+                u.login_name,
+                u.user_name,
+                d.dept_name
+            FROM
+                sys_user u
+            LEFT JOIN sys_dept d ON u.dept_id = d.dept_id
+        ) d ON O.user_id = d.sys_user_id
+    ) o ON r.okr_id = o.id
+    LEFT JOIN (
+        SELECT
+            p.group_id,
+            p.group_name,
+            u.userid
+        FROM
+            okr_project_group p
+        LEFT JOIN okr_project_user u ON p.group_id = u.group_id
+        WHERE
+            userid IS NOT NULL
+    ) g ON r.user_id = g.userid
+    </sql>
+
+    <sql id="selectTreeMapChildList">
+      select  okr_id, O.parent_id as okr_parent_id,X.*  from okr_align_info O
+        LEFT JOIN
+        (SELECT
+            *
+        FROM
+            (
+                SELECT
+                    id,
+                    row_id,
+                    sort_id,
+                    row_code,
+                    content,
+                    row_type,
+                    confidence_star,
+                    user_id,
+                    create_time,
+                    update_time,
+                    score_star,
+                    parent_id,
+                    cycle_id,
+                    cycle_type,
+                    process,
+                    STATUS,
+                    priority
+                FROM
+                    okr_info
+                RIGHT JOIN (
+                    SELECT
+                        id AS cId,
+                        cycle_type
+                    FROM
+                        okr_cycle
+                    WHERE
+                        `status` = 0
+                ) B ON cycle_id = B.cId
+            ) O
+        LEFT JOIN (
+            SELECT
+                u.user_id AS sys_user_id,
+                u.dept_id,
+                u.login_name,
+                u.user_name,
+                d.dept_name
+            FROM
+                sys_user u
+            LEFT JOIN sys_dept d ON u.dept_id = d.dept_id  WHERE u.`status`=0
+        ) d ON O.user_id = d.sys_user_id) X
+        ON O.okr_id=X.id
+
+    </sql>
+
+    <sql id="selectMyOkrAlignVo">
+      select o.id,okr_id,a.parent_id,okr_keys,a.id as r_id from okr_info o LEFT JOIN okr_align_info a ON o.id=a.okr_id
+    </sql>
+
+    <sql id="selectMySynergyOkrInfoVo">
+       SELECT
+            *
+        FROM
+            (
+                SELECT
+                    D.*, okr_id,
+                    S.user_id AS my_user_id
+                FROM
+                    okr_synergy S
+                LEFT JOIN (
+                    SELECT
+                        id,
+                        row_id,
+                        sort_id,
+                        row_code,
+                        content,
+                        row_type,
+                        confidence_star,
+                        user_id,
+                        create_time,
+                        update_time,
+                        score_star,
+                        parent_id,
+                        cycle_id,
+                        cycle_type,
+                        process,
+                        STATUS,
+                        priority
+                    FROM
+                        okr_info
+                    RIGHT JOIN (
+                        SELECT
+                            id AS cId,
+                            cycle_type
+                        FROM
+                            okr_cycle
+                        WHERE
+                            `status` = 0
+                    ) B ON cycle_id = B.cId
+                ) D ON D.id = S.okr_id
+            ) O
+        LEFT JOIN (
+            SELECT
+                u.user_id AS sys_user_id,
+                u.login_name,
+                u.user_name,
+                d.dept_name
+            FROM
+                sys_user u
+            LEFT JOIN sys_dept d ON u.dept_id = d.dept_id
+        ) U ON O.user_id = U.sys_user_id
+    </sql>
+
+    <select id="selectOkrInfoListForProject" parameterType="OkrProjectUser" resultMap="OkrInfoResult">
+        <include refid="selectProjectOkrInfoVo"/>
+        <where>
+            <if test="projectCode != null "> and r.project_code = #{projectCode}</if>
+            <if test="groupId != null "> and g.group_id  = #{groupId}</if>
+            <if test="cycleId != null "> and o.cycle_id  = #{cycleId}</if>
+        </where>
+        <![CDATA[  GROUP BY g.group_id,r.okr_id,r.project_code order by row_code asc    ]]>
+    </select>
+
+
+    <select id="selectOkrInfoListByUserId" parameterType="OkrInfo" resultMap="OkrInfoResult">
+        <include refid="selectMyAllOkrInfoVo"/>
+        <where>
+            <![CDATA[ id is not NULL  ]]>
+            <if test="params.userId != null "> and user_id = #{params.userId}</if>
+            <if test="params.cycleId != null "> and cycle_id = #{params.cycleId}</if>
+            <if test="cycleId != null "> and cycle_id = #{cycleId}</if>
+            <if test="cycleType != null "> and cycle_type = #{cycleType}</if>
+        </where>
+        <![CDATA[ order by row_code asc    ]]>
+    </select>
+
+    <select id="selectOkrInfoListByParentId" parameterType="OkrInfo" resultMap="OkrInfoResult">
+        <include refid="selectOkrInfoVo"/>
+        <where>
+            <![CDATA[ id is not NULL  ]]>
+            <if test="rowId != null "> and O.parent_id = #{rowId}</if>
+        </where>
+        <![CDATA[ order by row_code asc    ]]>
+    </select>
+
+    <select id="selectOkrInfoListWithSynergyByParentId" parameterType="OkrInfo" resultMap="OkrInfoResult">
+        <include refid="selectOkrInfoWithSynergyVo"/>
+        <where>
+            <![CDATA[ id is not NULL  ]]>
+            <if test="rowId != null "> and O.parent_id = #{rowId}</if>
+        </where>
+        <![CDATA[ order by row_code asc    ]]>
+    </select>
+
+    <select id="selectOkrInfoListByRowId" resultMap="OkrInfoResult">
+        <include refid="selectOkrInfoVo"/>
+        <where>
+            <![CDATA[ id is not NULL  ]]>
+            <if test="rowId != null"> and O.parent_id = #{rowId}</if>
+        </where>
+        <![CDATA[ order by row_code asc    ]]>
+    </select>
+
+    <select id="querySynergyOkrInfoListByUserId" parameterType="OkrInfo" resultMap="SynergyOkrInfoResult">
+        <include refid="selectMySynergyOkrInfoVo"/>
+        <where>
+            <![CDATA[ id is not NULL  ]]>
+            <if test="params.userId != null "> and my_user_id = #{params.userId}</if>
+            <if test="cycleId != null "> and cycle_id = #{cycleId}</if>
+            <if test="cycleType != null "> and cycle_type = #{cycleType}</if>
+        </where>
+        <![CDATA[ order by login_name asc    ]]>
+    </select>
+
+    <select id="querySynergyOkrInfoByUserId" parameterType="OkrInfo" resultMap="SynergyOkrInfoResult">
+        <include refid="selectMySynergyOkrInfoVo"/>
+        <where>
+            <![CDATA[ id is not NULL  ]]>
+            <if test="params.userId != null "> and my_user_id = #{params.userId}</if>
+            <if test="cycleId != null "> and cycle_id = #{cycleId}</if>
+            <if test="cycleType != null "> and cycle_type = #{cycleType}</if>
+        </where>
+        <![CDATA[ order by login_name asc    ]]>
+    </select>
+
+    <select id="selectOkrInfoChildTreeMapById" parameterType="Long" resultMap="OkrInfoResult">
+        <include refid="selectTreeMapChildList"/>
+        where X.user_id is not NULL AND O.parent_id = #{id}
+    </select>
+
+    <select id="selectOkrInfoTreeMapByUserId" parameterType="OkrInfo" resultMap="OkrInfoResult">
+        <include refid="selectOkrInfoVo"/>
+        <where>
+            <![CDATA[ O.row_type=0   ]]>
+            <if test="userId != null "> and O.user_id = #{userId}</if>
+            <if test="cycleId != null "> and cycle_id = #{cycleId}</if>
+            <if test="cycleType != null "> and cycle_type = #{cycleType}</if>
+        </where>
+        <![CDATA[ order by row_code asc    ]]>
+    </select>
+
+
+    <select id="selectOkrInfoList" parameterType="OkrInfo" resultMap="OkrInfoResult">
+        <include refid="selectManagerOkrInfoVo"/>
+        where 0=0
+        <if test="rowId != null  and rowId != ''"> and row_id = #{rowId}</if>
+        <if test="sortId != null "> and sort_id = #{sortId}</if>
+        <if test="rowCode != null  and rowCode != ''"> and row_code = #{rowCode}</if>
+        <if test="content != null  and content != ''"> AND content like concat('%', #{content}, '%')  </if>
+        <if test="rowType != null "> and row_type = #{rowType}</if>
+        <if test="confidenceStar != null  and confidenceStar != ''"> and confidence_star = #{confidenceStar}</if>
+        <if test="userId != null "> and user_id = #{userId}</if>
+        <if test="userName != null  and userName != ''"> AND user_name like concat('%', #{userName}, '%') </if>
+        <if test="parentId != null  and parentId != ''"> and parent_id = #{parentId}</if>
+        <if test="cycleId != null "> and cycle_id = #{cycleId}</if>
+        <if test="process != null  and process != ''"> and process = #{process}</if>
+        <if test="status != null "> and status = #{status}</if>
+        <if test="priority != null  and priority != ''"> and priority = #{priority}</if>
+        <if test="deptId != null  and deptId != ''"> and dept_id = #{deptId}</if>
+        ${params.dataScope}
+    </select>
+
+    <select id="queryProjectListForUserId" parameterType="java.util.Map" resultMap="OkrProjectRoleResult">
+        select A.userid,A.project_code,B.okr_id from
+        (
+        select r.userid,g.project_code  from okr_project_user r inner join okr_project_group g ON r.group_id=g.group_id WHERE userid=#{userId} GROUP BY g.project_code
+        ) A
+         LEFT JOIN
+        (SELECT user_id,project_code,okr_id from okr_project_role WHERE okr_id=#{okrId} )  B
+        ON A.project_code=B.project_code and A.userid=B.user_id
+    </select>
+
+
+    <select id="selectOkrInfoById" parameterType="Long" resultMap="OkrInfoResult">
+        <include refid="selectOkrInfoByIdVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="queryMyOkrAlignListByUserId" parameterType="OkrInfo" resultMap="OkrAlignResult">
+        <include refid="selectMyOkrAlignVo"/>
+
+        <where>
+            <if test="parentOkrId != null "> and a.parent_id = #{parentOkrId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+        </where>
+    </select>
+
+    <select id="selectOkrInfoByParentId" parameterType="String" resultMap="OkrInfoResult">
+        <include refid="selectOkrInfoByIdVo"/>
+        where row_id = #{parentId}
+    </select>
+
+
+    <select id="queryOkrInfoByIds" parameterType="java.util.List"  resultMap="OkrInfoResult">
+        <include refid="selectOkrInfoVo"/>
+        where id in
+        (
+        <foreach collection="list" item="id" index="index" separator="," >
+            #{id}
+        </foreach>
+        )
+
+    </select>
+
+    <sql id="queryMaxRowOkrInfoVo">
+        select id, row_id, sort_id, row_code, content, row_type, confidence_star, user_id, create_time, score_star, parent_id, cycle_id, process, status, priority from okr_info
+    </sql>
+
+    <select id="queryMaxOkrInfoByUserId" parameterType="OkrInfo" resultMap="OkrInfoResult">
+        <include refid="queryMaxRowOkrInfoVo"/>
+        <where>
+            <if test="rowType != null "> and row_type = #{rowType}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="cycleId != null "> and cycle_id = #{cycleId}</if>
+        </where>
+        <![CDATA[  and row_type=0  order by row_code desc  limit 0,1  ]]>
+    </select>
+
+
+    <select id="queryMaxKeyResultByUserId" parameterType="OkrInfo" resultMap="OkrInfoResult">
+        <include refid="queryMaxRowOkrInfoVo"/>
+        <where>
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="cycleId != null "> and cycle_id = #{cycleId}</if>
+        </where>
+        <![CDATA[  and row_type=1 order by row_code desc  limit 0,1  ]]>
+    </select>
+
+    <select id="selectObjectAvgResult" parameterType="OkrInfo" resultType="java.util.LinkedHashMap">
+        SELECT
+        round(AVG(confidence_star), 1) confidence_star,
+        round(AVG(score_star), 1) score_star,
+        ROUND(AVG(process), 2) process
+        FROM
+        okr_info o
+        <where>
+            o.row_type = 1
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+        </where>
+    </select>
+
+    <insert id="insertOkrList" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into okr_info ( row_id, sort_id, row_code, content, row_type, confidence_star, user_id, create_time, score_star, parent_id, cycle_id, process, priority ) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.rowId},#{item.sortId},#{item.rowCode},#{item.content},#{item.rowType},#{item.confidenceStar},#{item.userId},#{item.createTime},#{item.scoreStar},#{item.parentId},#{item.cycleId},#{item.process},#{item.priority})
+        </foreach>
+    </insert>
+
+
+    <insert id="insertOkrInfo" parameterType="OkrInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into okr_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="rowId != null  and rowId != ''">row_id,</if>
+            <if test="sortId != null ">sort_id,</if>
+            <if test="rowCode != null  and rowCode != ''">row_code,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="rowType != null ">row_type,</if>
+            <if test="confidenceStar != null  and confidenceStar != ''">confidence_star,</if>
+            <if test="userId != null ">user_id,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="scoreStar != null  and scoreStar != ''">score_star,</if>
+            <if test="parentId != null  and parentId != ''">parent_id,</if>
+            <if test="cycleId != null ">cycle_id,</if>
+            <if test="process != null  and process != ''">process,</if>
+            <if test="status != null ">status,</if>
+            <if test="priority != null  and priority != ''">priority,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="rowId != null  and rowId != ''">#{rowId},</if>
+            <if test="sortId != null ">#{sortId},</if>
+            <if test="rowCode != null  and rowCode != ''">#{rowCode},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="rowType != null ">#{rowType},</if>
+            <if test="confidenceStar != null  and confidenceStar != ''">#{confidenceStar},</if>
+            <if test="userId != null ">#{userId},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="scoreStar != null  and scoreStar != ''">#{scoreStar},</if>
+            <if test="parentId != null  and parentId != ''">#{parentId},</if>
+            <if test="cycleId != null ">#{cycleId},</if>
+            <if test="process != null  and process != ''">#{process},</if>
+            <if test="status != null ">#{status},</if>
+            <if test="priority != null  and priority != ''">#{priority},</if>
+        </trim>
+    </insert>
+
+    <update id="updateOkrInfo" parameterType="OkrInfo">
+        update okr_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="rowId != null  and rowId != ''">row_id = #{rowId},</if>
+            <if test="sortId != null ">sort_id = #{sortId},</if>
+            <if test="rowCode != null  and rowCode != ''">row_code = #{rowCode},</if>
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="rowType != null ">row_type = #{rowType},</if>
+            <if test="confidenceStar != null  and confidenceStar != ''">confidence_star = #{confidenceStar},</if>
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="scoreStar != null  and scoreStar != ''">score_star = #{scoreStar},</if>
+            <if test="parentId != null  and parentId != ''">parent_id = #{parentId},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="cycleId != null ">cycle_id = #{cycleId},</if>
+            <if test="process != null  and process != ''">process = #{process},</if>
+            <if test="status != null ">status = #{status},</if>
+            <if test="priority != null  and priority != ''">priority = #{priority},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOkrInfoById" parameterType="Long">
+        delete from okr_info where id = #{id}
+    </delete>
+
+    <delete id="deleteOkrInfoByIds" parameterType="String">
+        delete from okr_info where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

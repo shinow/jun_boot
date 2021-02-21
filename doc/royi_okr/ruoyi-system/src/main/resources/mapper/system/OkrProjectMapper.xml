@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.OkrProjectMapper">
+    
+    <resultMap type="OkrProject" id="OkrProjectResult">
+        <result property="id"    column="id"    />
+        <result property="code"    column="code"    />
+        <result property="name"    column="name"    />
+        <result property="company"    column="company"    />
+        <result property="stage"    column="stage"    />
+        <result property="productManagerId"    column="product_manager_id"    />
+        <result property="projectManagerId"    column="project_manager_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectOkrProjectVo">
+        select id, code, name, company, stage, product_manager_id, project_manager_id, create_time, status from okr_project
+    </sql>
+
+
+    <select id="selectOkrProjectList" parameterType="OkrProject" resultMap="OkrProjectResult">
+        <include refid="selectOkrProjectVo"/>
+        <where>  
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="company != null  and company != ''"> and company like concat('%', #{company}, '%')</if>
+            <if test="stage != null  and stage != ''"> and stage = #{stage}</if>
+            <if test="productManagerId != null  and productManagerId != ''"> and product_manager_id = #{productManagerId}</if>
+        </where>
+    </select>
+    
+    <select id="selectOkrProjectById" parameterType="Long" resultMap="OkrProjectResult">
+        <include refid="selectOkrProjectVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectOkrProjectByIds" parameterType="String" resultMap="OkrProjectResult">
+        <include refid="selectOkrProjectVo"/>
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+        
+    <insert id="insertOkrProject" parameterType="OkrProject">
+        insert into okr_project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="code != null  and code != ''">code,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="company != null  and company != ''">company,</if>
+            <if test="stage != null  and stage != ''">stage,</if>
+            <if test="productManagerId != null ">product_manager_id,</if>
+            <if test="projectManagerId != null ">project_manager_id,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="status != null ">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="code != null  and code != ''">#{code},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="company != null  and company != ''">#{company},</if>
+            <if test="stage != null  and stage != ''">#{stage},</if>
+            <if test="productManagerId != null ">#{productManagerId},</if>
+            <if test="projectManagerId != null ">#{projectManagerId},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="status != null ">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOkrProject" parameterType="OkrProject">
+        update okr_project
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="code != null  and code != ''">code = #{code},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="company != null  and company != ''">company = #{company},</if>
+            <if test="stage != null  and stage != ''">stage = #{stage},</if>
+            <if test="productManagerId != null ">product_manager_id = #{productManagerId},</if>
+            <if test="projectManagerId != null ">project_manager_id = #{projectManagerId},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="status != null ">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOkrProjectById" parameterType="Long">
+        delete from okr_project where id = #{id}
+    </delete>
+
+    <delete id="deleteOkrProjectByIds" parameterType="String">
+        delete from okr_project where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

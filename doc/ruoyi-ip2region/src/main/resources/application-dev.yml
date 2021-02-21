@@ -1,0 +1,5 @@
+region:
+  dbpath: F://ip2region.db
+  qqpath: F://qqwry.dat
+  #1 btree 2 binary 3 memory;
+  algorithm: 1

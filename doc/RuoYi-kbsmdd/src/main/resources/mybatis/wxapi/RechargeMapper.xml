@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.wxapi.model.mapper.RechargeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ruoyi.project.wxapi.model.bean.Recharge">
+        <id column="id" property="id" />
+        <result column="mode" property="mode" />
+        <result column="order_no" property="orderNo" />
+        <result column="money" property="money" />
+        <result column="gift_money" property="giftMoney" />
+        <result column="recharge_plan_id" property="rechargePlanId" />
+        <result column="user_id" property="userId" />
+        <result column="pay_status" property="payStatus" />
+        <result column="pay_time" property="payTime" />
+        <result column="transaction_id" property="transactionId" />
+        <result column="shop_id" property="shopId" />
+        <result column="wxapp_id" property="wxappId" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, mode, order_no, money, gift_money, recharge_plan_id, user_id, pay_status, pay_time, transaction_id, shop_id, wxapp_id, gmt_create, gmt_modified
+    </sql>
+    <select id="getByOrderNo" resultType="com.ruoyi.project.wxapi.model.bean.Recharge">
+        select <include refid="Base_Column_List"></include>
+        from kbsm_recharge
+        where order_no=#{orderNo}
+    </select>
+
+</mapper>

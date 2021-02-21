@@ -1,0 +1,269 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>修改绑定手机号 - 通行证 </title>
+
+
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <LINK rel="Bookmark" href="/favicon.ico" >
+    <LINK rel="Shortcut Icon" href="/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" href="/login/theme/front/zcool/css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="/login/theme/front/zcool/css/passnumberbind.css"/>
+    <link rel="stylesheet" type="text/css" href="/login/theme/front/zcool/css/passlogin.css"/>
+    <link rel="stylesheet" type="text/css" href="/login/theme/front/zcool/css/hellorf.css"/>
+</head>
+<body>
+<div id="body">
+    <div class="passcard-box">
+
+        <div class="passcard-nav">
+            <a href="/" class="check-zcool-logo"></a>
+            通行证
+            <a href="/logout" class="login-right-subnav main-link-color" style="cursor: pointer;">退出</a>
+            <a href="/" class="login-right-subnav main-link-color">返回首页</a>
+            <span class="login-right-subnav login-nav">
+	          	<a th:href="@{'/u/'+${userId}}" target="_blank" class="main-link-color" th:text="${userName}"></a>
+          	</span>
+        </div>
+
+        <!-- 登录导航以下内容 -->
+        <div class="passcon">
+            <h2 class="passmail-title main-bg-color" th:if="${type=='2'}">修改绑定手机</h2>
+            <h2 class="passmail-title main-bg-color" th:if="${type=='1'}">绑定手机号</h2>
+            <form id="modifyPhone_form" >
+                <input type="hidden" name="appId" value="1006" />
+
+                <div class="retrieve-pass-box">
+                    <div class="retrie-center pass-login-covers">
+                        <div class="error-tips " id="pass-error-tips" style="display: none;">
+                            <span class="ipt-tips-default ipt-default-current js-err-l">
+                            </span>
+                        </div>
+
+
+                        <div class="country-phone-covers"  th:style="'display:' + ${type == '2' ? 'block' : 'none'}+';margin-bottom: 18px;'">
+                                    <input type="hidden" id="oldphone" th:value="${oldephone}">
+                                    <input type="text" th:value="${oldephone}" disabled placeholder="原手机号"   class="text-style ipt-area-current ipt-w-334">
+                        </div>
+
+                        <div class="country-phone-covers"  th:if="${type=='2'}">
+                                <input type="text" placeholder="新手机号" name="phone" id="phone" class="text-style ipt-area-current ipt-w-334">
+                        </div>
+                        <div class="country-phone-covers"  th:if="${type=='1'}">
+                            <input type="text" placeholder="手机号" name="phone" id="phone" class="text-style ipt-area-current ipt-w-334">
+                        </div>
+
+                            <span class="form-tip">
+								<span class="unregistered">帐号未注册，<a href='javascript:;' class='registers'>马上注册</a></span>
+							</span>
+
+
+                        <p id="phoneVerify" class="parent-input-box"><i class="codeeye"></i>
+                            <input type="text" name="code" id="vericode" placeholder="手机验证码" class="text-style verification-code">
+                            <input type="button" value="发送验证码" name="" id="veribtn" class="btn-default-main codebtn">
+                            <span class="form-tip"></span>
+                        </p>
+
+                        <p class="passcard-btns"><input type="button" id="modifyBtn" value="确 定" class="btn-default-main passcard-btn"></p>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+        <p>京ICP备11017824号-4 / 京ICP证130164号 北京市公安局朝阳分局备案编号:110105000501</p>
+        <p>Copyright © 2006-2018 ZCOOL</p>
+    </div>
+
+
+    <script type="text/javascript" src="/front/H-ui/lib/jquery/1.9.1/jquery.min.js"></script>
+    <script  th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+    <script  th:src="@{/ruoyi/js/ry-ui.js}"></script>
+    <script th:inline="javascript"> var ctx = [[@{/}]]; var type=[[${type}]];</script>
+
+</div>
+
+<!-- 弹框 -->
+<div class="pop-up-normal unbunding hide">
+    <p class="tips-text tips-text-normal">解绑成功</p>
+</div>
+<script>
+    $(function(){
+        $("#veribtn").click(function(){
+            sendCode();
+        });
+        $("#modifyBtn").click(function(){
+            submit();
+        });
+        $('.return-btn').on('click',function(){
+            document.location.href = document.referrer || '/accountSafe'
+        });
+    })
+    function sendCode(){
+        var phone=$("#phone").val();
+        if($.common.isEmpty(phone)){
+            showErrorMsg((type=='2'?"新":"")+"手机号不能为空!");
+            return;
+        }
+        var flag=false;
+        if(isTelePhone(phone)){
+            flag=true;
+        }
+        if(!flag){
+            showErrorMsg((type=='2'?"新":"")+"手机号格式不正确!");
+            return;
+        }
+        if(type=='2'){
+            var oldphone=$("#oldphone").val();
+            if(oldphone==phone){
+                showErrorMsg("新手机不能同旧手机号相同!");
+                return;
+            }
+        }
+
+        var useFlag=false;
+        $.ajax({
+            async: false,
+            type: "post",
+            url: ctx + "checkPhoneBind",//检测新手机号是否已经被绑定
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                "phone": phone
+            },
+            success: function(r) {
+                if (r.code == 0) {
+                    //已经注册则继续向下走
+                    useFlag=true;
+                }
+            }
+        });
+
+        if(useFlag){
+            showErrorMsg("该手机号已经被使用!");
+            return;
+        }
+
+        $.ajax({
+            type: "post",
+            url: ctx + "modifyPhone/sendCode?type="+type,//绑定手机或修改手机 发送手机验证码
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                "phone": phone
+            },
+            success: function(r) {
+                if (r.code == 0) {
+                    $.modal.msgSuccess(r.msg);
+                    smsWaitTime($('#veribtn'), 60);
+                } else {
+                    showErrorMsg(r.msg);
+                }
+            }
+        });
+    }
+    function submit(){
+        var phone=$("#phone").val();
+        if($.common.isEmpty(phone)){
+            showErrorMsg((type=='2'?"新":"")+"手机号不能为空!");
+            return;
+        }
+        if(!isTelePhone(phone)){
+            showErrorMsg((type=='2'?"新":"")+"手机号格式不正确!");
+            return;
+        }
+
+        var oldphone=$("#oldphone").val();
+        if(oldphone==phone){
+            showErrorMsg("新手机不能同旧手机号相同!");
+            return;
+        }
+
+        var code=$("#vericode").val();
+        if($.common.isEmpty(code)){
+            showErrorMsg("验证码不能为空!");
+            return;
+        }
+        //手机号提交
+        $.ajax({
+            type: "post",
+            url: ctx + "modifyPhone",//提交
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                "phone": phone,
+                "code":code,
+                "type":type
+            },
+            success: function(r) {
+                if (r.code == 0) {
+                    $.modal.msgSuccess(r.msg);
+                    $("#modifyPhone_form")[0].reset();
+                    setTimeout(function(){
+                        document.location.href = '/accountSafe'
+                    },1500);
+                } else {
+                    showErrorMsg(r.msg);
+                }
+            }
+        });
+
+
+    }
+    function showErrorMsg(msg){
+        var errorObj=$("#pass-error-tips .js-err-l");
+        $(".passcon .retrieve-pass-box").css("padding","68px 0 40px");
+        $("#pass-error-tips").show();
+        errorObj.html(msg),
+            setTimeout(function() {
+                errorObj.html ("");
+                $("#pass-error-tips").hide();
+                $(".passcon .retrieve-pass-box").css("padding","40px 0 40px");
+            },6000);
+    }
+
+
+    // 验证码倒计时；
+    var wait = 60;
+    function smsWaitTime(o, waitP) {
+        if (wait == 0) {
+            $(o).removeAttr('disabled');
+            $(o).removeClass("btn-disabled").addClass('btn-default-main').removeAttr('disabled');
+            $(o).val("发送验证码");
+            wait = waitP;
+            $(o).attr('time', '1')
+            //$('.js-no-ver-code').show();
+        } else {
+            $(o).prop('disabled', true);
+            $(o).addClass("btn-disabled").removeClass('btn-default-main').attr('disabled',true);
+            $(o).attr('disabled', 'disabled');
+            $(o).val(wait + 's' + "后重新发送");
+            $(o).attr('time', '0')
+            wait--;
+            setTimeout(function () { smsWaitTime(o, waitP) }, 1000);
+        }
+    }
+
+    //手机号
+    function isTelePhone(v){
+        var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+        if (!myreg.test(v)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>
+</body>
+</html>

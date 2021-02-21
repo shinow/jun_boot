@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="14px" height="14px" viewBox="0 0 14 14" version="1.1">
+    <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
+    <title>时间</title>
+    <desc>Created with Sketch.</desc>
+    <defs/>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD" transform="translate(-533.000000, -68.000000)">
+            <g id="时间" transform="translate(533.000000, 68.000000)">
+                <path d="M7,0 C3.08823529,0 0,3.19117647 0,7 C0,10.8088235 3.19117647,14 7,14 C10.8088235,14 14,10.8088235 14,7 C14,3.39705882 11.2205882,0.411764706 7.72058824,0 L7,0 Z M7,1.02941176 L7.61764706,1.02941176 C10.7058824,1.33823529 12.9705882,3.91176471 12.9705882,7 C12.9705882,10.2941176 10.2941176,12.9705882 7,12.9705882 C3.70588235,12.9705882 1.02941176,10.2941176 1.02941176,7 C1.02941176,3.70588235 3.70588235,1.02941176 7,1.02941176 L7,1.02941176 Z" id="Fill-1" fill="#BBBBBB"/>
+                <polyline id="Stroke-3" stroke="#BBBBBB" stroke-linecap="round" points="7 3 7 7 11 7"/>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,141 @@
+package com.ruoyi.project.smdd.xcxlb.domain;
+
+import java.util.Date;
+import java.io.Serializable;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import com.ruoyi.framework.aspectj.lang.annotation.Excel;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+import com.ruoyi.framework.web.domain.BaseEntity;
+
+/**
+ * 小程序列表对象 kbsm_wxapp
+ * 
+ * @author ruoyi
+ * @date 2020-08-08
+ */
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+public class KbsmWxapp implements Serializable
+{
+    private static final long serialVersionUID = 1L;
+
+    /** 微信小程序id（主键） */
+    private Long id;
+
+    /** 应用类型(1餐饮 2商城) */
+    @Excel(name = "应用类型(1餐饮 2商城)")
+    private Integer appType;
+
+    /** 门店模式（1单门店 2多门店） */
+    @Excel(name = "门店模式", readConverterExp = "1=单门店,2=多门店")
+    private Integer shopMode;
+
+    /** 账号来源，1=自助注册，2=平台注册 */
+    @Excel(name = "账号来源，1=自助注册，2=平台注册")
+    private Integer source;
+
+    /** 是否授权(0否 1是) */
+    @Excel(name = "是否授权(0否 1是)")
+    private Integer isEmpower;
+
+    /** 小程序名称 */
+    @Excel(name = "小程序名称")
+    private String appName;
+
+    /** 小程序头像 */
+    @Excel(name = "小程序头像")
+    private String headImg;
+
+    /** 原始ID */
+    @Excel(name = "原始ID")
+    private String userName;
+
+    /** 小程序AppID */
+    @Excel(name = "小程序AppID")
+    private String appId;
+
+    /** 主体名称 */
+    @Excel(name = "主体名称")
+    private String principalName;
+
+    /** 服务器域名 */
+    @Excel(name = "服务器域名")
+    private String apiDomain;
+
+    /** 功能介绍 */
+    @Excel(name = "功能介绍")
+    private String signature;
+
+    /** 微信商户号id */
+    @Excel(name = "微信商户号id")
+    private String mchid;
+
+    /** 微信支付密钥 */
+    @Excel(name = "微信支付密钥")
+    private String apikey;
+
+    /** 微信支付证书 */
+    @Excel(name = "微信支付证书")
+    private String certPem;
+
+    /** 微信支付证书 */
+    @Excel(name = "微信支付证书")
+    private String keyPem;
+
+    /** 收藏提醒(0关闭 1开启) */
+    @Excel(name = "收藏提醒(0关闭 1开启)")
+    private Integer isCollection;
+
+    /** 关注公众号提醒(0关闭 1开启) */
+    @Excel(name = "关注公众号提醒(0关闭 1开启)")
+    private Integer isWechat;
+
+    /** 商家客服电话 */
+    @Excel(name = "商家客服电话")
+    private String phone;
+
+    /** 令牌凭证 */
+    @Excel(name = "令牌凭证")
+    private String accessToken;
+
+    /** 令牌到期时间 */
+    @Excel(name = "令牌到期时间")
+    private Long expiresIn;
+
+    /** 刷新令牌 */
+    @Excel(name = "刷新令牌")
+    private String authorizerRefreshToken;
+
+    /** 模板ID */
+    @Excel(name = "模板ID")
+    private Long template;
+
+    /** 自定义版权(0关闭 1开启) */
+    @Excel(name = "自定义版权(0关闭 1开启)")
+    private Integer isCopyright;
+
+    /** 小程序底部版权 */
+    @Excel(name = "小程序底部版权")
+    private String copyright;
+
+    /** 商户ID */
+    @Excel(name = "商户ID")
+    private Long storeUserId;
+
+    /** 小程序到期时间 */
+    @Excel(name = "小程序到期时间", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date expireTime;
+
+    /** 创建时间 */
+    private Date gmtCreate;
+
+    /** 更新时间 */
+    private Date gmtModified;
+
+
+
+}

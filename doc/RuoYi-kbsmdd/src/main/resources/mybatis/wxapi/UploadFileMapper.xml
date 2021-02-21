@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.wxapi.model.mapper.UploadFileMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ruoyi.project.wxapi.model.bean.UploadFile">
+        <id column="id" property="id" />
+        <result column="storage" property="storage" />
+        <result column="group_id" property="groupId" />
+        <result column="file_url" property="fileUrl" />
+        <result column="file_name" property="fileName" />
+        <result column="file_size" property="fileSize" />
+        <result column="file_type" property="fileType" />
+        <result column="extension" property="extension" />
+        <result column="is_delete" property="isDelete" />
+        <result column="wxapp_id" property="wxappId" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, storage, group_id, file_url, file_name, file_size, file_type, extension, is_delete, wxapp_id
+    </sql>
+    <insert id="insertFile">
+        insert into kbsm_upload_file(file_url, file_name)
+        values(#{url}, #{fileName})
+
+    </insert>
+    <select id="selectByFileName" resultType="com.ruoyi.project.wxapi.model.bean.UploadFile">
+        select <include refid="Base_Column_List"></include>
+        from kbsm_upload_file
+        where file_name=#{fileName}
+    </select>
+    <select id="selectByMyId" resultType="com.ruoyi.project.wxapi.model.bean.UploadFile">
+        select <include refid="Base_Column_List"></include>
+        from kbsm_upload_file
+        where id=#{id}
+    </select>
+
+</mapper>

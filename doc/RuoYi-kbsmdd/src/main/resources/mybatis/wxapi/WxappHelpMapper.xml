@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.wxapi.model.mapper.WxappHelpMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ruoyi.project.wxapi.model.bean.WxappHelp">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="content" property="content" />
+        <result column="sort" property="sort" />
+        <result column="wxapp_id" property="wxappId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, title, content, sort, wxapp_id, create_time, update_time
+    </sql>
+    <select id="selectByWxappId" resultType="com.ruoyi.project.wxapi.model.bean.WxappHelp">
+        select <include refid="Base_Column_List"></include>
+        from kbsm_wxapp_help
+        where wxapp_id=#{wxappId}
+    </select>
+
+</mapper>

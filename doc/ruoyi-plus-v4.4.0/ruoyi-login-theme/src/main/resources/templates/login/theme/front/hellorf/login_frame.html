@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>用户登录 - 通行证 </title>
+
+
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <LINK rel="Bookmark" href="/favicon.ico" >
+    <LINK rel="Shortcut Icon" href="/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" href="/login/theme/front/zcool/css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="/login/theme/front/zcool/css/passnumberbind.css"/>
+    <link rel="stylesheet" type="text/css" href="/login/theme/front/zcool/css/passlogin.css"/>
+    <link rel="stylesheet" type="text/css" href="/login/theme/front/zcool/css/hellorf.css"/>
+    <style>
+
+    </style>
+
+</head>
+<body>
+
+    <input type="hidden" id="thirdLogin" name="thirdLogin" value=""/>
+
+    <!-- 通行证默认登录页面 -->
+
+    <div class="login-box module-l-static" id="login-box">
+
+            <div class="login-switch">
+                <div class="icon-l static-l"></div>
+                <div class="icon-l quick-l"></div>
+            </div>
+
+            <div class="l-static">
+                <div class="l-tab-covers">
+                    <div class="l-tab-list current">密码登录</div>
+                    <div class="l-tab-list">短信登录</div>
+                </div>
+                <div class="static-module-covers">
+                    <div class="pass-login-covers">
+                        <div class="error-tips hide" id="pass-error-tips">
+                            <span class="ipt-tips-default ipt-default-current js-err-l">
+
+
+
+                            </span>
+                        </div>
+                        <div class="email">
+                            <input type="text" id="username" placeholder="手机号/邮箱" class="text-style ipt-default-current" >
+                        </div>
+                        <div class="password">
+                            <input type="password" id="password" placeholder="密码" maxlength="40" autocomplete='off' class="text-style ipt-default-current" >
+                        </div>
+                        <!--<div class="code hide" id="l-image-code">
+                            <input type="text" id="ipt-code" class="text-style ipt-code" value=""><img src="" id="randomCodeImg"
+                                                                                                       width="180" height="44" onclick="loadRandomCodeImg()" alt=""><i class="js-image-code-tips code-wrong"></i>
+                        </div>-->
+
+                        <div class="login">
+                            <input type="button" id="loginbtn" onclick="login.login();" class="btn-current-big btn-default-main" value="登录">
+                            <input type="button"  class="btn-current-big btn-default-main loadding-btn hide" value="登录中...">
+                        </div>
+                        <div class="auto-login">
+
+                            <label class="auto-login-c">
+                                <input type="checkbox" name="rememberMe" id="autolog1" >记住我</label>
+
+                            <div class="login-links">
+                                <a href="/resetpwd" target="_blank" class="">忘记密码</a>
+
+                                &nbsp; | &nbsp;<a href="/register" target="_blank" class="">注册</a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sms-login-covers hide">
+                        <div class="error-tips hide" id="sms-error-tips">
+                            <span class="ipt-tips-default ipt-default-current js-err-l"></span>
+                        </div>
+                        <div class="l-phone-div js-phone-div">
+                            <div class=""><!--country-phone-covers-->
+                                <input type="text" id="sms-phone" placeholder="手机号" autocomplete='off' maxlength="20" class="text-style ipt-default-current">
+                            </div>
+                        </div>
+                        <div id="dom_id" style="margin-bottom:20px;"></div>
+                        <div class="l-sms-code js-ipt-h"  style="display: block;">
+                            <input type="text" placeholder="验证码" autocomplete='off' class="text-style ipt-short-current" id="sms-cd">
+                            <input type="button" class="btn-default-main sms-cd-btn" id="sms-send-cd-btn" value="发送验证码" >
+                           <!-- <span class="n-receive-cd js-no-ver-code">没收到验证码？</span>-->
+                        </div>
+                        <div class="login">
+                            <!--  btn-disabled  btn-default-main -->
+                            <input type="button" id="sms-login-sub" onclick="login.login_sms()" class="btn-current-big btn-default-main" value="登录" >
+                            <input type="button" id="" class="btn-current-big btn-default-main loadding-btn" style="display: none;" value="登录中...">
+                        </div>
+                        <div class="auto-login">
+
+                            <label class="auto-login-cd">
+                                <input type="checkbox" name="rememberMe_sms" id="autolog2" checked="checked" class="auto-login-cd">记住我</label>
+
+                            <div class="login-links">
+                                <a href="/resetpwd" target="_blank" class="">忘记密码</a>
+
+                                &nbsp; | &nbsp;<a href="/register" target="_blank" class="">注册</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="third-login-box">
+                    <p class="third-account">第三方账号登录</p>
+                    <div class="account-login">
+                        <a href="/login/third?t=wx" class="p-wechat-login"></a>
+                        <a  class="p-weibo-login"></a>
+                        <a href="/login/third?t=qq" class="p-qq-login"></a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="l-quick">
+                <div class="l-title-covers">
+                    <div class="l-title-h2">微信二维码登录</div>
+                </div>
+                <div class="er-cd-covers">
+                    <div class="" id="login_container">
+                        <iframe src="https://open.weixin.qq.com/connect/qrconnect?appid=wxef5765dd395d8504&amp;scope=snsapi_login&amp;redirect_uri=https://passport.zcool.com.cn/thirdlogin/wechat_callback.do?appId=1007&amp;state=STATE&amp;login_type=jssdk&amp;self_redirect=default&amp;styletype=&amp;sizetype=&amp;bgcolor=&amp;rst=&amp;href=https://static.zcool.cn/passport4.0/css/wxCode.css?v=0.1" frameborder="0" scrolling="no" width="300px" height="400px"></iframe>
+                    </div>
+                </div>
+                <div class="wx_login_links">
+                    <a href="javascript:;" target="_blank" class="pass-login-tab">密码登录</a>  &nbsp;|&nbsp;  <a href="/regPhone.do?appId=1006" target="_blank">注册新账号</a>
+                </div>
+            </div>
+            <!-- <p class="member-login">会员登录</p> -->
+        </div>
+
+    <script type="text/javascript" src="/front/H-ui/lib/jquery/1.9.1/jquery.min.js"></script>
+
+    <script  th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+    <script  th:src="@{/ruoyi/js/ry-ui.js}"></script>
+    <script th:inline="javascript"> var ctx = [[@{/}]];</script>
+    <script type="text/javascript" src="/login/theme/front/zcool/js/login.js"></script>
+
+
+</body>
+</html>

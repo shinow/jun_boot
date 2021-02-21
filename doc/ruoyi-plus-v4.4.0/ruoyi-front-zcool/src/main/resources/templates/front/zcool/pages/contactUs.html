@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>联系我们  (ZCOOL)</title>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="/front/zcool/css/main.min.css">
+    <link rel="bookmark" type="image/x-icon" href="/front/zcool/images/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="/front/zcool/images/favicon.ico" />
+    <script>
+        function addLinkCss(linkUrl){
+            var link = document.createElement('link');
+            link.type = 'text/css';
+            link.rel = 'stylesheet';
+            link.href = linkUrl;
+            document.getElementsByTagName("head")[0].appendChild(link);
+        }
+    </script>
+
+    <style>
+        .container-area { color: #282828; }
+
+        .container-area-left { float: left; }
+
+        .container-area-left .current { box-sizing: border-box; position: relative; }
+
+        .container-area-left .current span { position: absolute; left: 0; top: 10px; height: 32px; width: 0; border-right: 3px solid #ffe300; }
+
+        .container-area-right { float: right; width: 898px; border-radius: 4px; background: #fff; margin: 0 0 0 20px; }
+
+        .container-area-right .server { line-height: 64px; text-indent: 30px; font-size: 16px; border-bottom: 1px solid #eeeeee; }
+
+        .container-area-right .textarea { min-height: 480px; }
+
+        .container-area-right .textarea ul { margin: 0 30px; min-height: 480px; }
+
+        .container-area-right .textarea ul li { padding: 20px 0; color: #666666; border-bottom: 1px solid #eeeeee; }
+
+        .container-area-right .textarea ul li p { line-height: 30px; color: #666666; }
+
+        .container-area-right .textarea ul li p a { color: #d67b33; }
+
+        .container-area-right .textarea ul li p:first-of-type { color: #282828; font-size: 15px; margin-bottom: 10px; }
+
+        .container-area-right .textarea ul li:last-of-type { border: none; }
+
+        @media screen and (min-width: 1600px) { .container-area-right { width: 1100px; margin: 0 0 0 18px; } }
+    </style>
+</head>
+<body>
+<div id="body">
+    <div th:replace="front/zcool/header"></div>
+    <!--*******************************-->
+    <main class="main-wrapper">
+        <div class="container-area clearFix">
+            <div class="container-area-left">
+                <div class="card-media personal-menu">
+                    <ul class="menu-list">
+                        <li ><a href="/aboutUs">关于我们</a><span></span></li>
+                        <li class="current" ><a href="/userAgreement">用户协议</a><span></span></li>
+                        <li ><a href="/policy">隐私政策</a><span></span></li>
+                        <li ><a href="/violationClaim">侵权申诉</a><span></span></li>
+                        <li ><a href="/help">帮助中心</a><span></span></li>
+                        <li ><a href="/contactUs">联系我们</a><span></span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="container-area-right">
+                <div class="middle-title-wrap border-bottom">
+                    <h2 class="middle-title">联系我们</h2>
+                </div>
+                <div class="textarea">
+                    <ul>
+                        <li>
+                            <p>用户服务</p>
+                            <p><a href="https://www.zcool.com.cn/help">查看网站使用帮助 &amp; 常见问题 &gt;&gt;</a></p>
+
+
+                            <p>Email: service@zcool.com.cn</p>
+                        </li>
+                        <li>
+                            <p>企业服务</p>
+                            <p><a href="https://www.zcool.com.cn/competition">查看企业服务类别 &gt;&gt;</a></p>
+
+
+                            <p>Email: business@zcool.com.cn</p>
+                        </li>
+                        <li>
+                            <p>企业名称</p>
+                            <p>北京站酷网络科技有限公司</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+    <div th:replace="front/zcool/footer"></div>
+</div>
+
+<div class="sidebar-fixed-wrapper js-sidebar-fixed" style="bottom: 40px;">
+    <div class="back-to-top sidebar-fixed_box" z-st="shortcut_totop" style="display: none;"></div>
+</div>
+<script type="text/javascript" src="/front/H-ui/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="/front/zcool/js/common.js"></script>
+</body>
+</html>

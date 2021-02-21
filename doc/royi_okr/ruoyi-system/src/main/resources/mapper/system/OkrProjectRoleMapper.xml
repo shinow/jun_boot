@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.OkrProjectRoleMapper">
+    
+    <resultMap type="OkrProjectRole" id="OkrProjectRoleResult">
+        <result property="id"    column="id"    />
+        <result property="projectCode"    column="project_code"    />
+        <result property="userId"    column="user_id"    />
+        <result property="okrId"    column="okr_id"    />
+    </resultMap>
+
+    <sql id="selectOkrProjectRoleVo">
+        select id, project_code, user_id, okr_id from okr_project_role
+    </sql>
+
+    <select id="selectOkrProjectRoleList" parameterType="OkrProjectRole" resultMap="OkrProjectRoleResult">
+        <include refid="selectOkrProjectRoleVo"/>
+        <where>  
+            <if test="projectCode != null  and projectCode != ''"> and project_code = #{projectCode}</if>
+        </where>
+    </select>
+
+
+
+    
+    <select id="selectOkrProjectRoleById" parameterType="Long" resultMap="OkrProjectRoleResult">
+        <include refid="selectOkrProjectRoleVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertOkrProjectRole" parameterType="OkrProjectRole" useGeneratedKeys="true" keyProperty="id">
+        insert into okr_project_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectCode != null  and projectCode != ''">project_code,</if>
+            <if test="userId != null ">user_id,</if>
+            <if test="okrId != null ">okr_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectCode != null  and projectCode != ''">#{projectCode},</if>
+            <if test="userId != null ">#{userId},</if>
+            <if test="okrId != null ">#{okrId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOkrProjectRole" parameterType="OkrProjectRole">
+        update okr_project_role
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectCode != null  and projectCode != ''">project_code = #{projectCode},</if>
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="okrId != null ">okr_id = #{okrId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOkrProjectRoleById" parameterType="Long">
+        delete from okr_project_role where id = #{id}
+    </delete>
+
+
+
+    <delete id="deleteOkrProjectRoleByUser" parameterType="Long">
+        delete from okr_project_role where user_id = #{userId} and okr_id = #{okrId}
+    </delete>
+
+
+    <delete id="deleteOkrProjectRoleByIds" parameterType="String">
+        delete from okr_project_role where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

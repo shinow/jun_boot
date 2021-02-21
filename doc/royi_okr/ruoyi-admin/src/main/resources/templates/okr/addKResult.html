@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html th:lang="${language}"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header(#{okr.add})"/>
+    <th:block th:include="include :: summernote-css"/>
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-info-add" th:object="${okrInfo}">
+        <input name="id" id="parentId" th:field="*{id}" type="hidden">
+        <!---选项卡开始-->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="tabs-container">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">[[#{okr.quarterInfo}]]</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab-1" class="tab-pane active">
+
+                            <!--季度KR开始--->
+                            <div class="row" style="margin-top: 5px;">
+                                <div class="col-sm-12">
+                                    <div class="ibox float-e-margins">
+                                        <div class="ibox-title">
+                                            <h5>[[#{okr.setKrNum}]]<small class="m-l-sm">[[#{okr.setKrNumInfo}]]</small></h5>
+                                        </div>
+                                        <div class="ibox-content" id="seasonKeys">
+                                            <div class="panel panel-info">
+                                                <div class="panel-heading">[[#{okr.setKrStandard}]]</div>
+                                                <div class="panel-body">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            <textarea name="content" class="form-control" required th:placeholder="${okr_kr_placeholder}"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--季度KR开始--->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input name="cycleItem" id="cycleItem" type="hidden">
+    </form>
+</div>
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: summernote-js"/>
+<script type="text/javascript">
+    var prefix = ctx + "okr/info";
+    function submitHandler() {
+        $.operate.save(prefix + "/saveKeyResult",$('#form-info-add').serialize());
+    }
+</script>
+</body>
+</html>

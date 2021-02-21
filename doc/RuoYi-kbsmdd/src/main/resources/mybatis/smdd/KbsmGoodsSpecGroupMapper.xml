@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.smdd.ggzgl.mapper.KbsmGoodsSpecGroupMapper">
+    
+    <resultMap type="com.ruoyi.project.smdd.ggzgl.domain.KbsmGoodsSpecGroup" id="KbsmGoodsSpecGroupResult">
+        <result property="id"    column="id"    />
+        <result property="groupName"    column="group_name"    />
+        <result property="goodsId"    column="goods_id"    />
+        <result property="wxappId"    column="wxapp_id"    />
+        <result property="type"    column="type"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+    </resultMap>
+
+    <sql id="selectKbsmGoodsSpecGroupVo">
+        select id, group_name, goods_id, wxapp_id, type, gmt_create, gmt_modified from kbsm_goods_spec_group
+    </sql>
+
+    <select id="selectKbsmGoodsSpecGroupList" parameterType="com.ruoyi.project.smdd.ggzgl.domain.KbsmGoodsSpecGroup" resultMap="KbsmGoodsSpecGroupResult">
+        <include refid="selectKbsmGoodsSpecGroupVo"/>
+        <where>  
+            <if test="groupName != null  and groupName != ''"> and group_name like concat('%', #{groupName}, '%')</if>
+            <if test="goodsId != null "> and goods_id = #{goodsId}</if>
+            <if test="wxappId != null "> and wxapp_id = #{wxappId}</if>
+        </where>
+    </select>
+    
+    <select id="selectKbsmGoodsSpecGroupById" parameterType="Integer" resultMap="KbsmGoodsSpecGroupResult">
+        <include refid="selectKbsmGoodsSpecGroupVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertKbsmGoodsSpecGroup" parameterType="com.ruoyi.project.smdd.ggzgl.domain.KbsmGoodsSpecGroup" useGeneratedKeys="true" keyProperty="id">
+        insert into kbsm_goods_spec_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="groupName != null">group_name,</if>
+            <if test="goodsId != null">goods_id,</if>
+            <if test="wxappId != null">wxapp_id,</if>
+            <if test="type != null">type,</if>
+            <if test="gmtCreate != null">gmt_create,</if>
+            <if test="gmtModified != null">gmt_modified,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="groupName != null">#{groupName},</if>
+            <if test="goodsId != null">#{goodsId},</if>
+            <if test="wxappId != null">#{wxappId},</if>
+            <if test="type != null">#{type},</if>
+            <if test="gmtCreate != null">#{gmtCreate},</if>
+            <if test="gmtModified != null">#{gmtModified},</if>
+         </trim>
+    </insert>
+
+    <update id="updateKbsmGoodsSpecGroup" parameterType="com.ruoyi.project.smdd.ggzgl.domain.KbsmGoodsSpecGroup">
+        update kbsm_goods_spec_group
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="groupName != null">group_name = #{groupName},</if>
+            <if test="goodsId != null">goods_id = #{goodsId},</if>
+            <if test="wxappId != null">wxapp_id = #{wxappId},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="gmtCreate != null">gmt_create = #{gmtCreate},</if>
+            <if test="gmtModified != null">gmt_modified = #{gmtModified},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteKbsmGoodsSpecGroupById" parameterType="Integer">
+        delete from kbsm_goods_spec_group where id = #{id}
+    </delete>
+
+    <delete id="deleteKbsmGoodsSpecGroupByIds" parameterType="String">
+        delete from kbsm_goods_spec_group where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.wxapi.model.mapper.AdminMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ruoyi.project.wxapi.model.bean.Admin">
+        <id column="id" property="id" />
+        <result column="login_name" property="loginName" />
+        <result column="login_password" property="loginPassword" />
+        <result column="real_name" property="realName" />
+        <result column="head_url" property="headUrl" />
+        <result column="phone" property="phone" />
+        <result column="security_key" property="securityKey" />
+        <result column="login_times" property="loginTimes" />
+        <result column="login_error_times" property="loginErrorTimes" />
+        <result column="last_login_time" property="lastLoginTime" />
+        <result column="last_login_ip" property="lastLoginIp" />
+        <result column="is_super" property="isSuper" />
+        <result column="is_delete" property="isDelete" />
+        <result column="status_id" property="statusId" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, login_name, login_password, real_name, head_url, phone, security_key, login_times, login_error_times, last_login_time, last_login_ip, is_super, is_delete, status_id, gmt_create, gmt_modified
+    </sql>
+    <insert id="insertAdmin" parameterType="com.ruoyi.project.wxapi.model.bean.Admin" >
+        insert into kbsm_admin
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="loginName != null" >
+                login_name,
+            </if>
+            <if test="loginPassword != null" >
+                login_password,
+            </if>
+            <if test="realName != null" >
+                real_name,
+            </if>
+            <if test="headUrl != null" >
+                head_url,
+            </if>
+            <if test="phone != null" >
+                phone,
+            </if>
+            <if test="securityKey != null" >
+                security_key,
+            </if>
+            <if test="loginTimes != null" >
+                login_times,
+            </if>
+            <if test="loginErrorTimes != null" >
+                login_error_times,
+            </if>
+            <if test="lastLoginTime != null" >
+                last_login_time,
+            </if>
+            <if test="lastLoginIp != null" >
+                last_login_ip,
+            </if>
+            <if test="isSuper != null" >
+                is_super,
+            </if>
+            <if test="isDelete != null" >
+                is_delete,
+            </if>
+            <if test="statusId != null" >
+                status_id,
+            </if>
+            <if test="gmtCreate != null" >
+                gmt_create,
+            </if>
+            <if test="gmtModified != null" >
+                gmt_modified,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="loginName != null" >
+                #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="loginPassword != null" >
+                #{loginPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null" >
+                #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="headUrl != null" >
+                #{headUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null" >
+                #{phone,jdbcType=CHAR},
+            </if>
+            <if test="securityKey != null" >
+                #{securityKey,jdbcType=VARCHAR},
+            </if>
+            <if test="loginTimes != null" >
+                #{loginTimes,jdbcType=INTEGER},
+            </if>
+            <if test="loginErrorTimes != null" >
+                #{loginErrorTimes,jdbcType=INTEGER},
+            </if>
+            <if test="lastLoginTime != null" >
+                #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastLoginIp != null" >
+                #{lastLoginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="isSuper != null" >
+                #{isSuper,jdbcType=BIT},
+            </if>
+            <if test="isDelete != null" >
+                #{isDelete,jdbcType=BIT},
+            </if>
+            <if test="statusId != null" >
+                #{statusId,jdbcType=TINYINT},
+            </if>
+            <if test="gmtCreate != null" >
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null" >
+                #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <delete id="deleteByAdminId">
+        delete from kbsm_admin
+        where id=#{adminId}
+    </delete>
+
+    <select id="getByLoginName" resultType="com.ruoyi.project.wxapi.model.bean.Admin">
+        select <include refid="Base_Column_List"></include>
+        from kbsm_admin
+         where login_name=#{userName}
+    </select>
+    <select id="selectByPageAndAdmin" resultType="com.ruoyi.project.wxapi.model.bean.Admin">
+        select <include refid="Base_Column_List"></include>
+        from `kbsm_admin`
+        where 1=1
+        <if test="admin.loginName != null">
+            and loginName like concat('%', #{admin.loginName}, '%')
+        </if>
+        <if test="admin.phone != null">
+            and phone like concat('%', #{admin.phone}, '%')
+        </if>
+        limit #{start},#{limit}
+    </select>
+    <select id="selectTotalnum" resultType="java.lang.Integer">
+        select count(*)
+        from kbsm_admin
+    </select>
+    <select id="getByAdminId" resultType="com.ruoyi.project.wxapi.model.bean.Admin">
+        select <include refid="Base_Column_List"></include>
+        from kbsm_admin
+        where id=#{adminId}
+    </select>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.ruoyi.project.wxapi.model.bean.Admin" >
+        update kbsm_admin
+        <set >
+            <if test="loginName != null" >
+                login_name = #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="loginPassword != null" >
+                login_password = #{loginPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null" >
+                real_name = #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="headUrl != null" >
+                head_url = #{headUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null" >
+                phone = #{phone,jdbcType=CHAR},
+            </if>
+            <if test="securityKey != null" >
+                security_key = #{securityKey,jdbcType=VARCHAR},
+            </if>
+            <if test="loginTimes != null" >
+                login_times = #{loginTimes,jdbcType=INTEGER},
+            </if>
+            <if test="loginErrorTimes != null" >
+                login_error_times = #{loginErrorTimes,jdbcType=INTEGER},
+            </if>
+            <if test="lastLoginTime != null" >
+                last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastLoginIp != null" >
+                last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="isSuper != null" >
+                is_super = #{isSuper,jdbcType=BIT},
+            </if>
+            <if test="isDelete != null" >
+                is_delete = #{isDelete,jdbcType=BIT},
+            </if>
+            <if test="statusId != null" >
+                status_id = #{statusId,jdbcType=TINYINT},
+            </if>
+            <if test="gmtCreate != null" >
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null" >
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+</mapper>

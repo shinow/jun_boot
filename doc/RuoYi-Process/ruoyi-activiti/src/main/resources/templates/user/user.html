@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('流程用户列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>用户ID：</p>
+                                <input type="text" name="id"/>
+                            </li>
+                            <li>
+                                <p>名字：</p>
+                                <input type="text" name="first"/>
+                            </li>
+                            <li>
+                                <p>邮箱：</p>
+                                <input type="text" name="email"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "user";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                exportUrl: prefix + "/export",
+                modalName: "流程用户",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id',
+                    title : '用户ID'
+                },
+                {
+                    field : 'first',
+                    title : '名字'
+                },
+                {
+                    field : 'email',
+                    title : '邮箱'
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

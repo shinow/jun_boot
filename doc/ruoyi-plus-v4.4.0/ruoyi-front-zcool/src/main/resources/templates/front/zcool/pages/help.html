@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>常见问题  (ZCOOL)</title>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="/front/zcool/css/main.min.css">
+    <link rel="bookmark" type="image/x-icon" href="/front/zcool/images/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="/front/zcool/images/favicon.ico" />
+    <script>
+        function addLinkCss(linkUrl){
+            var link = document.createElement('link');
+            link.type = 'text/css';
+            link.rel = 'stylesheet';
+            link.href = linkUrl;
+            document.getElementsByTagName("head")[0].appendChild(link);
+        }
+    </script>
+
+    <style>
+        .container-area { color: #282828; }
+
+        .container-area-left { float: left; }
+
+        .container-area-left .current { box-sizing: border-box; position: relative; }
+
+        .container-area-left .current span { position: absolute; left: 0; top: 10px; height: 32px; width: 0; border-right: 3px solid #ffe300; }
+
+        .container-area-right { float: right; width: 898px; border-radius: 4px; background: #fff; margin: 0 0 0 20px; }
+
+        .container-area-right .server { height: 66px; line-height: 64px; font-size: 16px; border-bottom: 1px solid #eeeeee; }
+
+        .container-area-right .server div { float: left; color: #999999; margin: 0 20px 0 30px; font-size: 16px; }
+
+        .container-area-right .server div:hover { border-bottom: 2px solid #282828; color: #282828; }
+
+        .container-area-right .server .sele { border-bottom: 2px solid #282828; color: #282828; }
+
+        .container-area-right .textarea { color: #282828; min-height: 270px; font-size: 14px; color: #666666; }
+
+        .container-area-right .textarea .hide { display: none; }
+
+        .container-area-right .textarea .ques { margin: 0 30px; }
+
+        .container-area-right .textarea .ques li { padding: 25px 0 25px; color: #666666; border-bottom: 1px solid #eeeeee; }
+
+        .container-area-right .textarea .ques li p:first-of-type { color: #282828; font-size: 15px; font-weight: 600; margin-bottom: 20px; }
+
+        .container-area-right .textarea .ques li:last-of-type { border: none; }
+
+        .container-area-right .textarea .ques li:last-of-type a { color: #d67b35; }
+
+        .container-area-right .textarea .ques li .question { line-height: 30px; color: #282828; }
+
+        .container-area-right .textarea .ques li .question .answer { display: none; background: #fff6cc; padding: 15px; position: relative; margin: 10px 0; border-radius: 4px; }
+
+        .container-area-right .textarea .ques li .question .answer a { color: #d36f16; }
+
+        .container-area-right .textarea .ques li .question .answer p { margin: 0; font-weight: normal; font-size: 14px; line-height: 20px; color: #333333; }
+
+        .container-area-right .textarea .ques li .question .answer:before { content: ""; width: 0; height: 0; position: absolute; top: -20px; left: 15px; border-bottom: 10px solid #fff6cc; border-top: 10px solid transparent; border-left: 10px solid transparent; border-right: 10px solid transparent; }
+
+        .container-area-right .textarea .ques li .question > a:hover { color: #d36f16; }
+
+        .container-area-right .textarea .rule { min-height: 540px; }
+
+        .container-area-right .textarea .rule .stack:first-of-type .tit { color: #282828; line-height: 80px; margin-left: 30px; border-top: none; }
+
+        .container-area-right .textarea .rule .stack .tit { color: #282828; font-weight: 600; line-height: 80px; margin: 0 30px 0 30px; border-top: 1px solid #dddddd; }
+
+        .container-area-right .textarea .rule .stack .ques { margin: -10px 0 0 0; padding-bottom: 20px; }
+
+        .container-area-right .textarea .rule .stack .ques .lines { line-height: 20px; padding: 5px 0; }
+
+        .container-area-right .textarea .rule .stack .ques li { line-height: 40px; height: 40px; padding: 0; border: none; }
+
+        .container-area-right .textarea .rule .stack .ques li div { float: left; color: #282828; width: 700px; margin-left: 30px; }
+
+        .container-area-right .textarea .rule .stack .ques li div:last-of-type { float: right; width: 143px; margin-left: 0; }
+
+        .container-area-right .textarea .rule .stack .ques li:first-of-type div { float: left; }
+
+        .container-area-right .textarea .rule .stack .ques li:first-of-type div:last-of-type { float: right; }
+
+        .container-area-right .textarea .rule .stack .ques li:nth-of-type(2n) { background: #fbeabd; }
+
+        @media screen and (min-width: 1600px) { .container-area-right { width: 1100px; margin: 0 0 0 18px; } }
+
+
+
+
+    </style>
+</head>
+<body>
+<div id="body">
+    <div th:replace="front/zcool/header"></div>
+    <!--*******************************-->
+    <main class="main-wrapper">
+        <div class="container-area clearFix">
+            <div class="container-area-left">
+                <div class="card-media personal-menu">
+                    <ul class="menu-list">
+                        <li ><a href="/aboutUs">关于我们</a><span></span></li>
+                        <li ><a href="/userAgreement">用户协议</a><span></span></li>
+                        <li ><a href="/policy">隐私政策</a><span></span></li>
+                        <li ><a href="/violationClaim">侵权申诉</a><span></span></li>
+                        <li  class="current"><a href="/help">帮助中心</a><span></span></li>
+                        <li ><a href="/contactUs">联系我们</a><span></span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="container-area-right">
+                <div class="tab-menu">
+                    <ul class="tab-box border-bottom">
+                        <li class="current"><a href="/help">常见问题</a></li>
+                        <li><a href="/rule">站酷规则</a></li>
+                    </ul>
+                </div>
+                <div class="textarea">
+                    <ul class="ques">
+
+                        <li>
+                            <p>一、关于账号、手机号、登录和用户名:</p>
+
+                            <div class="question"><a href="javascript:;">1. 我可以注销账号吗？</a>
+                                <div class="answer" style="display: none;"><p></p><p>站酷暂不支持自行注销账号。若要注销账号，请使用账号绑定的邮箱联系service@zcool.com.cn</p><p></p></div>
+                            </div>
+
+                            <div class="question"><a href="javascript:;">2. 绑定手机号为什么显示手机号已注册？</a>
+                                <div class="answer" style="display: none;"><p></p><p>绑定手机号显示手机号已注册，说明该手机号在站酷已注册过账号，若需要该手机号绑定其他站酷账号，请用该手机号登录进行解绑手机号，然后在绑定现有的站酷账号。</p><p></p></div>
+                            </div>
+
+                            <div class="question"><a href="javascript:;">3. 为什么无法登录站酷？</a>
+                                <div class="answer" style="display: none;"><p></p><p>请根据登录失败提示检查原因，如不能解决，您可能是：</p>
+                                    <p>1）连续1年未登录的账号，该账号可能被系统收回，建议您定期保持站酷账号登录。</p>
+                                    <p>2）由于违反站酷社区规定，上传广告、涉黄涉爆、侵权等违法内容的用户，站酷管理员会拉黑涉事账号，如有疑问，请联系站酷管理员。</p>
+                                    <p>3）如有其它紧急原因您可以发送邮件至：service@zcool.com.cn</p><p></p></div>
+                            </div>
+
+                            <div class="question"><a href="javascript:;">4. 如何修改用户名？</a>
+                                <div class="answer" style="display: none;"><p></p><p>为了让站酷社区的用户拥有相对稳定的身份标签，我们允许普通账号的用户可以每隔14天修改一次用户名；</p>
+                                    <p>通过站酷认证的企业暂时不支持修改用户名。</p><p></p></div>
+                            </div>
+
+                            <div class="question"><a href="javascript:;">5. 为什么我的个人主页显示“该用户待审核”？</a>
+                                <div class="answer" style="display: none;"><p></p><p>您好，未绑定手机号码且未发布过作品/文章的账号，主页会显示待审核状态。</p><p></p></div>
+                            </div>
+
+                        </li>
+
+                        <li>
+                            <p>二、关于上传、审核、编辑和删除内容:</p>
+
+                            <div class="question"><a href="javascript:;">1. 为什么我上传了作品后，在发现页找不到我的作品？</a>
+                                <div class="answer" style="display: none;"><p></p><p style="white-space: normal;">1）站酷会对作品进行审核，通过审核的作品会公开给所有用户；</p>
+                                    <p style="white-space: normal;">2）发现页默认为“编辑精选”作品，点击“最新上传”，可以浏览到全部的作品。由于每日上传作品较多，我们可能会出现漏推或错推等情况，欢迎大家提醒我们，我们将及时更正。</p><p></p></div>
+                            </div>
+
+                            <div class="question"><a href="javascript:;">2. 站酷的审核机制是什么？</a>
+                                <div class="answer" style="display: none;"><p></p><p>1）首次上传作品或文章需要通过人工审核后才能发布；</p>
+                                    <p>2）非首次上传“作品”及“文章”类内容，无需审核。但为防止违法内容和广告发布机，我们设置了一些敏感关键词。如您上传的作品或设计文章中包含这些词条，可能会被拦截等待人工审核，我们会尽快完成人工审核。&nbsp;</p><p></p></div>
+                            </div>
+
+                            <div class="question"><a href="javascript:;">3. 审核需要多久？</a>
+                                <div class="answer" style="display: none;"><p>工作日审核时间不超过2小时，节假日和晚间审核时间不超过24小时。</p></div>
+                            </div>
+
+                            <div class="question"><a href="javascript:;">4. “审核”与“推荐”的区别是什么</a>
+                                <div class="answer" style="display: none;"><p>“审核”是指站酷工作人员检查内容是否可展示。符合国家法律法规，无危害的内容才能通过审核。同时，不同的栏目另有进一步的审核标准，其中“作品”和“文章”栏目要求作品必须为原作者发布；
+                                    <br>
+                                    <br>“推荐”是站酷对精彩内容的进一步操作。被推荐的内容，将显示在更好的展示位置，获得更多关注。目前站酷的推荐分为“普通推荐”，“编辑精选”及“首页推荐”三级，以上三级被推荐的内容将分别显示在各栏目的“热门推荐”，“编辑精选”及“站酷网首页”三个页面。</p></div>
+                            </div>
+
+                            <div class="question"><a href="javascript:;">5. 我可以编辑/删除我上传的内容吗？</a>
+                                <div class="answer" style="display: none;"><p></p><p>可以，但是参赛作品不允许删除。您可以通过隐藏功能，让参赛作品在个人主页中不可见。</p><p></p></div>
+                            </div>
+
+                            <div class="question"><a href="javascript:;">6. 删除自己上传的内容会扣除积分吗？</a>
+                                <div class="answer" style="display: none;"><p></p><p>会，删除内容时会扣除上传时获得的积分。</p><p></p></div>
+                            </div>
+
+                        </li>
+
+                        <li>
+                            <p>三、关于站酷推荐设计师、作品推荐、精彩评论和作品上榜:</p>
+
+                            <div class="question"><a href="javascript:;">1. 成为站酷推荐设计师需要哪些条件？</a>
+                                <div class="answer" style="display: none;"><p></p><p>目前推荐设计师的小小要求是：</p>
+                                    <p><br></p>
+                                    <p>1）在站酷发布的作品或作品集超过5个，且质量稳定；</p>
+                                    <p>2）有超过3组作品首页推荐；</p>
+                                    <p>3）网友对其作品好评度高、关注度高；&nbsp;</p>
+                                    <p>4）发布作品后继续和酷友们进行互动交流；&nbsp;</p>
+                                    <p>5）较稀缺领域特长的设计师优先推荐；&nbsp;</p>
+                                    <p>6）有丰富的高端项目经验的设计师优先推荐；</p><p></p></div>
+                            </div>
+
+                            <div class="question"><a href="javascript:;">2. 作品怎样才能获得推荐？</a>
+                                <div class="answer" style="display: none;"><p></p><p>推荐的作品需要具备以下特性：</p>
+                                    <p><br></p>
+                                    <p>1）作品质量高；</p>
+                                    <p>2）作品完成度高；</p>
+                                    <p>3）作品具有独特的表达手法；</p>
+                                    <p>4）作品对其他的设计师有帮助，有启发，有激励；</p>
+                                    <p>推荐作品分为首页推荐、编辑精选和普通推荐三个等级，作品会根据以上特性的符合度进行划分。推荐作品还会以作者用心的程度、网友好评度等作为参考，客观推荐。</p><p></p></div>
+                            </div>
+
+                            <div class="question"><a href="javascript:;">3. 如何获得精彩评论？</a>
+                                <div class="answer" style="display: none;"><p></p><p>精彩评论是对其评论的作品/文章，作出了精彩的点评或做出了独特的见解。</p><p></p></div>
+                            </div>
+
+                            <div class="question"><a href="javascript:;">4. 作品怎样才能上榜？</a>
+                                <div class="answer" style="display: none;"><p></p><p>站酷会根据每周全站作品的数据情况，按照每项数据所占权重分别计算得分，采用百分制算法，对总得分数进行排名。其中，使用的数据包括但不仅包括阅读、推荐、收藏、分享、站酷编辑的推荐级别。</p><p></p></div>
+                            </div>
+
+                        </li>
+
+                        <li>
+                            <p>四、关于团体:</p>
+
+                            <div class="question"><a href="javascript:;">1. 什么是站酷团体</a>
+                                <div class="answer" style="display: none;"><p></p><p>为团体提供展示实力的团体主页，可集中展示和管理团体全部设计师成员和原创内容，为团体聚集人气。</p><p></p></div>
+                            </div>
+
+                            <div class="question"><a href="javascript:;">2. 如何创建团体</a>
+                                <div class="answer" style="display: none;"><p></p><p>登录站酷在个人中心-我的团体页面右上角点击创建团体，填写完整表单并提交后即可创建一个团体。</p><p></p></div>
+                            </div>
+
+                            <div class="question"><a href="javascript:;">3. 如何成为站酷推荐团体？</a>
+                                <div class="answer" style="display: none;"><p></p><p>团体的设计师在5名以上，团体发布内容首页推荐达10篇以上，团体成员信息真实，作品质量稳定，在业内有一定知名度和美誉度，管理员会不定期推荐，不需要申请。</p><p></p></div>
+                            </div>
+
+                            <div class="question"><a href="javascript:;">4. 如何让成员加入团体？</a>
+                                <div class="answer" style="display: none;"><p></p><p>加入团体有2种方式：管理员邀请（团体主页点击邀请成员，输入成员站酷用户名）；非成员申请（需在团体资料里设置加入团体方式为“允许成员申请”），双方同意即可。团体成员无人数限制。</p><p></p></div>
+                            </div>
+
+                            <div class="question"><a href="javascript:;">5. 团体管理员的权限有哪些？</a>
+                                <div class="answer" style="display: none;"><p></p><p>每一个团体只有一名高级管理员，即团体创建者。高级管理员可进行团体创建，解散以及团体的资料修改，成员管理和作品管理；普通管理员只能进行成员及作品的管理。</p><p></p></div>
+                            </div>
+
+                        </li>
+
+                        <li>
+                            <p>五、关于站酷认证:</p>
+
+                            <div class="question"><a href="javascript:;">1. 什么是站酷认证</a>
+                                <div class="answer" style="display: none;"><p></p><p>站酷认证是站酷基于企业、工作室、组织（尚未开放）、一线设计师（尚未开放）等类型的用户提供的一项资质审核认证。</p>
+                                    <p><br></p>
+                                    <p>通过认证的账号将会：</p>
+                                    <p>1）点亮认证身份标识图标；</p>
+                                    <p>2）拥有专属的站酷认证主页，更多展示模块；</p>
+                                    <p>3）增加品牌曝光，上传优秀作品吸引行业关注；</p>
+                                    <p>4）招聘优质设计师，开通站酷招聘服务。</p>
+                                    <p><br></p>
+                                    <p>快捷入口：<a href="/company/about" target="_self" title="我要去认证">我要去认证</a></p><p></p></div>
+                            </div>
+
+                            <div class="question"><a href="javascript:;">2. 认证需要多久？</a>
+                                <div class="answer" style="display: none;"><p></p><p>通常需要1~2个工作日内进行审核，高峰期最迟需要3~5个工作日，节假日顺延。</p><p></p></div>
+                            </div>
+
+                            <div class="question"><a href="javascript:;">3. 为什么认证不通过？</a>
+                                <div class="answer" style="display: none;"><p></p><p>1）请根据认证审核结果短信判断提交的审核材料是否完整、正确；</p>
+                                    <p>2）如果特殊疑问请邮件至：service@zcool.com.cn。</p><p></p></div>
+                            </div>
+
+                            <div class="question"><a href="javascript:;">4. 认证能否取消？</a>
+                                <div class="answer" style="display: none;"><p></p><p>1）站酷保留判断认证资质是否符合标准的权利，如发现资质造假等情况，站酷有权利随时解除认证状态；</p>
+                                    <p>2）我们暂不支持用户自主取消认证，如有特殊疑问，请发送邮件至：service@zcool.com.cn。</p><p></p></div>
+                            </div>
+
+                        </li>
+
+                        <li>
+                            <p>六、其它:</p>
+
+                            <div class="question"><a href="javascript:;">1. 什么情况下管理员会删除我的内容&amp;评论，扣除我的积分？</a>
+                                <div class="answer" style="display: none;"><p></p><p>1）拒绝“错别字 &amp; 病句”。 　　</p>
+                                    <p>“严谨”是设计师必备的。错字和病句会让一句话产生歧义，或让他人无法理解你的表述。 　　</p>
+                                    <p>管理操作：帮助修改，或提示修改。</p>
+                                    <p><br></p>
+                                    <p>2）拒绝“无内容”的标题。 　　</p>
+                                    <p>如：“帮帮我啊！”“大家来看看吧！”…请在标题上简要写明作品内容，项目名称等。 　　</p>
+                                    <p>管理操作：帮助修改，或提示修改。</p>
+                                    <p><br></p>
+                                    <p>3）拒绝“无意义”的评论。 　　</p>
+                                    <p>如：“1111”“顶顶” …你可以提出疑问、畅谈见解、表示感谢，但请勿作无意义回复。 　　</p>
+                                    <p>管理操作：删除评论，积分-1～3。</p>
+                                    <p><br></p>
+                                    <p>4）拒绝“嘲讽恶语”的点评。 　　</p>
+                                    <p>如：“看到你就恶心”“这作品太垃圾了”…请认真指出“作品失败在哪里”“建议如何修改”等。 　　</p>
+                                    <p>管理操作：删除评论，积分-5。严重者直接禁止访问。</p>
+                                    <p><br></p>
+                                    <p>5）拒绝含“广告信息”的主题、评论、留言。 　　</p>
+                                    <p>您的“个人主页”首页将显示出您的QQ、微博、Email等信息。　　</p>
+                                    <p>让招聘公司或客户能在你的“个人主页”一站式得到你的作品展示、联系方式等重要信息。　</p>
+                                    <p>因此，请大家爱护公共环境，不要在发布主题、发表评论/留言时，添加任何广告信息。 　　</p>
+                                    <p>管理操作：删除内容，积分-1～5。　</p><p></p></div>
+                            </div>
+
+                            <div class="question"><a href="javascript:;">2. 站酷的一些图标代表什么？</a>
+                                <div class="answer" style="display: none;"><p></p><p>在站酷不同的图标代表不同的含义，这里一起来认识它们吧：<br style="color: rgb(94, 94, 94); font-family: Verdana, 宋体, Helvetica, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 243, 213);"></p>
+                                    <p><br></p>
+                                    <p>黄z：站酷推荐设计师</p>
+                                    <p>站酷推荐设计师的体现，也是实力的体现；</p>
+                                    <p><br></p>
+                                    <p>蓝z：站酷认证账号</p>
+                                    <p>通过认证申请并通过审核后获得此图标；</p>
+                                    <p><br></p>
+                                    <p>火苗：站酷编辑推荐的作品</p>
+                                    <p>分为普通推荐、编辑推荐、首页推荐三个级别；</p>
+                                    <p><br></p>
+                                    <p>奖杯：参与大赛</p>
+                                    <p>参与了在站酷承办的设计大赛的作品会在列表页展示出此图标。</p>
+                                    <p><br></p>
+                                    <p>海洛勋章：海洛活跃供稿人</p>
+                                    <p>1. 在站酷海洛上架100张图片即可获得“海洛活跃供稿人”图标；</p>
+                                    <p>2. 获得图标后，每三个月内上架30张及以上图片定义为活跃状态，持续保有图标。</p>
+                                    <p>3. 系统每天刷新前三个月上架数量，不满足规则的图标即刻消失，次日刷新时满足条件可恢复。</p>
+                                    <p><br></p><p></p></div>
+                            </div>
+
+                        </li>
+
+                        <li>
+                            如果这里没有您想找的问题，请通过“<a href="https://www.zcool.com.cn/onlineQue">在线提交问题/建议</a>”给我们留言。
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </main>
+    <div th:replace="front/zcool/footer"></div>
+</div>
+
+<div class="sidebar-fixed-wrapper js-sidebar-fixed" style="bottom: 40px;">
+    <div class="back-to-top sidebar-fixed_box" z-st="shortcut_totop" style="display: none;"></div>
+</div>
+<script type="text/javascript" src="/front/H-ui/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="/front/zcool/js/common.js"></script>
+
+<script>
+    $(function () {
+
+        $('.question a').on('click',function(){
+            if ($(this).next('.answer').css('display') == 'none') {
+                $('.question .answer').hide();
+                $(this).next('.answer').show();
+            } else {
+                $('.question .answer').hide();
+                $(this).next('.answer').hide();
+            }
+        })
+    })
+
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.mq.mapper.LoginLogMapper">
+    
+    <resultMap type="com.ruoyi.mq.bean.LoginLog" id="LoginLogResult">
+        <result property="loginId"    column="login_id"    />
+        <result property="loginUserId"    column="login_user_id"    />
+        <result property="loginOperation"    column="login_operation"    />
+        <result property="loginIp"    column="login_ip"    />
+        <result property="loginTime"    column="login_time"    />
+    </resultMap>
+
+    <sql id="selectLoginLogVo">
+        select login_id, login_user_id, login_operation, login_ip, login_time from login_log
+    </sql>
+
+    <select id="selectLoginLogList" parameterType="com.ruoyi.mq.bean.LoginLog" resultMap="LoginLogResult">
+        <include refid="selectLoginLogVo"/>
+        <where>  
+            <if test="loginUserId != null "> and login_user_id = #{loginUserId}</if>
+            <if test="loginOperation != null  and loginOperation != ''"> and login_operation = #{loginOperation}</if>
+            <if test="loginIp != null  and loginIp != ''"> and login_ip = #{loginIp}</if>
+            <if test="loginTime != null "> and login_time = #{loginTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectLoginLogById" parameterType="Long" resultMap="LoginLogResult">
+        <include refid="selectLoginLogVo"/>
+        where login_id = #{loginId}
+    </select>
+        
+    <insert id="insertLoginLog" parameterType="com.ruoyi.mq.bean.LoginLog" useGeneratedKeys="true" keyProperty="loginId">
+        insert into login_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="loginUserId != null ">login_user_id,</if>
+            <if test="loginOperation != null  and loginOperation != ''">login_operation,</if>
+            <if test="loginIp != null  and loginIp != ''">login_ip,</if>
+            <if test="loginTime != null ">login_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="loginUserId != null ">#{loginUserId},</if>
+            <if test="loginOperation != null  and loginOperation != ''">#{loginOperation},</if>
+            <if test="loginIp != null  and loginIp != ''">#{loginIp},</if>
+            <if test="loginTime != null ">#{loginTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLoginLog" parameterType="com.ruoyi.mq.bean.LoginLog">
+        update login_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="loginUserId != null ">login_user_id = #{loginUserId},</if>
+            <if test="loginOperation != null  and loginOperation != ''">login_operation = #{loginOperation},</if>
+            <if test="loginIp != null  and loginIp != ''">login_ip = #{loginIp},</if>
+            <if test="loginTime != null ">login_time = #{loginTime},</if>
+        </trim>
+        where login_id = #{loginId}
+    </update>
+
+    <delete id="deleteLoginLogById" parameterType="Long">
+        delete from login_log where login_id = #{loginId}
+    </delete>
+
+    <delete id="deleteLoginLogByIds" parameterType="String">
+        delete from login_log where login_id in 
+        <foreach item="loginId" collection="array" open="(" separator="," close=")">
+            #{loginId}
+        </foreach>
+    </delete>
+    
+</mapper>

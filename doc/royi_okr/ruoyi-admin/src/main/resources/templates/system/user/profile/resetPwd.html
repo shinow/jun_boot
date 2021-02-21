@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header(#{login.changePwd})" />
+</head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-user-resetPwd">
+			<input name="userId"  type="hidden"  th:value="${user.userId}" />
+			<div class="form-group">
+				<label class="col-sm-3 control-label">[[#{login.loginname}]]：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" readonly="true" name="loginName" th:value="${user.loginName}"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">[[#{system.user.oldPwd}]]：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="password" name="oldPassword" id="oldPassword">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">[[#{system.user.newPwd}]]：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="password" name="newPassword" id="newPassword">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">[[#{system.user.comfirmPwd}]]：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="password" name="confirm" id="confirm">
+					<span class="help-block m-b-none"><i class="fa fa-info-circle"></i> [[#{system.user.againPwd}]]</span>
+				</div>
+			</div>
+		</form>
+	</div>
+	<th:block th:include="include :: footer" />
+
+	<script>
+		$("#form-user-resetPwd").validate({
+			rules:{
+				oldPassword:{
+					required:true,
+					remote: {
+	                    url: ctx + "system/user/profile/checkPassword",
+	                    type: "get",
+	                    dataType: "json",
+	                    data: {
+	                        password: function() {
+	                            return $("input[name='oldPassword']").val();
+	                        }
+	                    }
+	                }
+				},
+				newPassword: {
+	                required: true,
+	                minlength: 5,
+	    			maxlength: 20
+	            },
+	            confirm: {
+	                required: true,
+	                equalTo: "#newPassword"
+	            }
+			},
+			messages: {
+	            oldPassword: {
+	                required: "[[#{system.user.originPwd}]]",
+	                remote: "[[#{system.user.errorOriginPwd}]]"
+	            },
+	            newPassword: {
+	                required: "[[#{system.user.enterNewPwd}]]",
+	                minlength: "[[#{system.user.pwdError1}]]",
+	                maxlength: "[[#{system.user.pwdError2}]]"
+	            },
+	            confirm: {
+	                required: "[[#{system.user.againEnterNewPwd}]]",
+	                equalTo: "[[#{system.user.inconsistentPwd}]]"
+	            }
+	        },
+	        focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	        	$.operate.save(ctx + "system/user/profile/resetPwd", $('#form-user-resetPwd').serialize());
+	        }
+	    }
+	</script>
+</body>
+
+</html>

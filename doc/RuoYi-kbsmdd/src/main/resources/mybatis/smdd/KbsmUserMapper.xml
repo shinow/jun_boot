@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.smdd.yhgl.mapper.KbsmUserMapper">
+    
+    <resultMap type="com.ruoyi.project.smdd.yhgl.domain.KbsmUser" id="KbsmUserResult">
+        <result property="id"    column="id"    />
+        <result property="scene"    column="scene"    />
+        <result property="unionId"    column="union_id"    />
+        <result property="openId"    column="open_id"    />
+        <result property="type"    column="type"    />
+        <result property="nickName"    column="nickName"    />
+        <result property="avatarUrl"    column="avatarUrl"    />
+        <result property="gender"    column="gender"    />
+        <result property="country"    column="country"    />
+        <result property="province"    column="province"    />
+        <result property="city"    column="city"    />
+        <result property="subscribe"    column="subscribe"    />
+        <result property="addressId"    column="address_id"    />
+        <result property="userGradeId"    column="user_grade_id"    />
+        <result property="wallet"    column="wallet"    />
+        <result property="pay"    column="pay"    />
+        <result property="score"    column="score"    />
+        <result property="mobile"    column="mobile"    />
+        <result property="commission"    column="commission"    />
+        <result property="recommender"    column="recommender"    />
+        <result property="isDealer"    column="is_dealer"    />
+        <result property="loginCount"    column="login_count"    />
+        <result property="wxappId"    column="wxapp_id"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+    </resultMap>
+
+    <sql id="selectKbsmUserVo">
+        select id, scene, union_id, open_id, type, nickName, avatarUrl, gender, country, province, city, subscribe, address_id, user_grade_id, wallet, pay, score, mobile, commission, recommender, is_dealer, login_count, wxapp_id, gmt_create, gmt_modified from kbsm_user
+    </sql>
+
+    <select id="selectKbsmUserList" parameterType="com.ruoyi.project.smdd.yhgl.domain.KbsmUser" resultMap="KbsmUserResult">
+        <include refid="selectKbsmUserVo"/>
+        <where>  
+            <if test="type != null "> and type = #{type}</if>
+            <if test="nickName != null  and nickName != ''"> and nickName like concat('%', #{nickName}, '%')</if>
+            <if test="gender != null "> and gender = #{gender}</if>
+            <if test="userGradeId != null "> and user_grade_id = #{userGradeId}</if>
+            <if test="mobile != null  and mobile != ''"> and mobile = #{mobile}</if>
+            <if test="recommender != null "> and recommender = #{recommender}</if>
+        </where>
+    </select>
+    
+    <select id="selectKbsmUserById" parameterType="Long" resultMap="KbsmUserResult">
+        <include refid="selectKbsmUserVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertKbsmUser" parameterType="com.ruoyi.project.smdd.yhgl.domain.KbsmUser" useGeneratedKeys="true" keyProperty="id">
+        insert into kbsm_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="scene != null">scene,</if>
+            <if test="unionId != null and unionId != ''">union_id,</if>
+            <if test="openId != null and openId != ''">open_id,</if>
+            <if test="type != null">type,</if>
+            <if test="nickName != null and nickName != ''">nickName,</if>
+            <if test="avatarUrl != null and avatarUrl != ''">avatarUrl,</if>
+            <if test="gender != null">gender,</if>
+            <if test="country != null and country != ''">country,</if>
+            <if test="province != null and province != ''">province,</if>
+            <if test="city != null and city != ''">city,</if>
+            <if test="subscribe != null">subscribe,</if>
+            <if test="addressId != null">address_id,</if>
+            <if test="userGradeId != null">user_grade_id,</if>
+            <if test="wallet != null">wallet,</if>
+            <if test="pay != null">pay,</if>
+            <if test="score != null">score,</if>
+            <if test="mobile != null and mobile != ''">mobile,</if>
+            <if test="commission != null">commission,</if>
+            <if test="recommender != null">recommender,</if>
+            <if test="isDealer != null">is_dealer,</if>
+            <if test="loginCount != null">login_count,</if>
+            <if test="wxappId != null">wxapp_id,</if>
+            <if test="gmtCreate != null">gmt_create,</if>
+            <if test="gmtModified != null">gmt_modified,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="scene != null">#{scene},</if>
+            <if test="unionId != null and unionId != ''">#{unionId},</if>
+            <if test="openId != null and openId != ''">#{openId},</if>
+            <if test="type != null">#{type},</if>
+            <if test="nickName != null and nickName != ''">#{nickName},</if>
+            <if test="avatarUrl != null and avatarUrl != ''">#{avatarUrl},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="country != null and country != ''">#{country},</if>
+            <if test="province != null and province != ''">#{province},</if>
+            <if test="city != null and city != ''">#{city},</if>
+            <if test="subscribe != null">#{subscribe},</if>
+            <if test="addressId != null">#{addressId},</if>
+            <if test="userGradeId != null">#{userGradeId},</if>
+            <if test="wallet != null">#{wallet},</if>
+            <if test="pay != null">#{pay},</if>
+            <if test="score != null">#{score},</if>
+            <if test="mobile != null and mobile != ''">#{mobile},</if>
+            <if test="commission != null">#{commission},</if>
+            <if test="recommender != null">#{recommender},</if>
+            <if test="isDealer != null">#{isDealer},</if>
+            <if test="loginCount != null">#{loginCount},</if>
+            <if test="wxappId != null">#{wxappId},</if>
+            <if test="gmtCreate != null">#{gmtCreate},</if>
+            <if test="gmtModified != null">#{gmtModified},</if>
+         </trim>
+    </insert>
+
+    <update id="updateKbsmUser" parameterType="com.ruoyi.project.smdd.yhgl.domain.KbsmUser">
+        update kbsm_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="scene != null">scene = #{scene},</if>
+            <if test="unionId != null and unionId != ''">union_id = #{unionId},</if>
+            <if test="openId != null and openId != ''">open_id = #{openId},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="nickName != null and nickName != ''">nickName = #{nickName},</if>
+            <if test="avatarUrl != null and avatarUrl != ''">avatarUrl = #{avatarUrl},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="country != null and country != ''">country = #{country},</if>
+            <if test="province != null and province != ''">province = #{province},</if>
+            <if test="city != null and city != ''">city = #{city},</if>
+            <if test="subscribe != null">subscribe = #{subscribe},</if>
+            <if test="addressId != null">address_id = #{addressId},</if>
+            <if test="userGradeId != null">user_grade_id = #{userGradeId},</if>
+            <if test="wallet != null">wallet = #{wallet},</if>
+            <if test="pay != null">pay = #{pay},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="mobile != null and mobile != ''">mobile = #{mobile},</if>
+            <if test="commission != null">commission = #{commission},</if>
+            <if test="recommender != null">recommender = #{recommender},</if>
+            <if test="isDealer != null">is_dealer = #{isDealer},</if>
+            <if test="loginCount != null">login_count = #{loginCount},</if>
+            <if test="wxappId != null">wxapp_id = #{wxappId},</if>
+            <if test="gmtCreate != null">gmt_create = #{gmtCreate},</if>
+            <if test="gmtModified != null">gmt_modified = #{gmtModified},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteKbsmUserById" parameterType="Long">
+        delete from kbsm_user where id = #{id}
+    </delete>
+
+    <delete id="deleteKbsmUserByIds" parameterType="String">
+        delete from kbsm_user where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

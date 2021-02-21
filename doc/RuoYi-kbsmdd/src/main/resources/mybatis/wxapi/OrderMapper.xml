@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.wxapi.model.mapper.OrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ruoyi.project.wxapi.model.bean.Order">
+        <id column="id" property="id" />
+        <result column="order_no" property="orderNo" />
+        <result column="row_no" property="rowNo" />
+        <result column="shop_id" property="shopId" />
+        <result column="table_id" property="tableId" />
+        <result column="total_price" property="totalPrice" />
+        <result column="activity_price" property="activityPrice" />
+        <result column="pay_price" property="payPrice" />
+        <result column="pay_status" property="payStatus" />
+        <result column="pay_time" property="payTime" />
+        <result column="express_price" property="expressPrice" />
+        <result column="pack_price" property="packPrice" />
+        <result column="ware_price" property="warePrice" />
+        <result column="people" property="people" />
+        <result column="shop_clerk_id" property="shopClerkId" />
+        <result column="flavor" property="flavor" />
+        <result column="message" property="message" />
+        <result column="arrive_time" property="arriveTime" />
+        <result column="delivery_status" property="deliveryStatus" />
+        <result column="delivery_time" property="deliveryTime" />
+        <result column="receipt_status" property="receiptStatus" />
+        <result column="receipt_time" property="receiptTime" />
+        <result column="order_status" property="orderStatus" />
+        <result column="transaction_id" property="transactionId" />
+        <result column="commission" property="commission" />
+        <result column="deliver_mode" property="deliverMode" />
+        <result column="deliver_id" property="deliverId" />
+        <result column="delivery_distance" property="deliveryDistance" />
+        <result column="deliver_price" property="deliverPrice" />
+        <result column="deliver_name" property="deliverName" />
+        <result column="deliver_mobile" property="deliverMobile" />
+        <result column="user_id" property="userId" />
+        <result column="wxapp_id" property="wxappId" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, order_no, row_no, shop_id, table_id, total_price, activity_price, pay_price, pay_status, pay_time, express_price, pack_price, ware_price, people, shop_clerk_id, flavor, message, arrive_time, delivery_status, delivery_time, receipt_status, receipt_time, order_status, transaction_id, commission, deliver_mode, deliver_id, delivery_distance, deliver_price, deliver_name, deliver_mobile, user_id, wxapp_id, gmt_create, gmt_modified
+    </sql>
+
+
+    <insert id="insertSelective" parameterType="com.ruoyi.project.wxapi.model.bean.Order" >
+        insert into `kbsm_order`
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="orderNo != null" >
+                order_no,
+            </if>
+            <if test="rowNo != null" >
+                row_no,
+            </if>
+            <if test="shopId != null" >
+                shop_id,
+            </if>
+            <if test="tableId != null" >
+                table_id,
+            </if>
+            <if test="totalPrice != null" >
+                total_price,
+            </if>
+            <if test="activityPrice != null" >
+                activity_price,
+            </if>
+            <if test="payPrice != null" >
+                pay_price,
+            </if>
+            <if test="payStatus != null" >
+                pay_status,
+            </if>
+            <if test="payTime != null" >
+                pay_time,
+            </if>
+            <if test="expressPrice != null" >
+                express_price,
+            </if>
+            <if test="packPrice != null" >
+                pack_price,
+            </if>
+            <if test="warePrice != null" >
+                ware_price,
+            </if>
+            <if test="people != null" >
+                people,
+            </if>
+            <if test="shopClerkId != null" >
+                shop_clerk_id,
+            </if>
+            <if test="flavor != null" >
+                flavor,
+            </if>
+            <if test="message != null" >
+                message,
+            </if>
+            <if test="arriveTime != null" >
+                arrive_time,
+            </if>
+            <if test="deliveryStatus != null" >
+                delivery_status,
+            </if>
+            <if test="deliveryTime != null" >
+                delivery_time,
+            </if>
+            <if test="receiptStatus != null" >
+                receipt_status,
+            </if>
+            <if test="receiptTime != null" >
+                receipt_time,
+            </if>
+            <if test="orderStatus != null" >
+                order_status,
+            </if>
+            <if test="transactionId != null" >
+                transaction_id,
+            </if>
+            <if test="commission != null" >
+                commission,
+            </if>
+            <if test="deliverMode != null" >
+                deliver_mode,
+            </if>
+            <if test="deliverId != null" >
+                deliver_id,
+            </if>
+            <if test="deliveryDistance != null" >
+                delivery_distance,
+            </if>
+            <if test="deliverPrice != null" >
+                deliver_price,
+            </if>
+            <if test="deliverName != null" >
+                deliver_name,
+            </if>
+            <if test="deliverMobile != null" >
+                deliver_mobile,
+            </if>
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="wxappId != null" >
+                wxapp_id,
+            </if>
+            <if test="gmtCreate != null" >
+                gmt_create,
+            </if>
+            <if test="gmtModified != null" >
+                gmt_modified,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="orderNo != null" >
+                #{orderNo,jdbcType=BIGINT},
+            </if>
+            <if test="rowNo != null" >
+                #{rowNo,jdbcType=INTEGER},
+            </if>
+            <if test="shopId != null" >
+                #{shopId,jdbcType=INTEGER},
+            </if>
+            <if test="tableId != null" >
+                #{tableId,jdbcType=INTEGER},
+            </if>
+            <if test="totalPrice != null" >
+                #{totalPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="activityPrice != null" >
+                #{activityPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="payPrice != null" >
+                #{payPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="payStatus != null" >
+                #{payStatus,jdbcType=TINYINT},
+            </if>
+            <if test="payTime != null" >
+                #{payTime,jdbcType=INTEGER},
+            </if>
+            <if test="expressPrice != null" >
+                #{expressPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="packPrice != null" >
+                #{packPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="warePrice != null" >
+                #{warePrice,jdbcType=DECIMAL},
+            </if>
+            <if test="people != null" >
+                #{people,jdbcType=TINYINT},
+            </if>
+            <if test="shopClerkId != null" >
+                #{shopClerkId,jdbcType=INTEGER},
+            </if>
+            <if test="flavor != null" >
+                #{flavor,jdbcType=VARCHAR},
+            </if>
+            <if test="message != null" >
+                #{message,jdbcType=VARCHAR},
+            </if>
+            <if test="arriveTime != null" >
+                #{arriveTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deliveryStatus != null" >
+                #{deliveryStatus,jdbcType=TINYINT},
+            </if>
+            <if test="deliveryTime != null" >
+                #{deliveryTime,jdbcType=INTEGER},
+            </if>
+            <if test="receiptStatus != null" >
+                #{receiptStatus,jdbcType=TINYINT},
+            </if>
+            <if test="receiptTime != null" >
+                #{receiptTime,jdbcType=INTEGER},
+            </if>
+            <if test="orderStatus != null" >
+                #{orderStatus,jdbcType=TINYINT},
+            </if>
+            <if test="transactionId != null" >
+                #{transactionId,jdbcType=VARCHAR},
+            </if>
+            <if test="commission != null" >
+                #{commission,jdbcType=DECIMAL},
+            </if>
+            <if test="deliverMode != null" >
+                #{deliverMode,jdbcType=TINYINT},
+            </if>
+            <if test="deliverId != null" >
+                #{deliverId,jdbcType=VARCHAR},
+            </if>
+            <if test="deliveryDistance != null" >
+                #{deliveryDistance,jdbcType=INTEGER},
+            </if>
+            <if test="deliverPrice != null" >
+                #{deliverPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="deliverName != null" >
+                #{deliverName,jdbcType=VARCHAR},
+            </if>
+            <if test="deliverMobile != null" >
+                #{deliverMobile,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="wxappId != null" >
+                #{wxappId,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null" >
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null" >
+                #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updatePayStatusByOrderId">
+        update `kbsm_order`
+        set pay_status=#{payStatus}
+        where order_no=#{orderNo}
+    </update>
+    <select id="selectLargeByTableId" resultType="com.ruoyi.project.wxapi.model.bean.Order">
+        select <include refid="Base_Column_List"></include>
+        from `kbsm_order`
+        where table_id>#{tableId}
+    </select>
+    <select id="selectByTableId" resultType="com.ruoyi.project.wxapi.model.bean.Order">
+        select <include refid="Base_Column_List"></include>
+        from `kbsm_order`
+        <if test="tableId != null and tableId != 0">
+            where table_id=#{tableId}
+        </if>
+
+    </select>
+    <select id="selectByTableIdAndUserId" resultType="com.ruoyi.project.wxapi.model.bean.Order">
+        select <include refid="Base_Column_List"></include>
+        from `kbsm_order`
+        where user_id=#{userId}
+        <if test="tableId != null and tableId != 0">
+            and table_id=#{tableId}
+        </if>
+    </select>
+    <select id="selectLargeByTableIdAndUserId" resultType="com.ruoyi.project.wxapi.model.bean.Order">
+        select <include refid="Base_Column_List"></include>
+        from `kbsm_order`
+        where user_id=#{userId}
+        and table_id>#{tableId}
+    </select>
+    <select id="selectByOrderId" resultType="com.ruoyi.project.wxapi.model.bean.Order">
+        select <include refid="Base_Column_List"></include>
+        from `kbsm_order`
+        where id=#{orderId}
+    </select>
+    <select id="selectByOrderIdAndUserId" resultType="com.ruoyi.project.wxapi.model.bean.Order">
+        select <include refid="Base_Column_List"></include>
+        from `kbsm_order`
+        where user_id=#{userId}
+        and id=#{orderId}
+    </select>
+
+</mapper>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.cms.mapper.UserSignInMapper">
+    
+    <resultMap type="UserSignIn" id="UserSignInResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="month"    column="month"    />
+        <result property="signTime"    column="sign_time"    />
+        <result property="totalCount"    column="total_count"    />
+        <result property="monthCount"    column="month_count"    />
+        <result property="constantCount"    column="constant_count"    />
+    </resultMap>
+
+    <sql id="selectUserSignInVo">
+        select id, user_id, month, sign_time, total_count, month_count, constant_count from cms_user_sign_in
+    </sql>
+
+    <select id="selectUserSignInList" parameterType="UserSignIn" resultMap="UserSignInResult">
+        <include refid="selectUserSignInVo"/>
+        <where>  
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="month != null  and month != ''"> and month = #{month}</if>
+        </where>
+    </select>
+    
+    <select id="selectUserSignInById" parameterType="Long" resultMap="UserSignInResult">
+        <include refid="selectUserSignInVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertUserSignIn" parameterType="UserSignIn" useGeneratedKeys="true" keyProperty="id">
+        insert into cms_user_sign_in
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null  and userId != ''">user_id,</if>
+            <if test="month != null  and month != ''">month,</if>
+            <if test="signTime != null ">sign_time,</if>
+            <if test="totalCount != null ">total_count,</if>
+            <if test="monthCount != null ">month_count,</if>
+            <if test="constantCount != null ">constant_count,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null  and userId != ''">#{userId},</if>
+            <if test="month != null  and month != ''">#{month},</if>
+            <if test="signTime != null ">#{signTime},</if>
+            <if test="totalCount != null ">#{totalCount},</if>
+            <if test="monthCount != null ">#{monthCount},</if>
+            <if test="constantCount != null ">#{constantCount},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUserSignIn" parameterType="UserSignIn">
+        update cms_user_sign_in
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null  and userId != ''">user_id = #{userId},</if>
+            <if test="month != null  and month != ''">month = #{month},</if>
+            <if test="signTime != null ">sign_time = #{signTime},</if>
+            <if test="totalCount != null ">total_count = #{totalCount},</if>
+            <if test="monthCount != null ">month_count = #{monthCount},</if>
+            <if test="constantCount != null ">constant_count = #{constantCount},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteUserSignInById" parameterType="Long">
+        delete from cms_user_sign_in where id = #{id}
+    </delete>
+
+    <delete id="deleteUserSignInByIds" parameterType="String">
+        delete from cms_user_sign_in where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getByDate"  resultMap="UserSignInResult" parameterType="java.lang.String">
+        select id, user_id, month, sign_time, total_count, month_count, constant_count
+        from cms_user_sign_in
+        where
+        user_id =#{userId}
+        and   DATE_FORMAT(sign_time, '%Y-%m-%d') <![CDATA[ >= ]]>  DATE_FORMAT(#{dateStr}, '%Y-%m-%d')
+        and   DATE_FORMAT(sign_time, '%Y-%m-%d') <![CDATA[ < ]]>   ADDDATE(DATE_FORMAT(#{dateStr}, '%Y-%m-%d'),1)
+    </select>
+    <select id="getLast"  resultMap="UserSignInResult" parameterType="java.lang.String">
+        select id, user_id, month, sign_time, total_count, month_count, constant_count
+        from cms_user_sign_in
+        where
+        user_id =#{userId}
+        ORDER BY sign_time DESC limit 1
+    </select>
+
+    <select id="findByMonth"  resultMap="UserSignInResult" parameterType="java.lang.String">
+        select id, user_id, month, sign_time, total_count, month_count, constant_count
+        from cms_user_sign_in
+        where
+        user_id =#{userId}
+        and `month` =#{month}
+        ORDER BY sign_time
+    </select>
+
+</mapper>

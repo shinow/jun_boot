@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header">
+    <!-- 多语言 -->
+
+</head>
+<style type="text/css">
+
+    #Searchresult table {
+        font-family: verdana, arial, sans-serif;
+        font-size: 11px;
+        color: #333333;
+        border-width: 1px;
+        border-color: #666666;
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    #Searchresult table th {
+        border-width: 1px;
+        padding: 8px;
+        border-style: solid;
+        border-color: #666666;
+        background-color: #dedede;
+    }
+
+    #Searchresult table td {
+        border-width: 1px;
+        padding: 8px;
+        border-style: solid;
+        border-color: #87cefa;
+        background-color: #ffffff;
+        font-size: 12px;
+    }
+</style>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form class="form-horizontal" method="post" id="form1">
+                <div class="select-list">
+                    <div class="control-group">
+                        <label class="control-label">服务器列表:</label>
+                        <div class="controls">
+                            <select name="server" th:with="type=${@configServer.getServerList('')}">
+                                <option value="-1">请选择服务器</option>
+                                <option th:each="config : ${type}" th:text="${config.getServerName()}" th:value="${config.getServerId()}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">所属类别:</label>
+                        <div class="controls">
+                            <select name="menuType" id="menuType" cssClass="small-input">
+                                <option value="-1">---请选择---</option>
+                                <option value="t_role">角色信息</option>
+                                <option value="t_user">账号信息</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">字段:</label>
+                        <div class="controls">
+                            <select name="field" id="field" cssClass="small-input">
+                                <option value="-1">---请先选中所属类别---</option>
+                            </select>
+                            <input type="button" value="添加" onclick="add_tiaojian()"/>
+                        </div>
+                    </div>
+                    <div id="tiaojian"></div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <input type="hidden" id="start_row" value="">
+                            <button type="button" onclick="paging(1)" class="btn button">提交</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-sm-12 ">
+            <div class="content-box-content">
+                <div>
+                    <div id="Searchresult"><!-- 这里显示数据 --></div>
+                    <ul id="Pagination"><!-- 这里显示分页 --></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include :: footer"></div>
+
+<script th:inline="javascript">
+    function formatOperat(key, text) {
+        var HTML = "";
+        HTML += " <div class=\"control-group\">"
+        HTML += " <label class=\"control-label\" id=\"lable_" + key + "\">" + text + ":</label> "
+        HTML += " <div class=\"controls\" id=\"controls_" + key + "\"> "
+        HTML += " <select name=\"tiaojian#" + key + "\" id=\"tiaojian_" + key + "\" onchange=\"tiaojianChange('" + key + "')\"   cssClass=\"small-input\">"
+        HTML += " <option value=\"-1\">---请选择---</option> "
+        HTML += " <option value=\"1\">大于等于</option> "
+        HTML += " <option value=\"2\">小于等于</option> "
+        HTML += " <option value=\"3\">等于</option> "
+        HTML += " <option value=\"4\">模糊查询</option> "
+        HTML += " <option value=\"5\">时间查询</option> "
+        HTML += " <option value=\"6\">大于等于且小于等于</option> "
+        HTML += " <option value=\"7\">按条件分组</option> "
+        HTML += " <option value=\"8\">求和统计</option> "
+        HTML += " <option value=\"9\">次数统计</option> "
+        HTML += " </select> "
+        HTML += " </div> "
+        HTML += " </div> ";
+        return HTML;
+    }
+
+    function appendParam(key) {
+        var HTML = "";
+        HTML += "<span id=\"span_" + key + "\">值</span><input type=\"text\" name=\"input#" + key + "\" id=\"input_" + key + "\" />"
+        HTML += "<input type=\"button\" value='删除' id=\"del_" + key + "\" onclick =\"del_tiaojian('" + key + "')\"  />"
+        return HTML;
+    }
+
+    function appendTimeParam(key) {
+        var HTML = "";
+        HTML += "<span id=\"span_start_" + key + "\">大于等于</span><input type=\"text\" name=\"input#start#" + key + "\" id=\"input_start_" + key + "\" onclick=\"WdatePicker({e1:'operateTime',dateFmt:'yyyy-MM-dd HH:mm:ss'})\" />"
+        HTML += "<span id=\"span_end_" + key + "\">小于等于</span><input type=\"text\" name=\"input#end#" + key + "\" id=\"input_end_" + key + "\" onclick=\"WdatePicker({e1:'operateTime',dateFmt:'yyyy-MM-dd HH:mm:ss'})\"/>"
+        HTML += "<input type=\"button\" value='删除' id=\"del_" + key + "\" onclick =\"del_tiaojian('" + key + "')\"  />"
+        return HTML;
+    }
+
+    function del_tiaojian(key) {
+        $("#del_" + key).parent().parent().remove();
+    }
+
+    function tiaojianChange(key) {
+        var tiaojian = "#controls_" + key;
+        $("#del_" + key).remove();
+        $("#span_" + key).remove();
+        $("#input_" + key).remove();
+        $("#span_start_" + key).remove();
+        $("#input_start_" + key).remove();
+        $("#span_end_" + key).remove();
+        $("#input_end_" + key).remove();
+        var tiaojianKey = $("#tiaojian_" + key).find('option:selected').val();
+        console.log(tiaojianKey);
+        if (tiaojianKey == 5) {
+            $(tiaojian).append(appendTimeParam(key));
+        } else {
+            $(tiaojian).append(appendParam(key));
+        }
+    }
+
+    $("#menuType").on('change', function () {
+        if ($(this).val()) {
+            var key = $(this).find('option:selected').val();
+            loadProperties(key);
+        }
+    });
+
+    function loadProperties(key) {
+        console.log(key);
+        console.log(ctx + 'prop/');
+        jQuery.i18n.properties({//加载资浏览器语言对应的资源文件
+            name: 'game1', //资源文件名称
+            path: ctx + 'prop/', //资源文件路径
+            mode: 'map', //用Map的方式使用资源文件中的
+            language: "zh",
+            callback: function () {//加载成功后设置显示内容
+                var str = $.i18n.prop(key);
+                var arr = str.split(",");
+                $("#field").empty();
+                $("#tiaojian").empty();
+                for (j = 0; j < arr.length; j++) {
+                    var arr1 = arr[j].split("#");
+                    $("#field").append("<option value='" + arr1[0] + "'>" + arr1[1] + "</option>");
+                }
+
+            }
+        });
+    }
+
+    function add_tiaojian() {
+        console.log($("#field").find('option:selected').val());
+        var key = $("#field").find('option:selected').val();
+        var text = $("#field").find('option:selected').text()
+        var str = "lable_" + key;
+        console.log(str);
+        var flag = true;
+        $('#tiaojian label').each(function (i) {
+            console.log($(this).attr("id"));
+            if (str == $(this).attr("id")) {
+                flag = false;
+            }
+        })
+        if (flag) {
+            var str = formatOperat(key, text);
+            $("#tiaojian").append(str);
+        }
+    }
+
+    function paging(start_row) {
+        var data = $("#form1").serialize();
+        data += "&start_row=" + start_row;
+        console.log(data);
+        $.ajax({
+            url: ctx + 'game/playerInfo',
+            type: "get",
+            data: data,
+            success: function (data) {
+                $("#Searchresult").empty();
+                var parsedJson = jQuery.parseJSON(data);
+                console.log("数量" + parsedJson.count)
+                var pages = Math.ceil(parsedJson.count / 50);
+                var element = $("#Pagination");
+                var options = {
+                    bootstrapMajorVersion: 3,
+                    currentPage: start_row, //当前页面
+                    numberOfPages: 10, //一页显示几个按钮（在ul里面生成5个li）
+                    totalPages: pages //总页数
+                }
+                element.bootstrapPaginator(options);
+
+                //表头
+                var dom_thead = $("<thead></thead>");
+                var dom_tr = $("<tr></tr>");
+                $.each(parsedJson.head, function (i, item) {
+                    dom_tr.append($("<td>" + item + "</td>"));
+                    dom_thead.append(dom_tr);
+                });
+                //数据
+                var dom_tbody = $("<tbody></tbody>");
+                var dataList = parsedJson.body;
+                var count = 0;
+                if (dataList !== null && dataList !== undefined && dataList !== '') {
+                    $.each(dataList, function (i, item) {
+                        var dom_tr = $("<tr></tr>");
+                        $.each(parsedJson.head, function (j, item2) {
+                            var dom_td = $("<td>" + item[j] + "</td>");
+                            dom_tr.append(dom_td);
+                        });
+                        dom_tbody.append(dom_tr);
+                        count++;
+                    });
+                }
+                if (count == 0) {
+                    alert("没查找到数据");
+                }
+                var dom_table = $('<table></table>').append(dom_thead).append(dom_tbody);
+                $("#start_row").val(start_row);
+                $("#Searchresult").append(dom_table);
+            }
+        });
+    }
+</script>
+</body>
+</html>

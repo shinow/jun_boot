@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.smdd.gggl.mapper.KbsmGoodsSpecMapper">
+    
+    <resultMap type="com.ruoyi.project.smdd.gggl.domain.KbsmGoodsSpec" id="KbsmGoodsSpecResult">
+        <result property="id"    column="id"    />
+        <result property="specName"    column="spec_name"    />
+        <result property="goodsId"    column="goods_id"    />
+        <result property="goodsNo"    column="goods_no"    />
+        <result property="goodsPrice"    column="goods_price"    />
+        <result property="outPrice"    column="out_price"    />
+        <result property="linePrice"    column="line_price"    />
+        <result property="stockNum"    column="stock_num"    />
+        <result property="goodsSales"    column="goods_sales"    />
+        <result property="wxappId"    column="wxapp_id"    />
+        <result property="specSkuId"    column="spec_sku_id"    />
+        <result property="groupId"    column="group_id"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+        <result property="version"    column="version"    />
+    </resultMap>
+
+    <sql id="selectKbsmGoodsSpecVo">
+        select id, spec_name, goods_id, goods_no, goods_price, out_price, line_price, stock_num, goods_sales, wxapp_id, spec_sku_id, group_id, gmt_create, gmt_modified, version from kbsm_goods_spec
+    </sql>
+
+    <select id="selectKbsmGoodsSpecList" parameterType="com.ruoyi.project.smdd.gggl.domain.KbsmGoodsSpec" resultMap="KbsmGoodsSpecResult">
+        <include refid="selectKbsmGoodsSpecVo"/>
+        <where>  
+            <if test="specName != null  and specName != ''"> and spec_name like concat('%', #{specName}, '%')</if>
+            <if test="goodsId != null "> and goods_id = #{goodsId}</if>
+            <if test="goodsNo != null  and goodsNo != ''"> and goods_no = #{goodsNo}</if>
+            <if test="specSkuId != null  and specSkuId != ''"> and spec_sku_id = #{specSkuId}</if>
+        </where>
+    </select>
+    
+    <select id="selectKbsmGoodsSpecById" parameterType="Long" resultMap="KbsmGoodsSpecResult">
+        <include refid="selectKbsmGoodsSpecVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertKbsmGoodsSpec" parameterType="com.ruoyi.project.smdd.gggl.domain.KbsmGoodsSpec" useGeneratedKeys="true" keyProperty="id">
+        insert into kbsm_goods_spec
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="specName != null">spec_name,</if>
+            <if test="goodsId != null">goods_id,</if>
+            <if test="goodsNo != null and goodsNo != ''">goods_no,</if>
+            <if test="goodsPrice != null">goods_price,</if>
+            <if test="outPrice != null">out_price,</if>
+            <if test="linePrice != null">line_price,</if>
+            <if test="stockNum != null">stock_num,</if>
+            <if test="goodsSales != null">goods_sales,</if>
+            <if test="wxappId != null">wxapp_id,</if>
+            <if test="specSkuId != null and specSkuId != ''">spec_sku_id,</if>
+            <if test="groupId != null">group_id,</if>
+            <if test="gmtCreate != null">gmt_create,</if>
+            <if test="gmtModified != null">gmt_modified,</if>
+            <if test="version != null">version,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="specName != null">#{specName},</if>
+            <if test="goodsId != null">#{goodsId},</if>
+            <if test="goodsNo != null and goodsNo != ''">#{goodsNo},</if>
+            <if test="goodsPrice != null">#{goodsPrice},</if>
+            <if test="outPrice != null">#{outPrice},</if>
+            <if test="linePrice != null">#{linePrice},</if>
+            <if test="stockNum != null">#{stockNum},</if>
+            <if test="goodsSales != null">#{goodsSales},</if>
+            <if test="wxappId != null">#{wxappId},</if>
+            <if test="specSkuId != null and specSkuId != ''">#{specSkuId},</if>
+            <if test="groupId != null">#{groupId},</if>
+            <if test="gmtCreate != null">#{gmtCreate},</if>
+            <if test="gmtModified != null">#{gmtModified},</if>
+            <if test="version != null">#{version},</if>
+         </trim>
+    </insert>
+
+    <update id="updateKbsmGoodsSpec" parameterType="com.ruoyi.project.smdd.gggl.domain.KbsmGoodsSpec">
+        update kbsm_goods_spec
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="specName != null">spec_name = #{specName},</if>
+            <if test="goodsId != null">goods_id = #{goodsId},</if>
+            <if test="goodsNo != null and goodsNo != ''">goods_no = #{goodsNo},</if>
+            <if test="goodsPrice != null">goods_price = #{goodsPrice},</if>
+            <if test="outPrice != null">out_price = #{outPrice},</if>
+            <if test="linePrice != null">line_price = #{linePrice},</if>
+            <if test="stockNum != null">stock_num = #{stockNum},</if>
+            <if test="goodsSales != null">goods_sales = #{goodsSales},</if>
+            <if test="wxappId != null">wxapp_id = #{wxappId},</if>
+            <if test="specSkuId != null and specSkuId != ''">spec_sku_id = #{specSkuId},</if>
+            <if test="groupId != null">group_id = #{groupId},</if>
+            <if test="gmtCreate != null">gmt_create = #{gmtCreate},</if>
+            <if test="gmtModified != null">gmt_modified = #{gmtModified},</if>
+            <if test="version != null">version = #{version},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteKbsmGoodsSpecById" parameterType="Long">
+        delete from kbsm_goods_spec where id = #{id}
+    </delete>
+
+    <delete id="deleteKbsmGoodsSpecByIds" parameterType="String">
+        delete from kbsm_goods_spec where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

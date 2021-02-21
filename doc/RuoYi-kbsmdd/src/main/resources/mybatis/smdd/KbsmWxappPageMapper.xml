@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.smdd.ymzdy.mapper.KbsmWxappPageMapper">
+    
+    <resultMap type="com.ruoyi.project.smdd.ymzdy.domain.KbsmWxappPage" id="KbsmWxappPageResult">
+        <result property="id"    column="id"    />
+        <result property="pageType"    column="page_type"    />
+        <result property="pageData"    column="page_data"    />
+        <result property="wxappId"    column="wxapp_id"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+    </resultMap>
+
+    <sql id="selectKbsmWxappPageVo">
+        select id, page_type, page_data, wxapp_id, gmt_create, gmt_modified from kbsm_wxapp_page
+    </sql>
+
+    <select id="selectKbsmWxappPageList" parameterType="com.ruoyi.project.smdd.ymzdy.domain.KbsmWxappPage" resultMap="KbsmWxappPageResult">
+        <include refid="selectKbsmWxappPageVo"/>
+        <where>  
+            <if test="pageType != null "> and page_type = #{pageType}</if>
+            <if test="pageData != null  and pageData != ''"> and page_data = #{pageData}</if>
+            <if test="wxappId != null "> and wxapp_id = #{wxappId}</if>
+            <if test="gmtCreate != null "> and gmt_create = #{gmtCreate}</if>
+            <if test="gmtModified != null "> and gmt_modified = #{gmtModified}</if>
+        </where>
+    </select>
+    
+    <select id="selectKbsmWxappPageById" parameterType="Long" resultMap="KbsmWxappPageResult">
+        <include refid="selectKbsmWxappPageVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectKbsmWxappPageByWxappId" resultType="com.ruoyi.project.smdd.ymzdy.domain.KbsmWxappPage">
+        <include refid="selectKbsmWxappPageVo"/>
+        where wxapp_id = #{wxappId}
+    </select>
+    <select id="selectKbsmWxappTypeId" resultType="com.ruoyi.project.smdd.ymzdy.domain.KbsmWxappPage">
+        <include refid="selectKbsmWxappPageVo"/>
+        where page_type = #{typeId}
+    </select>
+
+    <insert id="insertKbsmWxappPage" parameterType="com.ruoyi.project.smdd.ymzdy.domain.KbsmWxappPage" useGeneratedKeys="true" keyProperty="id">
+        insert into kbsm_wxapp_page
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pageType != null">page_type,</if>
+            <if test="pageData != null and pageData != ''">page_data,</if>
+            <if test="wxappId != null">wxapp_id,</if>
+            <if test="gmtCreate != null">gmt_create,</if>
+            <if test="gmtModified != null">gmt_modified,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pageType != null">#{pageType},</if>
+            <if test="pageData != null and pageData != ''">#{pageData},</if>
+            <if test="wxappId != null">#{wxappId},</if>
+            <if test="gmtCreate != null">#{gmtCreate},</if>
+            <if test="gmtModified != null">#{gmtModified},</if>
+         </trim>
+    </insert>
+
+    <update id="updateKbsmWxappPage" parameterType="com.ruoyi.project.smdd.ymzdy.domain.KbsmWxappPage">
+        update kbsm_wxapp_page
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pageType != null">page_type = #{pageType},</if>
+            <if test="pageData != null and pageData != ''">page_data = #{pageData},</if>
+            <if test="wxappId != null">wxapp_id = #{wxappId},</if>
+            <if test="gmtCreate != null">gmt_create = #{gmtCreate},</if>
+            <if test="gmtModified != null">gmt_modified = #{gmtModified},</if>
+        </trim>
+        where id = #{id}
+    </update>
+    <update id="updateKbsmWxappPageByWxappId">
+        update kbsm_wxapp_page
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pageType != null">page_type = #{pageType},</if>
+            <if test="pageData != null and pageData != ''">page_data = #{pageData},</if>
+            <if test="wxappId != null">wxapp_id = #{wxappId},</if>
+            <if test="gmtCreate != null">gmt_create = #{gmtCreate},</if>
+            <if test="gmtModified != null">gmt_modified = #{gmtModified},</if>
+        </trim>
+        where wxapp_id = #{wxappId}
+    </update>
+
+    <delete id="deleteKbsmWxappPageById" parameterType="Long">
+        delete from kbsm_wxapp_page where id = #{id}
+    </delete>
+
+    <delete id="deleteKbsmWxappPageByIds" parameterType="String">
+        delete from kbsm_wxapp_page where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

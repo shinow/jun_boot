@@ -1,0 +1,261 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>身份证号 - 通行证 </title>
+
+
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <LINK rel="Bookmark" href="/favicon.ico" >
+    <LINK rel="Shortcut Icon" href="/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" href="/login/theme/front/zcool/css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="/login/theme/front/zcool/css/passnumberbind.css"/>
+    <link rel="stylesheet" type="text/css" href="/login/theme/front/zcool/css/passlogin.css"/>
+</head>
+<body>
+<div id="body">
+    <div class="passcard-box">
+
+        <div class="passcard-nav">
+            <a href="/" class="check-zcool-logo"></a>
+            通行证
+            <a href="/logout" class="login-right-subnav main-link-color" style="cursor: pointer;">退出</a>
+            <a href="/" class="login-right-subnav main-link-color">返回首页</a>
+            <span class="login-right-subnav login-nav">
+	          	<a th:href="@{'/u/'+${userId}}" target="_blank" class="main-link-color" th:text="${userName}"></a>
+          	</span>
+        </div>
+
+        <!-- 登录导航以下内容 -->
+        <div class="passcon">
+            <h2 class="passmail-title main-bg-color" >身份证校验</h2>
+            <form id="modifyEmail_form" >
+                <input type="hidden" name="appId" value="1006" />
+
+                <div class="retrieve-pass-box" id="inputparent">
+                    <div class="retrie-center pass-login-covers">
+                        <div class="error-tips " id="pass-error-tips" style="display: none;">
+                            <span class="ipt-tips-default ipt-default-current js-err-l">
+                            </span>
+                        </div>
+
+                        <p><input type="text" placeholder="姓名" id="name" name="email" class="text-style input-normal-style">
+                            <span class="form-tip"></span>
+                        </p>
+                        <p><input type="text" placeholder="身份证号" id="idcard" name="email" class="text-style input-normal-style">
+                            <span class="form-tip"></span>
+                        </p>
+                        <p class="passcard-btns"><input type="button" value="确定" id="modifyEmailBtn" class="btn-default-main deter-mine-btn"><input type="button" value="返回" class="btn-default-secondary return-btn"></p>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <p>京ICP备11017824号-4 / 京ICP证130164号 北京市公安局朝阳分局备案编号:110105000501</p>
+        <p>Copyright © 2006-2018 ZCOOL</p>
+    </div>
+    <script type="text/javascript" src="/front/H-ui/lib/jquery/1.9.1/jquery.min.js"></script>
+    <script  th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+    <script  th:src="@{/ruoyi/js/ry-ui.js}"></script>
+    <script th:inline="javascript"> var ctx = [[@{/}]]; var type=[[${type}]];</script>
+
+</div>
+
+<!-- 弹框 -->
+<div class="pop-up-normal unbunding hide">
+    <p class="tips-text tips-text-normal">解绑成功</p>
+</div>
+<script>
+    $(function(){
+
+        $("#modifyEmailBtn").click(function(){
+            submit();
+        });
+
+        $("#veribtn").click(function(){
+            sendCode();
+        });
+        $('.return-btn').on('click',function(){
+            document.location.href = document.referrer || '/accountSafe'
+        });
+    })
+    function sendCode(){
+        var account=$("#email").val();
+        if($.common.isEmpty(account)){
+            showErrorMsg("邮箱不能为空!");
+            return;
+        }
+        var flag=false;
+        if(isEmail(account)){
+            if(!isQQEmail(account)){
+                showErrorMsg("目前仅支持QQ邮箱!");
+            }else{
+                flag=true;
+            }
+        }
+        if(!flag){
+            showErrorMsg("QQ邮箱格式不正确!");
+            return;
+        }
+        if(type=='2'){
+            var oldemail=$("#oldemail").val();
+            if(account==oldemail){
+                showErrorMsg("新邮箱不能与旧邮箱相同!");
+                return;
+            }
+        }
+        var useFlag=false;
+        $.ajax({
+            async: false,
+            type: "post",
+            url: ctx + "checkEmailBind",//检测邮箱是否被绑定
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                "email": account
+            },
+            success: function(r) {
+                if (r.code == 0) {
+                    useFlag=true;
+                }
+            }
+        });
+        if(useFlag){
+            showErrorMsg("邮箱已经被使用!");
+            return;
+        }
+
+        $.ajax({
+            type: "post",
+            url: ctx + "modifyEmail/sendCode?type="+type,//发送邮箱验证码
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                "email": account
+            },
+            success: function(r) {
+
+                if (r.code == 0) {
+                    $.modal.msgSuccess(r.msg);
+                    smsWaitTime($('#veribtn'), 60);
+                } else {
+                    showErrorMsg(r.msg);
+                }
+            }
+        });
+    }
+    function submit(){
+        var email=$("#email").val();
+        var code=$("#vericode").val();
+
+        if($.common.isEmpty(email)){
+            showErrorMsg("请输入邮箱!");
+            return;
+        }
+        if(type=='2'){
+            var oldemail=$("#oldemail").val();
+            if(email==oldemail){
+                showErrorMsg("新邮箱不能与旧邮箱相同!");
+                return;
+            }
+        }
+        if($.common.isEmpty(code)){
+            showErrorMsg("请输入验证码!");
+            return;
+        }
+
+        //修改邮箱
+        $.ajax({
+            type: "post",
+            url: ctx + "modifyEmail",
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                "email": email,
+                "code":code,
+                "type":type
+            },
+            success: function(r) {
+                if (r.code == 0) {
+                    $.modal.msgSuccess(r.msg);
+                    $("#modifyEmail_form")[0].reset();
+                    setTimeout(function(){
+                        document.location.href = '/accountSafe'
+                    },1500);
+                } else {
+                    showErrorMsg(r.msg);
+                }
+            }
+        });
+    }
+    function showErrorMsg(msg){
+        var errorObj=$("#pass-error-tips .js-err-l");
+        $(".passcon .retrieve-pass-box").css("padding","68px 0 40px");
+        $("#pass-error-tips").show();
+        errorObj.html(msg),
+            setTimeout(function() {
+                errorObj.html ("");
+                $("#pass-error-tips").hide();
+                $(".passcon .retrieve-pass-box").css("padding","40px 0 40px");
+            },6000);
+    }
+
+    // 验证码倒计时；
+    var wait = 60;
+    function smsWaitTime(o, waitP) {
+        if (wait == 0) {
+            $(o).removeAttr('disabled');
+            $(o).removeClass("btn-disabled").addClass('btn-default-main').removeAttr('disabled');
+            $(o).val("发送验证码");
+            wait = waitP;
+            $(o).attr('time', '1')
+            //$('.js-no-ver-code').show();
+        } else {
+            $(o).prop('disabled', true);
+            $(o).addClass("btn-disabled").removeClass('btn-default-main').attr('disabled',true);
+            $(o).attr('disabled', 'disabled');
+            $(o).val(wait + 's' + "后重新发送");
+            $(o).attr('time', '0')
+            wait--;
+            setTimeout(function () { smsWaitTime(o, waitP) }, 1000);
+        }
+    }
+
+    function isEmail(v) {
+        var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+        if (!myreg.test(v))//对输入的值进行判断
+        {
+            return false;
+        }
+        return true;
+    }
+    //是否QQ邮箱(目前仅支持qq邮箱)
+    function isQQEmail(v){
+        if(v.indexOf("@qq.com")>0){
+            v=v.replace(/@qq.com/i, "");
+            if(isQQ(v)){
+                return true;
+            }
+        }
+        return false;
+    }
+    function isQQ(v){
+        if(/^[0-9]{5,10}$/.test(v)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+</script>
+</body>
+</html>

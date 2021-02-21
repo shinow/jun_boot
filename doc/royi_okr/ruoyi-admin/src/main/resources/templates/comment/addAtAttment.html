@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html th:lang="${language}"  xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="include :: header(#{okr.add})"/>
+	<th:block th:include="include :: summernote-css"/>
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+	<form class="form-horizontal" id="form-info-add">
+		<!---选项卡开始-->
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="tabs-container">
+					<ul class="nav nav-tabs">
+						<li class="col-sm-6 active">
+							<a data-toggle="tab" href="tabs_panels.html#tab-1">目标</a>
+						</li>
+						<li  class="col-sm-6">
+							<a data-toggle="tab" href="tabs_panels.html#tab-2">结果</a>
+						</li>
+					</ul>
+					<div class="tab-content">
+						<div id="tab-1" class="tab-pane active">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="container-div">
+										<div class="row">
+											<div class="col-sm-12 select-table table-striped">
+												<table id="bootstrap-table-1"></table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="tab-2" class="tab-pane">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="container-div">
+										<div class="row">
+											<div class="col-sm-12 select-table table-striped">
+												<table id="bootstrap-table-2"></table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: summernote-js"/>
+<script type="text/javascript">
+	let okrId = [[${okrId}]];
+
+	/* 添加用户-选择用户-提交 */
+	function submitHandler(index, layero) {
+
+		let rows1 = $.map($("#bootstrap-table-1").bootstrapTable('getSelections'), function (row) {
+			return {"id":row[table.options.columns[1].field],"content":row[table.options.columns[2].field]};
+		});
+
+		let rows2 = $.map($("#bootstrap-table-2").bootstrapTable('getSelections'), function (row) {
+			return {"id":row[table.options.columns[1].field],"content":row[table.options.columns[2].field]};
+		});
+
+		if (rows1.length == 0 && rows2.length == 0) {
+			$.modal.alertWarning("请至少选择一条记录");
+			return;
+		}
+		$.modal.close();
+		// 父页面的方法
+		parent.selectOKRResult(rows1,rows2);
+		// 父页面的变量
+
+	}
+
+	$(function() {
+		let options1 = {
+			url: "/comment/addAtAttment/Oinfo",
+			id: "bootstrap-table-1",
+			showFooter: true,
+			showSearch: false,
+			showRefresh: false,
+			showToggle: false,
+			showColumns: false,
+			queryParams:{"okrId":okrId},
+			columns: [
+				{
+					checkbox: true
+				},{
+					field : 'id',
+					title : 'oId',
+					visible: false
+				},{
+					field : 'content',
+					title : '@@关键目标:'
+				}
+				]
+		};
+		$.table.init(options1);
+
+		let options2 = {
+			url: "/comment/addAtAttment/KRinfo",
+			id: "bootstrap-table-2",
+			showFooter: true,
+			showSearch: false,
+			showRefresh: false,
+			showToggle: false,
+			showColumns: false,
+			queryParams:{"okrId":okrId},
+			columns: [
+				{
+					checkbox: true
+				},{
+					field : 'id',
+					title : 'krId',
+					visible: false
+				},{
+					field : 'content',
+					title : '@@关键结果 :'
+				}
+			]
+		};
+		$.table.init(options2);
+	});
+</script>
+</body>
+</html>

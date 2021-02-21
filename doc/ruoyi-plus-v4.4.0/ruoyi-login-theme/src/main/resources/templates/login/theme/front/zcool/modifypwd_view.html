@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>修改密码 - 通行证 </title>
+
+
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <LINK rel="Bookmark" href="/favicon.ico" >
+    <LINK rel="Shortcut Icon" href="/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" href="/login/theme/front/zcool/css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="/login/theme/front/zcool/css/passnumberbind.css"/>
+    <link rel="stylesheet" type="text/css" href="/login/theme/front/zcool/css/passlogin.css"/>
+</head>
+<body>
+<div id="body">
+    <div class="passcard-box">
+
+        <div class="passcard-nav">
+            <a href="/" class="check-zcool-logo"></a>
+            通行证
+            <a href="/logout" class="login-right-subnav main-link-color" style="cursor: pointer;">退出</a>
+            <a href="/" class="login-right-subnav main-link-color">返回首页</a>
+            <span class="login-right-subnav login-nav">
+	          	<a th:href="@{'/u/'+${userId}}" target="_blank" class="main-link-color" th:text="${userName}"></a>
+          	</span>
+        </div>
+
+        <!-- 登录导航以下内容 -->
+        <div class="passcon">
+            <h2 class="passmail-title main-bg-color">修改密码</h2>
+            <form id="modifyPwd_form" >
+                <input type="hidden" name="appId" value="1006" />
+
+                <div class="retrieve-pass-box" id="inputparent">
+                    <div class="retrie-center pass-login-covers">
+                        <div class="error-tips " id="pass-error-tips" style="display: none;">
+                            <span class="ipt-tips-default ipt-default-current js-err-l">
+                            </span>
+                        </div>
+                        <p><input type="password" placeholder="原始密码" id="oldpwd" class="text-style input-normal-style">
+                            <span class="form-tip"></span>
+                        </p>
+
+                        <p class="parent-input-box">
+                            <input type="password" name="" id="password" placeholder="新密码" class="text-style input-normal-style transition-time "><i class="form-eye-icon"></i>
+                            <span class="form-tip"></span>
+                        </p>
+                        <p class="passcard-btns"><input type="button" value="确定" id="modifyPwdBtn" class="btn-default-main deter-mine-btn"><input type="button" value="返回" class="btn-default-secondary return-btn"></p>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <p>京ICP备11017824号-4 / 京ICP证130164号 北京市公安局朝阳分局备案编号:110105000501</p>
+        <p>Copyright © 2006-2018 ZCOOL</p>
+    </div>
+    <script type="text/javascript" src="/front/H-ui/lib/jquery/1.9.1/jquery.min.js"></script>
+    <script  th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+    <script  th:src="@{/ruoyi/js/ry-ui.js}"></script>
+    <script th:inline="javascript"> var ctx = [[@{/}]];</script>
+
+</div>
+
+<!-- 弹框 -->
+<div class="pop-up-normal unbunding hide">
+    <p class="tips-text tips-text-normal">解绑成功</p>
+</div>
+<script>
+    $(function(){
+
+        $("#modifyPwdBtn").click(function(){
+            submit();
+        });
+        $("#password").next().click(function(){
+            if($("#password").next().hasClass("disabled-glance")){
+                $("#password").next().removeClass("disabled-glance");
+                $("#password").attr("type","password");
+            }else{
+                $("#password").next().addClass("disabled-glance");
+
+                $("#password").attr("type","text");
+            }
+        });
+        $('.return-btn').on('click',function(){
+            document.location.href = document.referrer || '/accountSafe'
+        });
+    })
+
+    function submit(){
+        var oldpwd=$("#oldpwd").val();
+        var password=$("#password").val();
+        if($.common.isEmpty(oldpwd)){
+            showErrorMsg("请输入旧密码!");
+            return;
+        }
+        if($.common.isEmpty(password)){
+            showErrorMsg("请输入新密码!");
+            return;
+        }
+        if(oldpwd==password){
+            showErrorMsg("新旧密码不能相同!");
+            return;
+        }
+        //修改密码
+        $.ajax({
+            type: "post",
+            url: ctx + "modifyPwd",//修改密码
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                "oldpwd": oldpwd,
+                "password":password
+            },
+            success: function(r) {
+                if (r.code == 0) {
+                    $.modal.msgSuccess(r.msg);
+                    $("#modifyPwd_form")[0].reset();
+                } else {
+                    showErrorMsg(r.msg);
+                }
+            }
+        });
+    }
+    function showErrorMsg(msg){
+        var errorObj=$("#pass-error-tips .js-err-l");
+        $(".passcon .retrieve-pass-box").css("padding","68px 0 40px");
+        $("#pass-error-tips").show();
+        errorObj.html(msg),
+            setTimeout(function() {
+                errorObj.html ("");
+                $("#pass-error-tips").hide();
+                $(".passcon .retrieve-pass-box").css("padding","40px 0 40px");
+            },6000);
+    }
+
+</script>
+</body>
+</html>

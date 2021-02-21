@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html th:lang="${language}" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header(#{okr.my})" />
+    <th:block th:include="include :: okr-css" />
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row" >
+        <div class="col-sm-12 search-collapse collapse">
+            <form id="okr_search_form">
+                <div class="select-list hidden">
+                    <ul class="row">
+                        <li class="col-xs-12 col-sm-6 col-md-4">
+                            <label>排序编号：</label>
+                            <input type="text" name="sortId"/>
+                        </li>
+                        <li class="col-xs-12 col-sm-6 col-md-4">
+                            <label>编号：</label>
+                            <input type="text" name="rowCode"/>
+                        </li>
+                        <li class="col-xs-12 col-sm-6 col-md-4">
+                            <label>内容描述：</label>
+                            <input type="text" name="content"/>
+                        </li>
+                        <li class="col-xs-12 col-sm-6 col-md-4">
+                            <label>类型：</label>
+                            <select name="rowType" th:with="type=${@dict.getType('okr_row_type')}">
+                                <option value="">所有</option>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                            </select>
+                        </li>
+                        <li class="col-xs-12 col-sm-6 col-md-4">
+                            <label>信心指数：</label>
+                            <input type="text" name="confidenceStar"/>
+                        </li>
+                        <li class="col-xs-12 col-sm-6 col-md-4">
+                            <label>用户标识：</label>
+                            <input type="text" name="userId"/>
+                        </li>
+                        <li class="col-xs-12 col-sm-6 col-md-4">
+                            <label>目标评分：</label>
+                            <input type="text" name="scoreStar"/>
+                        </li>
+                        <li class="col-xs-12 col-sm-6 col-md-4">
+                            <label>父级ID：</label>
+                            <input type="text" name="parentId"/>
+                        </li>
+                        <li class="col-xs-12 col-sm-6 col-md-4 hidden">
+                            <label>周期ID：</label>
+                            <input type="text" name="cycleId"   id="cycleId"/>
+                        </li>
+                        <li class="col-xs-12 col-sm-6 col-md-4">
+                            <label>目标进度：</label>
+                            <input type="text" name="process"/>
+                        </li>
+                        <li class="col-xs-12 col-sm-6 col-md-4">
+                            <label>状态：</label>
+                            <select name="status" th:with="type=${@dict.getType('row_status')}">
+                                <option value="">所有</option>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                        th:value="${dict.dictValue}"></option>
+                            </select>
+                        </li>
+                        <li class="col-xs-12 col-sm-6 col-md-4">
+                            <label>优先级：</label>
+                            <input type="text" name="priority"/>
+                        </li>
+                        <li class="col-xs-12 col-sm-6 col-md-4">
+                            <a class="btn btn-primary btn-rounded btn-sm"
+                               onclick="$.treeTable.search('okr_search_form')">
+                                <i class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()">
+                                <i class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="okr:info:add">
+                <i class="fa fa-plus"></i> [[#{okr.add}]]
+            </a>
+            <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="okr:info:export">
+                <i class="fa fa-download"></i> [[#{okr.export}]]
+            </a>
+            <a class="btn btn-info" id="expandAllBtn">
+                <i class="fa fa-exchange"></i> [[#{okr.openORclose}]]
+            </a>
+            <div class="btn-group">
+                <select class="form-control" data-style="btn-success"  id="cycleIdSelect"  th:onchange="changeCycleType()">
+                    <optgroup th:label="#{okr.yearChoice}">
+                        <div th:each="cycle : ${cycleList}">
+                            <div th:if="${cycle.cycleType == 1}">
+                                <span th:if="${cycle.status == 0}">
+                                        <option th:value="${cycle.id}" th:text="${cycle.cycleName}"></option>
+                                </span>
+                                <span th:if="${cycle.status == 1}">
+                                        <option th:value="${cycle.id}" th:text="${cycle.cycleName}"></option>
+                                </span>
+                            </div>
+                        </div>
+                    </optgroup>
+                    <optgroup th:label="#{okr.quarterChoice}">
+                        <div th:each="cycle : ${cycleList}">
+                            <div th:if="${cycle.cycleType == 0}">
+                                <span th:if="${cycle.status == 0}">
+                                        <option th:value="${cycle.id}" selected="selected" th:text="${cycle.cycleName}"></option>
+                                </span>
+                                <span th:if="${cycle.status == 1}">
+                                        <option th:value="${cycle.id}" th:text="${cycle.cycleName}"></option>
+                                </span>
+                            </div>
+                        </div>
+                    </optgroup>
+                </select>
+            </div>
+            <a class="btn btn-success" onclick="batchCollaboration()" shiro:hasPermission="system:user:selectList">
+                <i class="fa fa-plus"></i> [[#{okr.batchSynergy}]]
+            </a>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-tree-table"></table>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<script th:inline="javascript">
+
+    var cycleFlag = [[${@permission.hasPermi('okr:cycle:useList')}]];
+    var showCheckBox = [[${@permission.hasPermi('system:user:selectList')}]];
+    var editFlag = [[${@permission.hasPermi('okr:info:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('okr:info:remove')}]];
+    var rowTypeDatas = [[${@dict.getType('okr_row_type')}]];
+    var scoreStarDatas = [[${@dict.getType('ork_fraction')}]];
+    var priorityDatas = [[${@dict.getType('okr_level')}]];
+    var prefix = ctx + "okr/info";
+    $(function () {
+        var options = {
+            code: "rowId",
+            parentCode: "parentId",
+            uniqueId: "id",
+            showSearch:false,
+            expandAll: true,
+            expandFirst: false,
+            url: prefix + "/list",
+            createUrl: prefix + "/add/{id}",
+            updateUrl: prefix + "/edit/{id}",
+            removeUrl: prefix + "/remove/{id}",
+            viewUrl: prefix + "/view/{id}",
+            ajaxParams:{"cycleId":$("#cycleIdSelect").val()},
+            queryParams: queryParams,
+            modalName: [[#{okr.info}]],
+            mastClose:[{"add":false},{"view":true},{"edit":true}],
+            columns: [
+                {
+                    field: 'selectItem',
+                    checkbox: showCheckBox?false:true,
+                },
+                {
+                    field: 'rowCode',
+                    title: [[#{okr.id}]],
+                    formatter: function (value, row, index) {
+                        if (row.rowType == 0) {
+                            return '<span>O' + value + '</span>';
+                        } else {
+                            return '<span>KR' + value + '</span>';
+                        }
+                    }
+                },
+                {
+                    field: 'content',
+                    title: [[#{okr.content}]],
+                    classes: 'col-md-5 col-sm-5',
+                    formatter: function (value, row, index) {
+                        if (row.rowType == 0) {
+                            return '<H4>' + value + '</H4>';
+                        } else {
+                            return '<p>' + value + '</p>';
+                        }
+                    }
+                },
+                {
+                    field: 'confidenceStar',
+                    title: [[#{okr.confidenceStar}]],
+                    formatter: function (value, row, index) {
+                        return '<span class="badge badge-success">' + value + '</span>';
+                    }
+                },
+                {
+                    field: 'scoreStar',
+                    title: [[#{okr.scoreStar}]],
+                    formatter: function (value, row, index) {
+                        return $.table.selectDictLabel(scoreStarDatas, value,[[#{okr.scoreStarUnit}]]);
+                    }
+                },
+                {
+                    field: 'process',
+                    title: [[#{okr.progress}]],
+                    formatter: function (value, row, index) {
+                        return '<span class="badge badge-success">' + value  + '%</span>';
+                    }
+                },
+                {
+                    field: 'priority',
+                    title: [[#{okr.priority}]],
+                    formatter: function (value, row, index) {
+                         if(row.rowType == 1) {
+                             return $.table.selectDictLabel(priorityDatas, value);
+                         }else{
+                             return "<span class='badge badge-success'><i class='fa fa-flag-checkered'></i></span>"
+                         }
+                    }
+                },
+                {
+                    field: 'operation',
+                    title: [[#{okr.operation}]],
+                    align: 'center',
+                    classes: 'col-xs-12',
+                    formatter: function (value, row, index) {
+                        let actions = [];
+                        if(row.cycleStatus == 0) //判断如果失效状态无法操作
+                        {
+                            if (row.rowType == 0) { //判断如果是目标的话
+                                let more = [];
+                                more.push("<a class='btn btn-primary btn-xs' href='javascript:void(0)' onclick='addKResult( " + row.id + " )'><i class='fa fa-edit'></i>[(#{okr.addKR})]</a>");
+                                more.push("<a class='btn btn-success  btn-xs' href='javascript:void(0)' onclick='$.operate.edit( " + row.id + " )'><i class='fa fa-remove'></i>[(#{okr.edit})]</a>");
+                                more.push("<a class='btn btn-danger  btn-xs' href='javascript:void(0)' onclick='$.operate.remove( " + row.id + " )'><i class='fa fa-remove'></i>[(#{okr.delete})]</a>");
+                                actions.push('<a tabindex="0" class="btn btn-info btn-xs" role="button" data-container="body" data-placement="left" data-toggle="popover" data-html="true" data-trigger="hover" data-content="' + more.join('') + '"><i class="fa fa-chevron-circle-right"></i>[(#{okr.more})]</a>');
+                                actions.push('<a class="btn btn-warning btn-xs' + editFlag   + '" href="javascript:void(0)" onclick="$.operate.viewFull(' + row.id + ')"><i class="fa fa-edit"></i>[(#{okr.view})]</a> ');
+                            } else {
+                                actions.push('<a class="btn btn-danger  btn-xs' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(' + row.id + ')"><i class="fa fa-remove"></i>[(#{okr.delete})]</a>');
+                                actions.push('<a class="btn btn-success btn-xs' + editFlag   + '" href="javascript:void(0)" onclick="$.operate.edit(' + row.id + ')"><i class="fa fa-edit"></i>[(#{okr.edit})]</a> ');
+                            }
+                        }
+                        return actions.join('');
+                    }
+                }]
+        };
+        $.treeTable.init(options);
+        function queryParams(params) {
+            var search = $.table.queryParams(params);
+            search.userName = $("#userName").val();alert(1);
+            return search;
+        }
+    });
+
+    //批量协同
+    function batchCollaboration(){
+        var selectRows = $.treeTable.selectRowData();
+        if(selectRows.length>0)
+        {
+            var url =  ctx + "okr/info/selectUser/"+ getOkrIds(selectRows);
+            $.modal.openFull("选择协同用户", url);
+        }
+        else {
+            $.modal.alertError("请至少选择一条数据..");
+        }
+
+    }
+
+    //用js
+    function getOkrIds(dataArr) {
+        var str = "";
+        for (var i = 0; i < dataArr.length; i++) {
+            str += dataArr[i].id+ ",";
+        }
+        //去掉最后一个逗号(如果不需要去掉，就不用写)
+        if (str.length > 0) {
+            str = str.substr(0, str.length - 1);
+        }
+        return str;
+    }
+
+    //针对O追加KR
+    function addKResult(okrId) {
+        var url = ctx + "okr/info/addKResult/" + okrId;
+        $.modal.open("[(#{okr.addKR})]", url);
+    }
+
+    //OKR 周期切换
+    function changeCycleType(type) {
+        var cycleId = $("#cycleIdSelect").val();
+        $("#cycleId").val(cycleId);
+        $.treeTable.search();
+    }
+
+</script>
+</body>
+</html>

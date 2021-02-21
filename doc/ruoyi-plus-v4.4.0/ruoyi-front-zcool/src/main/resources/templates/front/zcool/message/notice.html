@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>通知</title>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+
+    <link rel="stylesheet" href="/front/zcool/css/main.min.css">
+    <link rel="bookmark" type="image/x-icon" href="/front/zcool/images/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/front/zcool/images/favicon.ico">
+
+    <link rel="stylesheet" href="/front/zcool/css/messages.css">
+
+</head>
+<body>
+<div id="body">
+
+    <div th:replace="front/zcool/header"></div>
+    <!--*******************************-->
+    <main class="main-wrapper">
+        <div class="container-area">
+            <div class="container-area-left">
+                <div class="card-media personal-card">
+                    <div class="avatar-container-80 z-center">
+                        <a th:href="@{'/u/'+userId}" th:title="${userName}" class="author-avatar" target="_blank" z-st="user_card_1_face">
+                            <img th:src="${avatar}"  width="80" height="80" th:title="${userName}" alt="">
+                        </a>
+                    </div>
+                    <div class="presonal-info">
+                        <a th:href="@{'/u/'+userId}" class="author-name" target="_blank" th:title="${userName}" z-st="user_card_1_name" th:text="${userName}"></a>
+                    </div>
+                    <div class="position-info">
+                        <span >xx&nbsp;|xx</span>
+                    </div>
+                    <div class="btn-area">
+                        <a href="javascript:;" data-url="https://my.zcool.com.cn/uploadProduct" class="btn-default-main card-media-mid-btn js-upload">开始创作</a><br>
+                        <a href="https://contributor.hellorf.com/" target="_blank" class="btn-default-secondary card-media-mid-btn mt-10">帮你的创作变现</a>
+                    </div>
+                </div>
+                <div class="card-media personal-menu">
+                    <ul class="menu-list">
+                        <li class="menu-list-default current"><i></i><a href="/messages/notice">通知<sup id="unreadm1" class="subnav-num-sup new-red-public hide"></sup></a></li>
+                        <li class="menu-list-default"><i></i><a href="/messages/comments">评论/留言<sup id="unreadm2" class="subnav-num-sup new-red-public hide"></sup></a></li>
+                        <li class="menu-list-default"><i></i><a href="/messages/privateMessage">私信<sup id="unreadm3" class="subnav-num-sup new-red-public hide"></sup></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="container-area-right">
+                <!-- 全部 -->
+                <div class="all-private-letter-page bg-box-radius">
+                    <div class="tab-menu border-bottom">
+                        <ul id="msg_top" class="tab-box">
+                            <li class="current" data-id="all"><a>全部通知</a></li>
+                            <li data-id="focus"><a>关注</a></li>
+                            <li data-id="public"><a>公告</a></li>
+                            <li data-id="system"><a>系统</a></li>
+                            <li data-id="team"><a>团体</a></li>
+                        </ul>
+                    </div>
+                    <div class="all-message-list">
+                        <!-- 通知 -->
+                        <ul>
+
+                        </ul>
+                        <div class="check-more border-top hide" style="display: none;">
+                            <a id="loadMore" href="javascript:;"></a>
+                        </div>
+                    </div>
+                    <div class="work-null hide">
+                        <div class="work-null-inner">
+                            <span class="null-images"></span>
+                            <div class="work-null-tips">
+                                <p class="subject-title">你还没有收到新的通知</p>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            </div>
+        </div>
+    </main>
+    <!--*******************************-->
+    <div th:replace="front/zcool/footer"></div>
+    <div style="display: none">
+        <div id="empty_message_box" class="msg-box-null">
+            <div class="msg-box-inner">
+                <span class="null-images"></span>
+                <span class="msg-null-tips">没有新消息</span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- 登录弹窗 -->
+<div class="alert-confirm hide">
+    <p class="tips-text tips-alert-text"></p>
+    <div class="text-center pop-btn-con">
+        <input type="button" name="" class="btn-default-main pop-confirm" value="我知道了">
+    </div>
+    <i class="pop-close"></i>
+</div>
+<div class="pop-up-confirm hide">
+    <p class="tips-text"></p>
+    <div class="text-center pop-btn-con">
+        <input type="button" name="" class="btn-default-main pop-confirm" value="确定">
+        <input type="button" name="" class="btn-default-secondary pop-cancel" value="取消">
+    </div>
+    <i class="pop-close"></i>
+</div>
+<div class="toast-fail hide">
+    <span class="toast-pictrue"></span>
+    <div class="toast-tips-text">
+        <span class="toast-first-text"></span> <br>
+        <span class="toast-socend-text"></span>
+    </div>
+</div>
+<div class="toast-success hide">
+    <span class="toast-pictrue"></span>
+    <div class="toast-tips-text">
+        <span class="toast-first-text"></span> <br>
+        <span class="toast-socend-text"></span>
+    </div>
+</div>
+<input type="hidden" value="1" id="pageNo">
+<div class="shade hide"></div>
+<script type="text/javascript" src="/front/zcool/lib/jquery.min.js"></script>
+<script src="/front/zcool/lib/mCustomScrollbar/jquery.mCustomScrollbar.min.js"></script>
+<script type="text/javascript" src="/front/zcool/js/common.js"></script>
+<script type="text/javascript" src="/front/zcool/lib/jquery.easydropdown-version0.1.js"></script>
+
+<script src="/front/zcool/lib/edtiorCrop/js/bootstrap.min.js"></script>
+
+
+<script  th:src="@{/ruoyi/js/ry-ui.js}"></script>
+
+<script th:inline="javascript"> var ctx = [[@{/}]];</script>
+<script>
+    var msgFlag = false;
+    $(function () {
+
+        $('#msg_top li').on('click',function(){
+            loadMessageList(1,$(this).attr('data-id'),false);
+        });
+
+        $(window).scroll(function () {
+            if($(document).scrollTop() > $('#footer').offset().top - document.body.clientHeight && msgFlag == false) {
+                msgFlag = true;
+                loadMessageList( $('#pageNo').val(),$('#msg_top .current').attr('data-id'),true);
+            }
+        });
+
+        loadMessageList(1,"",false);
+
+        window.onresize = function () {
+            compuMessageWidth()
+        }
+
+    })
+var pageSize=10;
+    function loadMessageList(pageNo,msgType,loadmore){
+        if(msgType == '' || msgType == null) msgType = "all";
+
+        $('#loadMore').html('加载中...').parents('.check-more').show();
+        $.ajax({
+            type: 'post',
+            url: '/messages/getMessages',
+            data: {pageNo:pageNo,msgType:msgType},
+            dataType: 'json',
+            success: function(html){
+                if(loadmore){
+                    var total=html.total;
+                    var pages= (total + pageSize -1) / pageSize;
+                    if(pageNo<=pages){
+                        $('.all-message-list ul').append(html);
+                        msgFlag == false
+                    }else{
+                        $('#loadMore').parent().hide();
+                    }
+                }else{
+                    var total=html.total;
+
+                    var pages= (total + pageSize -1) / pageSize;
+
+                    if(pageNo<=pages){
+
+                        var rows=html.rows;
+                        var a="";
+                        for(var i=0;i<total;i++){
+                        var data=rows[i];
+
+                            a+="<li>";
+                            a+=' <div class="avatar-container-48">';
+                            a+=' <a class="author-avatar">';
+                            a+=' <img src="https://static.zcool.cn/git_z/z/images/weixinicon.png" width="60" height="60" alt=""></a>';
+                            a+=' </div>';
+                            a+=' <div class="message-content">';
+                            var type=data.msgType;
+
+                            if(type=='focus')
+                            {  a+='  <p class="author-name"><a class="message-sender disabled">关注</a><span class="message-time">'+data.createTime+'</span></p>';
+                            }
+                            if(type=='public')
+                            {  a+='  <p class="author-name"><a class="message-sender disabled">公告</a><span class="message-time">'+data.createTime+'</span></p>';
+                            }
+                            if(type=='system')
+                            {  a+='  <p class="author-name"><a class="message-sender disabled">系统</a><span class="message-time">'+data.createTime+'</span></p>';
+                            }
+                            if(type=='team')
+                            {  a+='  <p class="author-name"><a class="message-sender disabled">团体</a><span class="message-time">'+data.createTime+'</span></p>';
+                            }
+                            a+='  <p class="message-content-show" style="width: 672px;">'+data.content+'</p>';
+                            a+='  </div>';
+                            a+='  </li> ';
+                        }
+
+                        $('.all-message-list ul').html(a);
+                        $('#loadMore').parent().show();
+                        $('.all-message-list').removeClass('hide');
+                        //$('.work-null').addClass('hide');
+                        msgFlag == false
+                    }else{
+                        $('.all-message-list').addClass('hide');
+                        $('.work-null').removeClass('hide');
+                    }
+                    if($('.all-message-list ul li').length < pageSize){
+                        $('#loadMore').parent().hide();
+                    }
+                }
+                $('#pageNo').val(pageNo+1);
+                $('#msg_top li').removeClass('current');
+               // alert(msgType);
+                $('#msg_top [data-id="'+msgType+'"]').addClass('current');
+                $('#loadMore').html('').parents('.check-more').hide();
+                //initClickEvent();
+
+
+                countmessages();
+
+            },
+            error:function(data) {
+                console.log(data);
+                $('#loadMore').removeClass('hide').html('网络连接失败，点击重试');
+                msgFlag == false
+            },
+        });
+    }
+
+    var compuMessageWidth = function () {
+        $('.all-message-list ul li').each(function (index, ele) {
+            var messageWidth = $(ele).children('.message-content').width();
+            var buttonAreaWidth = $(ele).children('.button-area').width();
+            var messageConWidth = (messageWidth - 100) + 'px';
+            $(ele).children('.message-content').find('.message-content-show').css({'width': messageConWidth});
+        });
+    };
+
+    function countmessages(){
+        $.ajax({
+            type: 'get',
+            url: '/messages/countMessages',
+            dataType: 'json',
+            success: function(data){
+                if(data != null){
+                    if(data.mcount > 0){
+                        $('#unreadm1').removeClass('hide').html(data.mcount);
+                    }
+                    if(data.ccount > 0){
+                        $('#unreadm2').removeClass('hide').html(data.ccount);
+                    }
+                    if(data.pcount > 0){
+                        $('#unreadm3').removeClass('hide').html(data.pcount);
+                        $('#allRead').removeClass('disabled')
+                    }
+                }
+            },
+            error:function(data) {
+                console.log(data);
+            },
+        });
+    }
+
+
+    function initClickEvent(){
+        compuMessageWidth();
+        $('.btn_team_a').on('click',function(){
+            var url = "";
+            if($(this).attr('data-status') == 2){//申请
+                url = '/team/'+$(this).attr('data-zid')+'/member/apply/accept';
+            }else if($(this).attr('data-status') == 4){//邀请
+                url = '/team/'+$(this).attr('data-zid')+'/member/invite/accept';
+            }
+            $.ajax({
+                type: 'get',
+                url: url,
+                data: {zteamMemberId:$(this).attr('data-id')},
+                dataType: 'json',
+                success: function(data){
+                    if(data.msg == 'success'){
+                        pageToastSuccess("操作成功")
+                    }else{
+                        pageToastFail(data.msg)
+                    }
+                    setTimeout(function(){
+                        //window.location.reload();
+                        $('#msg_top .current').click();
+                    },1000);
+                },
+                error:function(data) {
+                    console.log(data);
+                },
+            });
+        })
+        $('.btn_team_d').on('click',function(){
+            var url = '';
+            if($(this).attr('data-status') == 2){//申请
+                url = '/team/11396/member/apply/deny';
+            }else if($(this).attr('data-status') == 4){//邀请
+                url = '/team/11396/member/invite/deny';
+            }
+            $.ajax({
+                type: 'get',
+                url: url,
+                data: {zteamMemberId:$(this).attr('data-id')},
+                dataType: 'json',
+                success: function(data){
+                    if(data.msg == 'success'){
+                        pageToastSuccess("操作成功")
+                    }else{
+                        pageToastFail(data.msg)
+                    }
+                    setTimeout(function(){
+                        //window.location.reload();
+                        $('#msg_top .current').click();
+                    },1000);
+                },
+                error:function(data) {
+                    console.log(data);
+                },
+            });
+        })
+    }
+
+</script>
+</body>
+</html>

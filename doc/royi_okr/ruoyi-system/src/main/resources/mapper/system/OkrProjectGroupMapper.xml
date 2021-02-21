@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.OkrProjectGroupMapper">
+    
+    <resultMap type="OkrProjectGroup" id="OkrProjectGroupResult">
+        <result property="groupId"    column="group_id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="ancestors"    column="ancestors"    />
+        <result property="groupName"    column="group_name"    />
+        <result property="projectCode"    column="project_code"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="leader"    column="leader"    />
+        <result property="phone"    column="phone"    />
+        <result property="email"    column="email"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectOkrProjectGroupVo">
+        select group_id, parent_id, ancestors, group_name, project_code, order_num, leader, phone, email, status, del_flag, create_by, create_time, update_by, update_time from okr_project_group
+    </sql>
+
+    <sql id="selectOkrProjectGroupByIdVo">
+            SELECT
+        a.group_id,
+        a.parent_id,
+        a.ancestors,
+        a.group_name,
+        a.project_code,
+        a.order_num,
+        a.leader,
+        a.phone,
+        a.email,
+        a.STATUS,
+        a.del_flag,
+        a.create_by,
+        a.create_time,
+        a.update_by,
+        a.update_time
+    FROM
+        okr_project_group a
+      LEFT JOIN okr_project b
+        ON a.project_code=b.`code`
+
+    </sql>
+
+    <select id="selectOkrProjectGroupList" parameterType="OkrProjectGroup" resultMap="OkrProjectGroupResult">
+        <include refid="selectOkrProjectGroupVo"/>
+        where del_flag = '0'
+        <if test="parentId != null and parentId != 0">
+            AND parent_id = #{parentId}
+        </if>
+        <if test="groupName != null and groupName != ''">
+            AND group_name like concat('%', #{groupName}, '%')
+        </if>
+        <if test="projectCode != null and projectCode != ''">
+            AND project_code = #{projectCode}
+        </if>
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+        order by parent_id, order_num
+    </select>
+
+    <select id="checkGroupNameUnique" resultMap="OkrProjectGroupResult">
+        <include refid="selectOkrProjectGroupVo"/>
+        where dept_name=#{deptName} and parent_id = #{parentId}  and project_code = #{projectCode}
+    </select>
+
+    <select id="selectOkrProjectGroupTreeList" parameterType="OkrProjectGroup" resultMap="OkrProjectGroupResult">
+        <include refid="selectOkrProjectGroupVo"/>
+        <where>
+            <if test="groupName != null  and groupName != ''"> and group_name like concat('%', #{groupName}, '%')</if>
+            <if test="leader != null  and leader != ''"> and leader = #{leader}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+
+
+    <select id="selectOkrProjectGroupById" parameterType="Long" resultMap="OkrProjectGroupResult">
+        <include refid="selectOkrProjectGroupVo"/>
+        where del_flag = '0'
+        AND group_id = #{groupId}
+    </select>
+    
+    <select id="selectOkrProjectGroupByCode" parameterType="String" resultMap="OkrProjectGroupResult">
+        <include refid="selectOkrProjectGroupByIdVo"/>
+        WHERE a.parent_id=0 and a.project_code = #{projectCode}
+    </select>
+        
+    <insert id="insertOkrProjectGroup" parameterType="OkrProjectGroup" useGeneratedKeys="true" keyProperty="groupId">
+        insert into okr_project_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parentId != null ">parent_id,</if>
+            <if test="ancestors != null  and ancestors != ''">ancestors,</if>
+            <if test="groupName != null  and groupName != ''">group_name,</if>
+            <if test="projectCode != null ">project_code,</if>
+            <if test="orderNum != null ">order_num,</if>
+            <if test="leader != null  and leader != ''">leader,</if>
+            <if test="phone != null  and phone != ''">phone,</if>
+            <if test="email != null  and email != ''">email,</if>
+            <if test="status != null  and status != ''">status,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="parentId != null ">#{parentId},</if>
+            <if test="ancestors != null  and ancestors != ''">#{ancestors},</if>
+            <if test="groupName != null  and groupName != ''">#{groupName},</if>
+            <if test="projectCode != null ">#{projectCode},</if>
+            <if test="orderNum != null ">#{orderNum},</if>
+            <if test="leader != null  and leader != ''">#{leader},</if>
+            <if test="phone != null  and phone != ''">#{phone},</if>
+            <if test="email != null  and email != ''">#{email},</if>
+            <if test="status != null  and status != ''">#{status},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOkrProjectGroup" parameterType="OkrProjectGroup">
+        update okr_project_group
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parentId != null ">parent_id = #{parentId},</if>
+            <if test="ancestors != null  and ancestors != ''">ancestors = #{ancestors},</if>
+            <if test="groupName != null  and groupName != ''">group_name = #{groupName},</if>
+            <if test="projectCode != null ">project_code = #{projectCode},</if>
+            <if test="orderNum != null ">order_num = #{orderNum},</if>
+            <if test="leader != null  and leader != ''">leader = #{leader},</if>
+            <if test="phone != null  and phone != ''">phone = #{phone},</if>
+            <if test="email != null  and email != ''">email = #{email},</if>
+            <if test="status != null  and status != ''">status = #{status},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where group_id = #{groupId}
+    </update>
+
+    <delete id="deleteOkrProjectGroupById" parameterType="Long">
+        delete from okr_project_group where group_id = #{groupId}
+    </delete>
+
+    <delete id="deleteOkrProjectGroupByIds" parameterType="String">
+        delete from okr_project_group where group_id in 
+        <foreach item="groupId" collection="array" open="(" separator="," close=")">
+            #{groupId}
+        </foreach>
+    </delete>
+    
+</mapper>

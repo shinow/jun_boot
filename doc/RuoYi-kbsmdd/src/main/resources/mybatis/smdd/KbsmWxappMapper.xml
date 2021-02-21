@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.smdd.xcxlb.mapper.KbsmWxappMapper">
+    
+    <resultMap type="com.ruoyi.project.smdd.xcxlb.domain.KbsmWxapp" id="KbsmWxappResult">
+        <result property="id"    column="id"    />
+        <result property="appType"    column="app_type"    />
+        <result property="shopMode"    column="shop_mode"    />
+        <result property="source"    column="source"    />
+        <result property="isEmpower"    column="is_empower"    />
+        <result property="appName"    column="app_name"    />
+        <result property="headImg"    column="head_img"    />
+        <result property="userName"    column="user_name"    />
+        <result property="appId"    column="app_id"    />
+        <result property="principalName"    column="principal_name"    />
+        <result property="apiDomain"    column="api_domain"    />
+        <result property="signature"    column="signature"    />
+        <result property="mchid"    column="mchid"    />
+        <result property="apikey"    column="apikey"    />
+        <result property="certPem"    column="cert_pem"    />
+        <result property="keyPem"    column="key_pem"    />
+        <result property="isCollection"    column="is_collection"    />
+        <result property="isWechat"    column="is_wechat"    />
+        <result property="phone"    column="phone"    />
+        <result property="accessToken"    column="access_token"    />
+        <result property="expiresIn"    column="expires_in"    />
+        <result property="authorizerRefreshToken"    column="authorizer_refresh_token"    />
+        <result property="template"    column="template"    />
+        <result property="isCopyright"    column="is_copyright"    />
+        <result property="copyright"    column="copyright"    />
+        <result property="storeUserId"    column="store_user_id"    />
+        <result property="expireTime"    column="expire_time"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+    </resultMap>
+
+    <sql id="selectKbsmWxappVo">
+        select id, app_type, shop_mode, source, is_empower, app_name, head_img, user_name, app_id, principal_name, api_domain, signature, mchid, apikey, cert_pem, key_pem, is_collection, is_wechat, phone, access_token, expires_in, authorizer_refresh_token, template, is_copyright, copyright, store_user_id, expire_time, gmt_create, gmt_modified from kbsm_wxapp
+    </sql>
+
+    <select id="selectKbsmWxappList" parameterType="com.ruoyi.project.smdd.xcxlb.domain.KbsmWxapp" resultMap="KbsmWxappResult">
+        <include refid="selectKbsmWxappVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+            <if test="appType != null "> and app_type = #{appType}</if>
+            <if test="shopMode != null "> and shop_mode = #{shopMode}</if>
+            <if test="source != null "> and source = #{source}</if>
+            <if test="isEmpower != null "> and is_empower = #{isEmpower}</if>
+            <if test="appName != null  and appName != ''"> and app_name like concat('%', #{appName}, '%')</if>
+            <if test="appId != null  and appId != ''"> and app_id = #{appId}</if>
+        </where>
+    </select>
+    
+    <select id="selectKbsmWxappById" parameterType="Long" resultMap="KbsmWxappResult">
+        <include refid="selectKbsmWxappVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertKbsmWxapp" parameterType="com.ruoyi.project.smdd.xcxlb.domain.KbsmWxapp" useGeneratedKeys="true" keyProperty="id">
+        insert into kbsm_wxapp
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="appType != null">app_type,</if>
+            <if test="shopMode != null">shop_mode,</if>
+            <if test="source != null">source,</if>
+            <if test="isEmpower != null">is_empower,</if>
+            <if test="appName != null and appName != ''">app_name,</if>
+            <if test="headImg != null and headImg != ''">head_img,</if>
+            <if test="userName != null and userName != ''">user_name,</if>
+            <if test="appId != null and appId != ''">app_id,</if>
+            <if test="principalName != null and principalName != ''">principal_name,</if>
+            <if test="apiDomain != null and apiDomain != ''">api_domain,</if>
+            <if test="signature != null and signature != ''">signature,</if>
+            <if test="mchid != null and mchid != ''">mchid,</if>
+            <if test="apikey != null and apikey != ''">apikey,</if>
+            <if test="certPem != null and certPem != ''">cert_pem,</if>
+            <if test="keyPem != null and keyPem != ''">key_pem,</if>
+            <if test="isCollection != null">is_collection,</if>
+            <if test="isWechat != null">is_wechat,</if>
+            <if test="phone != null and phone != ''">phone,</if>
+            <if test="accessToken != null and accessToken != ''">access_token,</if>
+            <if test="expiresIn != null">expires_in,</if>
+            <if test="authorizerRefreshToken != null and authorizerRefreshToken != ''">authorizer_refresh_token,</if>
+            <if test="template != null">template,</if>
+            <if test="isCopyright != null">is_copyright,</if>
+            <if test="copyright != null and copyright != ''">copyright,</if>
+            <if test="storeUserId != null">store_user_id,</if>
+            <if test="expireTime != null">expire_time,</if>
+            <if test="gmtCreate != null">gmt_create,</if>
+            <if test="gmtModified != null">gmt_modified,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="appType != null">#{appType},</if>
+            <if test="shopMode != null">#{shopMode},</if>
+            <if test="source != null">#{source},</if>
+            <if test="isEmpower != null">#{isEmpower},</if>
+            <if test="appName != null and appName != ''">#{appName},</if>
+            <if test="headImg != null and headImg != ''">#{headImg},</if>
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="appId != null and appId != ''">#{appId},</if>
+            <if test="principalName != null and principalName != ''">#{principalName},</if>
+            <if test="apiDomain != null and apiDomain != ''">#{apiDomain},</if>
+            <if test="signature != null and signature != ''">#{signature},</if>
+            <if test="mchid != null and mchid != ''">#{mchid},</if>
+            <if test="apikey != null and apikey != ''">#{apikey},</if>
+            <if test="certPem != null and certPem != ''">#{certPem},</if>
+            <if test="keyPem != null and keyPem != ''">#{keyPem},</if>
+            <if test="isCollection != null">#{isCollection},</if>
+            <if test="isWechat != null">#{isWechat},</if>
+            <if test="phone != null and phone != ''">#{phone},</if>
+            <if test="accessToken != null and accessToken != ''">#{accessToken},</if>
+            <if test="expiresIn != null">#{expiresIn},</if>
+            <if test="authorizerRefreshToken != null and authorizerRefreshToken != ''">#{authorizerRefreshToken},</if>
+            <if test="template != null">#{template},</if>
+            <if test="isCopyright != null">#{isCopyright},</if>
+            <if test="copyright != null and copyright != ''">#{copyright},</if>
+            <if test="storeUserId != null">#{storeUserId},</if>
+            <if test="expireTime != null">#{expireTime},</if>
+            <if test="gmtCreate != null">#{gmtCreate},</if>
+            <if test="gmtModified != null">#{gmtModified},</if>
+         </trim>
+    </insert>
+
+    <update id="updateKbsmWxapp" parameterType="com.ruoyi.project.smdd.xcxlb.domain.KbsmWxapp">
+        update kbsm_wxapp
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="appType != null">app_type = #{appType},</if>
+            <if test="shopMode != null">shop_mode = #{shopMode},</if>
+            <if test="source != null">source = #{source},</if>
+            <if test="isEmpower != null">is_empower = #{isEmpower},</if>
+            <if test="appName != null and appName != ''">app_name = #{appName},</if>
+            <if test="headImg != null and headImg != ''">head_img = #{headImg},</if>
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="appId != null and appId != ''">app_id = #{appId},</if>
+            <if test="principalName != null and principalName != ''">principal_name = #{principalName},</if>
+            <if test="apiDomain != null and apiDomain != ''">api_domain = #{apiDomain},</if>
+            <if test="signature != null and signature != ''">signature = #{signature},</if>
+            <if test="mchid != null and mchid != ''">mchid = #{mchid},</if>
+            <if test="apikey != null and apikey != ''">apikey = #{apikey},</if>
+            <if test="certPem != null and certPem != ''">cert_pem = #{certPem},</if>
+            <if test="keyPem != null and keyPem != ''">key_pem = #{keyPem},</if>
+            <if test="isCollection != null">is_collection = #{isCollection},</if>
+            <if test="isWechat != null">is_wechat = #{isWechat},</if>
+            <if test="phone != null and phone != ''">phone = #{phone},</if>
+            <if test="accessToken != null and accessToken != ''">access_token = #{accessToken},</if>
+            <if test="expiresIn != null">expires_in = #{expiresIn},</if>
+            <if test="authorizerRefreshToken != null and authorizerRefreshToken != ''">authorizer_refresh_token = #{authorizerRefreshToken},</if>
+            <if test="template != null">template = #{template},</if>
+            <if test="isCopyright != null">is_copyright = #{isCopyright},</if>
+            <if test="copyright != null and copyright != ''">copyright = #{copyright},</if>
+            <if test="storeUserId != null">store_user_id = #{storeUserId},</if>
+            <if test="expireTime != null">expire_time = #{expireTime},</if>
+            <if test="gmtCreate != null">gmt_create = #{gmtCreate},</if>
+            <if test="gmtModified != null">gmt_modified = #{gmtModified},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteKbsmWxappById" parameterType="Long">
+        delete from kbsm_wxapp where id = #{id}
+    </delete>
+
+    <delete id="deleteKbsmWxappByIds" parameterType="String">
+        delete from kbsm_wxapp where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

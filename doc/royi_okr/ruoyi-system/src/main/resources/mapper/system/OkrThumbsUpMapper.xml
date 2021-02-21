@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.OkrThumbsUpMapper">
+
+    <resultMap type="OkrThumbsUp" id="OkrThumbsUpResult">
+        <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
+        <result property="objectId"    column="object_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="status"    column="status"    />
+        <result property="addTime"    column="add_time"    />
+    </resultMap>
+
+    <sql id="selectOkrThumbsUpVo">
+        select id, type, object_id, user_id, status, add_time from okr_thumbs_up
+    </sql>
+
+    <select id="selectOkrThumbsUpList" parameterType="OkrThumbsUp" resultMap="OkrThumbsUpResult">
+        <include refid="selectOkrThumbsUpVo"/>
+        <where>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="objectId != null"> and object_id = #{objectId}</if>
+            <if test="userId != null"> and user_id = #{userId}</if>
+            <if test="status != null"> and status = #{status}</if>
+            <if test="addTime != null "> and add_time = #{addTime}</if>
+        </where>
+    </select>
+
+    <select id="selectOkrThumbsUpOne" parameterType="OkrThumbsUp" resultMap="OkrThumbsUpResult">
+        <include refid="selectOkrThumbsUpVo"/>
+        <where>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="objectId != null"> and object_id = #{objectId}</if>
+            <if test="userId != null"> and user_id = #{userId}</if>
+            <if test="status != null"> and status = #{status}</if>
+        </where>
+    </select>
+
+
+    <select id="selectOkrThumbsUpById" parameterType="Long" resultMap="OkrThumbsUpResult">
+        <include refid="selectOkrThumbsUpVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertOkrThumbsUp" parameterType="OkrThumbsUp" useGeneratedKeys="true" keyProperty="id">
+        insert into okr_thumbs_up
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null">type,</if>
+            <if test="objectId != null">object_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userIp != null">user_ip,</if>
+            <if test="status != null">status,</if>
+            <if test="addTime != null ">add_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="type != null ">#{type},</if>
+            <if test="objectId != null">#{objectId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userIp != null">#{userIp},</if>
+            <if test="status != null">#{status},</if>
+            <if test="addTime != null ">#{addTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateOkrThumbsUp" parameterType="OkrThumbsUp">
+        update okr_thumbs_up
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null ">type = #{type},</if>
+            <if test="objectId != null">object_id = #{objectId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="addTime != null">add_time = #{addTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOkrThumbsUpById" parameterType="Long">
+        delete from okr_thumbs_up where id = #{id}
+    </delete>
+
+    <delete id="deleteOkrThumbsUpByIds" parameterType="String">
+        delete from okr_thumbs_up where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

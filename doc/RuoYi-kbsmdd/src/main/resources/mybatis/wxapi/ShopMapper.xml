@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.wxapi.model.mapper.ShopMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ruoyi.project.wxapi.model.bean.Shop">
+        <id column="id" property="id" />
+        <result column="shop_name" property="shopName" />
+        <result column="logo_image_id" property="logoImageId" />
+        <result column="linkman" property="linkman" />
+        <result column="phone" property="phone" />
+        <result column="shop_hours" property="shopHours" />
+        <result column="province" property="province" />
+        <result column="city" property="city" />
+        <result column="district" property="district" />
+        <result column="address" property="address" />
+        <result column="coordinate" property="coordinate" />
+        <result column="summary" property="summary" />
+        <result column="food_mode" property="foodMode" />
+        <result column="tang_mode" property="tangMode" />
+        <result column="is_check" property="isCheck" />
+        <result column="status" property="status" />
+        <result column="sort" property="sort" />
+        <result column="wxapp_id" property="wxappId" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, shop_name, logo_image_id, linkman, phone, shop_hours, province, city, district, address, coordinate, summary, food_mode, tang_mode, is_check, status, sort, wxapp_id, gmt_create, gmt_modified
+    </sql>
+    <select id="getByWxappIdAndShopId" resultType="com.ruoyi.project.wxapi.model.bean.Shop">
+        select <include refid="Base_Column_List"></include>
+        from kbsm_shop
+        where wxapp_id=#{wxapp_id, jdbcType=INTEGER}
+        and id=#{shop_id, jdbcType=INTEGER}
+    </select>
+    <select id="selectByWxappId" resultType="com.ruoyi.project.wxapi.model.bean.Shop">
+        select <include refid="Base_Column_List"></include>
+        from kbsm_shop
+        where wxapp_id=#{wxapp_id, jdbcType=INTEGER}
+    </select>
+
+</mapper>

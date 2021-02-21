@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.OkrCycleMapper">
+    
+    <resultMap type="OkrCycle" id="OkrCycleResult">
+        <result property="id"    column="id"    />
+        <result property="cycleName"    column="cycle_name"    />
+        <result property="beginTime"    column="begin_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="cycleType"    column="cycle_type"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="status"    column="status"    />
+        <result property="isDel"    column="is_del"    />
+    </resultMap>
+
+    <sql id="selectOkrCycleVo">
+        select id, cycle_name, begin_time, end_time, cycle_type, create_time, status, is_del from okr_cycle
+    </sql>
+
+    <sql id="selectOkrUseCycleVo">
+        select id, cycle_name, begin_time, end_time, cycle_type, create_time, status, is_del from okr_cycle  where `status`=0
+    </sql>
+
+    <sql id="selectManagerOkrUseCycleVo">
+        select id, cycle_name, begin_time, end_time, cycle_type, create_time, status, is_del from okr_cycle  where `status`=0 and  cycle_type = 0   ORDER BY id desc
+    </sql>
+
+    <select id="selectOkrUseCycleList"  resultMap="OkrCycleResult">
+        <include refid="selectManagerOkrUseCycleVo"/>
+    </select>
+
+    <select id="selectOkrCycleList" parameterType="OkrCycle" resultMap="OkrCycleResult">
+        <include refid="selectOkrCycleVo"/>
+        <where>  
+            <if test="cycleName != null  and cycleName != ''"> and cycle_name like concat('%', #{cycleName}, '%')</if>
+            <if test="beginTime != null  and beginTime != ''"> and begin_time &gt; #{beginTime}</if>
+            <if test="endTime != null  and endTime != ''"> and end_time &gt;= #{endTime}</if>
+            <if test="cycleType != null "> and cycle_type = #{cycleType}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="isDel != null "> and is_del = #{isDel}</if>
+        </where>
+        <![CDATA[ order by begin_time asc    ]]>
+    </select>
+    
+    <select id="selectOkrCycleById" parameterType="Long" resultMap="OkrCycleResult">
+        <include refid="selectOkrCycleVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertOkrCycle" parameterType="OkrCycle">
+        insert into okr_cycle
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="cycleName != null  and cycleName != ''">cycle_name,</if>
+            <if test="beginTime != null  and beginTime != ''">begin_time,</if>
+            <if test="endTime != null  and endTime != ''">end_time,</if>
+            <if test="cycleType != null ">cycle_type,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="status != null ">status,</if>
+            <if test="isDel != null ">is_del,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="cycleName != null  and cycleName != ''">#{cycleName},</if>
+            <if test="beginTime != null  and beginTime != ''">#{beginTime},</if>
+            <if test="endTime != null  and endTime != ''">#{endTime},</if>
+            <if test="cycleType != null ">#{cycleType},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="status != null ">#{status},</if>
+            <if test="isDel != null ">#{isDel},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOkrCycle" parameterType="OkrCycle">
+        update okr_cycle
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cycleName != null  and cycleName != ''">cycle_name = #{cycleName},</if>
+            <if test="beginTime != null  and beginTime != ''">begin_time = #{beginTime},</if>
+            <if test="endTime != null  and endTime != ''">end_time = #{endTime},</if>
+            <if test="cycleType != null ">cycle_type = #{cycleType},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="status != null ">status = #{status},</if>
+            <if test="isDel != null ">is_del = #{isDel},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOkrCycleById" parameterType="Long">
+        delete from okr_cycle where id = #{id}
+    </delete>
+
+    <delete id="deleteOkrCycleByIds" parameterType="String">
+        delete from okr_cycle where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

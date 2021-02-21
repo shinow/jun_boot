@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC   
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.plugs.province.mapper.ProvinceMapper">
+
+	<select id="getPositionProvinceList"  resultType="java.util.Map">
+		select * from base_position_province
+	</select>
+
+	<select id="getPositionCityByProvinceId"  resultType="java.util.Map" parameterType="java.lang.String">
+		select * from base_position_city where province_id=#{province_id}
+	</select>
+	<select id="getPositionCountryByCityId"  resultType="java.util.Map" parameterType="java.lang.String">
+		select * from base_position_country where city_id=#{city_id}
+	</select>
+	<select id="getPositionTownByCountryId"  resultType="java.util.Map" parameterType="java.lang.String">
+		select * from base_position_town where country_id=#{country_id}
+	</select>
+</mapper>

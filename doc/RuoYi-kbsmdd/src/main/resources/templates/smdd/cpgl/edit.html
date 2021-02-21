@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改菜品管理')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-cpgl-edit" th:object="${kbsmGoods}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">商品名称：</label>
+                <div class="col-sm-8">
+                    <input name="goodsName" th:field="*{goodsName}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">商品分类id：</label>
+                <div class="col-sm-8">
+                    <input name="categoryId" th:field="*{categoryId}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商品规格(1单规格 2多规格)：</label>
+                <div class="col-sm-8">
+                    <select name="specType" class="form-control m-b" th:with="type=${@dict.getType('spec_type')}" required>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{specType}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">库存计算方式(1下单减库存 2付款减库存)：</label>
+                <div class="col-sm-8">
+                    <select name="deductStockType" class="form-control m-b" th:with="type=${@dict.getType('deduct_stock_type')}" required>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{deductStockType}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商品详情：</label>
+                <div class="col-sm-8">
+                    <input name="content" th:field="*{content}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">初始销量：</label>
+                <div class="col-sm-8">
+                    <input name="salesInitial" th:field="*{salesInitial}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">实际销量：</label>
+                <div class="col-sm-8">
+                    <input name="salesActual" th:field="*{salesActual}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">商品排序(数字越小越靠前)：</label>
+                <div class="col-sm-8">
+                    <input name="goodsSort" th:field="*{goodsSort}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商品状态(1上架 2下架)：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box" th:each="dict : ${@dict.getType('goods_status')}">
+                        <input type="radio" th:id="${'goodsStatus_' + dict.dictCode}" name="goodsStatus" th:value="${dict.dictValue}" th:field="*{goodsStatus}" required>
+                        <label th:for="${'goodsStatus_' + dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">餐盒费用：</label>
+                <div class="col-sm-8">
+                    <input name="packPrice" th:field="*{packPrice}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">是否删除：</label>
+                <div class="col-sm-8">
+                    <input name="isDelete" th:field="*{isDelete}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">门店id：</label>
+                <div class="col-sm-8">
+                    <input name="shopId" th:field="*{shopId}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">小程序id：</label>
+                <div class="col-sm-8">
+                    <input name="wxappId" th:field="*{wxappId}" class="form-control" type="text" required>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "smdd/cpgl";
+        $("#form-cpgl-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-cpgl-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

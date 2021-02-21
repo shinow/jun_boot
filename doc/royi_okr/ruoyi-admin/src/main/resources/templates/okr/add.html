@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html th:lang="${language}"  xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header(#{okr.add})" />
+    <th:block th:include="include :: summernote-css" />
+    <th:block th:include="include :: okr-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-info-add"  >
+            <!---选项卡开始-->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="tabs-container add-okr">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">[[#{okr.quarterInfo}]]</a></li>
+                            <li class="hidden"><a data-toggle="tab" href="#tab-2" aria-expanded="false">[[#{okr.yearInfo}]]</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <!--季度目标开始--->
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="panel-body">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">[[${okr_quar_info}]]</div>
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <textarea id="seasonObjective" name="seasonObjective" class="form-control" required th:placeholder="${okr_o_placeholder}"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-content row">
+                                    <div class="col-sm-12">
+                                        <div class="ibox float-e-margins">
+                                            <div class="ibox-title">
+                                                <h5>[[#{okr.setKrNum}]]<small class="m-l-sm">[[#{okr.setKrNumInfo}]]</small></h5>
+                                            </div>
+                                            <div class="ibox-content" id="seasonKeys">
+                                                <div class="panel panel-info">
+                                                    <div class="panel-heading">[[#{okr.setKrStandard}]]</div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            <textarea name="seasonKeyResult" class="form-control" required th:placeholder="${okr_kr_placeholder}"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                    <button type="button" class="btn btn-block btn-outline btn-success" onclick="createKeyResult('0')" >[[#{okr.addKeyResult}]]</button>
+                                </div>
+                            </div>
+                            <!--年度目标结束--->
+                            <div id="tab-2" class="tab-pane hidden">
+                                <div class="panel-body">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading"> [[${okr_year_info}]] </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <textarea id="yearObjective" name="yearObjective" class="form-control" required th:placeholder="${okr_o_placeholder}"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-content row">
+                                    <div class="col-sm-12">
+                                        <div class="ibox float-e-margins">
+                                            <div class="ibox-title">
+                                                <h5>[[#{okr.setKrNum}]]<small class="m-l-sm">[[#{okr.setKrNumInfo}]]</small></h5>
+                                            </div>
+                                            <div class="ibox-content" id="yearKeys" >
+                                                <div class="panel panel-info">
+                                                    <div class="panel-heading">[[#{okr.setKrStandard}]]</div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            <textarea  name="yearKeyResult" class="form-control" required th:placeholder="${okr_kr_placeholder}"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                    <button type="button" class="btn btn-block btn-outline btn-success" onclick="createKeyResult('1')">[[#{okr.addKeyResult}]]</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input name="cycleItem" id="cycleItem" type="hidden">
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: summernote-js" />
+    <script type="text/javascript">
+
+        var prefix = ctx + "okr/info"
+        $("#form-info-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+
+            var seasonItem = [];   //存放季度KR
+            var yearItem = [];   //存放年度KR
+            //季度OKR目标
+            var seasonObjective = $("#seasonObjective").val();
+            //年度OKR目标
+            var yearObjective = $("#yearObjective").val();
+            var yearLen       = $("#yearKeys").find("textarea");
+            var seasonLen     = $("#seasonKeys").find("textarea");
+            if(yearLen.length>0)
+            {
+                for(var i=0;i<yearLen.length;i++)
+                {
+                    var itemVal = $(yearLen[i]).val();
+                    yearItem.push(itemVal);
+                }
+            }
+            if(seasonLen.length>0)
+            {
+                for(var j=0;j<seasonLen.length;j++)
+                {
+                    var itemVal = $(seasonLen[j]).val();
+                    seasonItem.push(itemVal);
+                }
+            }
+            var cycleItemObj = {
+                "seasonObjective":seasonObjective,
+                "yearObjective":yearObjective,
+                "seasonItem":seasonItem,
+                "yearItem":yearItem
+            };
+            $.operate.save(prefix + "/add", cycleItemObj);
+        }
+
+        function createKeyResult(type){
+            let keyResult  = "<div class='panel panel-info'>";
+                keyResult += "    <div class='panel-heading'>[[#{okr.setKrStandard}]]</div>";
+                keyResult += "    <div class='form-group'>";
+                keyResult += "      <div class='col-sm-12'>";
+                keyResult += "        <textarea class='form-control' required placeholder='[[${okr_kr_placeholder}]]'></textarea>";
+                keyResult += "      </div>";
+                keyResult += "    </div>";
+                keyResult += "</div>";
+            if(type==1){
+                $("#yearKeys").append(keyResult);
+            } else {
+                $("#seasonKeys").append(keyResult);
+            }
+
+        }
+    </script>
+</body>
+</html>

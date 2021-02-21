@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html th:lang="${language}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title> OKR System</title>
+    <meta name="description" content="xiaoshuai2233@sina.com OKR System">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link href="../static/css/login.css" th:href="@{/css/login.css}" rel="stylesheet"/>
+    <link href="../static/ruoyi/css/ry-ui.css" th:href="@{/ruoyi/css/ry-ui.css?v=4.2.0}" rel="stylesheet"/>
+    <!-- 360浏览器急速模式 -->
+    <meta name="renderer" content="webkit">
+    <!-- 避免IE使用兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="../static/favicon.ico" th:href="@{favicon.ico}"/>
+    <style type="text/css">label.error { position:inherit;  }</style>
+    <script>
+        if(window.top!==window.self){alert('Not logged in or login timed out. Please login again');window.top.location=window.location};
+    </script>
+</head>
+<body class="signin">
+<div class="signinpanel" id="okr">
+    <div class="row">
+        <div class="col-sm-7">
+            <div class="signin-info">
+                <div class="logopanel m-b">
+                    <h1>
+                        <img alt="[ xiaoshuai2233@sina.com ]" src="../static/logo.svg" th:src="@{/logo.svg}">
+                        <span v-html="$t('login.pvtitle')" style="font-size: 12px;color:#000000"></span>
+                    </h1>
+                </div>
+                <div class="m-b"></div>
+                <strong th:if="${@config.getKey('sys.account.registerUser')}">
+                    <span v-html="$t('login.noaccout')"></span>
+                    <a th:href="@{/register}" v-html="$t('login.nowregister')"></a>
+                </strong>
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <form id="signupForm" autocomplete="off">
+                <div class="col-sm-12 no-padding">
+                    <div class="col-sm-6 no-padding text-left">
+                        <h3 class="login-title" v-html="$t('login.loginTitle')"></h3>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <div  class="dropdown login-box-head" id="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                                <span  v-html="$t('login.language')"></span>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                                <li><a tabindex="-1" @click="switchLanguage('zh_CN','login')" v-html="$t('login.cn')"></a></li>
+                                <li><a tabindex="-1" @click="switchLanguage('en_US','login')" v-html="$t('login.en')"></a></li>
+                                <li><a tabindex="-1" @click="switchLanguage('ja_JP','login')" v-html="$t('login.ja')"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <p class="m-t-md">ruoyi-okr</p>
+                <input type="text"     name="username" class="form-control uname"  :placeholder="$t('login.username')" autocomplete='text'/>
+                <input type="password" name="password" class="form-control pword"  :placeholder="$t('login.password')" autocomplete='password'/>
+                <div class="row m-t" th:if="${captchaEnabled==true}">
+                    <div class="col-xs-6">
+                        <input type="text" name="validateCode" class="form-control code" :placeholder="$t('login.validateCode')" maxlength="5" />
+                    </div>
+                    <div class="col-xs-6">
+                        <a href="javascript:void(0);" :title="$t('login.clickRefresh')">
+                            <img th:src="@{captcha/captchaImage(type=${captchaType})}" class="imgcode" width="85%"/>
+                        </a>
+                    </div>
+                </div>
+                <div class="checkbox-custom" th:classappend="${captchaEnabled==false} ? 'm-t'">
+                    <input type="checkbox" id="rememberme" name="rememberme"> <label for="rememberme" v-html="$t('login.rememberme')"></label>
+                </div>
+                <button class="btn btn-success btn-block" id="btnSubmit" :data-loading="$t('login.loginvalidate')" v-html="$t('login.loginButton')"></button>
+            </form>
+        </div>
+    </div>
+    <div class="signup-footer">
+        <div class="pull-left" >
+            <span>&spades; </span>
+            <span v-html="version"></span><br>
+            <span>&copy; </span>
+            <span v-html="copyright"></span><br>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript"> var ctx = [[@{/}]]; var captchaType = [[${captchaType}]]; </script>
+<!-- 全局js -->
+<script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="../static/js/util.js" th:src="@{/js/util.js}"></script>
+<script src="../static/js/vue.min.js" th:src="@{/js/vue.min.js}"></script>
+<script src="../static/js/vue.i18n.min.js" th:src="@{/js/vue.i18n.min.js}"></script>
+<!-- 验证插件 -->
+<script src="../static/ajax/libs/validate/jquery.validate.min.js" th:src="@{/ajax/libs/validate/jquery.validate.min.js}"></script>
+<script src="../static/ajax/libs/validate/messages_zh.min.js" th:src="@{/ajax/libs/validate/messages_zh.min.js}"></script>
+<script src="../static/ajax/libs/layer/layer.min.js" th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+<script src="../static/ajax/libs/blockUI/jquery.blockUI.js" th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
+<script src="../static/ruoyi/js/ry-ui.js" th:src="@{/ruoyi/js/ry-ui.js?v=4.2.0}"></script>
+<script src="../static/ruoyi/login.js" th:src="@{/ruoyi/login.js}"></script>
+</body>
+</html>

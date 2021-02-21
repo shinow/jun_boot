@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.OkrSynergyMapper">
+    
+    <resultMap type="OkrSynergy" id="OkrSynergyResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="okrId"    column="okr_id"    />
+    </resultMap>
+
+    <sql id="selectOkrSynergyVo">
+        select id, user_id, okr_id from okr_synergy
+    </sql>
+
+    <select id="selectOkrSynergyList" parameterType="OkrSynergy" resultMap="OkrSynergyResult">
+        <include refid="selectOkrSynergyVo"/>
+        <where>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="okrId != null "> and okr_id = #{okrId}</if>
+        </where>
+    </select>
+
+    <select id="selectOkrSynergyListByOkrId" parameterType="Long" resultMap="OkrSynergyResult">
+        <include refid="selectOkrSynergyVo"/>
+        <where>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="okrId != null "> and okr_id = #{okrId}</if>
+        </where>
+        order by okr_id asc
+    </select>
+
+    <select id="selectOkrSynergyByOkrId" parameterType="Long" resultMap="OkrSynergyResult">
+        <include refid="selectOkrSynergyVo"/>
+        where okr_id = #{okrId}
+    </select>
+
+    <select id="selectOkrSynergyById" parameterType="Long" resultMap="OkrSynergyResult">
+        <include refid="selectOkrSynergyVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertOkrSynergy" parameterType="OkrSynergy" useGeneratedKeys="true" keyProperty="id">
+        insert into okr_synergy
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">user_id,</if>
+            <if test="okrId != null ">okr_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">#{userId},</if>
+            <if test="okrId != null ">#{okrId},</if>
+         </trim>
+    </insert>
+
+
+    <insert id="insertOkrSynergyList" parameterType="java.util.List" >
+        insert into okr_synergy (user_id,okr_id) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.userId},#{item.okrId})
+        </foreach>
+    </insert>
+
+
+    <update id="updateOkrSynergy" parameterType="OkrSynergy">
+        update okr_synergy
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="okrId != null ">okr_id = #{okrId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOkrSynergyById" parameterType="Long">
+        delete from okr_synergy where id = #{id}
+    </delete>
+
+    <delete id="deleteOkrSynergyByIds" parameterType="String">
+        delete from okr_synergy where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteOkrSynergyByOkrId" parameterType="Long">
+        delete from okr_synergy where okr_id = #{okrId}
+    </delete>
+    
+</mapper>

@@ -1,0 +1,334 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>找回密码 - 通行证 </title>
+
+
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <LINK rel="Bookmark" href="/favicon.ico" >
+    <LINK rel="Shortcut Icon" href="/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="/login/theme/front/zcool/css/jquery.mCustomScrollbar.css"/>
+    <link rel="stylesheet" type="text/css" href="/login/theme/front/zcool/css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="/login/theme/front/zcool/css/hellorf.css"/>
+    <link rel="stylesheet" type="text/css" href="/login/theme/front/zcool/css/passlogin.css"/>
+</head>
+<body>
+<div id="body">
+    <div class="passcard-box">
+        <div class="passcard-nav">
+            <a href="/" class="check-zcool-logo"></a>
+            通行证
+            <a href="/" class="login-right-subnav main-link-color">返回首页</a>
+            <span class="login-right-subnav login-nav">已有帐号，
+                    <a href="/login" class="main-link-color">马上登录</a>
+              </span>
+        </div>
+        <!-- 登录导航以下内容 -->
+        <div class="passcon">
+            <h2 class="passmail-title main-bg-color">找回密码</h2>
+            <form id="reset_form" >
+                <input type="hidden" name="appId" value="1006" />
+                <input type="hidden" id="accountType" name="accountType" value="" />
+                <div class="retrieve-pass-box">
+                    <div class="retrie-center pass-login-covers">
+                        <div class="error-tips " id="pass-error-tips" style="display: none;">
+                            <span class="ipt-tips-default ipt-default-current js-err-l">
+                            </span>
+                        </div>
+                        <div>
+                            <div class="country-phone-covers">
+                                <input type="text" placeholder="手机号/邮箱" name="username" id="username" class="text-style ipt-area-current ipt-w-334">
+                            </div>
+                            <span class="form-tip">
+								<span class="unregistered">帐号未注册，<a href='javascript:;' class='registers'>马上注册</a></span>
+							</span>
+                        </div>
+
+                        <p id="phoneVerify" class="parent-input-box"><i class="codeeye"></i><input type="text" name="code" id="vericode" placeholder="验证码" class="text-style verification-code"><input type="button" value="发送验证码" name="" id="veribtn" class="btn-default-main codebtn">
+                            <span class="form-tip"></span>
+                        </p>
+                        <p class="password">
+                            <input type="password" id="password" placeholder="密码" maxlength="40" autocomplete='off' class="text-style ipt-default-current" >
+                        </p>
+                        <p class="passcard-btns"><input type="button" id="resetpwdBtn" value="提 交" class="btn-default-main passcard-btn"></p>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+        <p>京ICP备11017824号-4 / 京ICP证130164号 北京市公安局朝阳分局备案编号:110105000501</p>
+        <p>Copyright © 2006-2018 ZCOOL</p>
+    </div>
+
+
+    <script type="text/javascript" src="/front/H-ui/lib/jquery/1.9.1/jquery.min.js"></script>
+    <script  th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+    <script  th:src="@{/ruoyi/js/ry-ui.js}"></script>
+    <script th:inline="javascript"> var ctx = [[@{/}]];</script>
+
+</div>
+
+<div id="_umfp" style="display:inline;width:1px;height:1px;overflow:hidden"></div>
+<input type="hidden" id="e_msg" value="" />
+<!-- 弹框 -->
+<div class="pop-up-normal unbunding hide">
+    <p class="tips-text tips-text-normal">解绑成功</p>
+</div>
+<script>
+    $(function(){
+        $("#veribtn").click(function(){
+            sendCode();
+        });
+        $("#resetpwdBtn").click(function(){
+            submit();
+        });
+        $('#username').on('change paste keyup blur',function(){
+            var v=$("#username").val();
+            if($.common.isNotEmpty(v)){
+                if(isEmail(v)){
+                    if(isQQEmail(v)){
+                        $("#vericode").attr("placeholder","邮箱验证码");
+                        $("#accountType").val("email");
+                    }else{
+                        showErrorMsg("目前仅支持QQ邮箱!");
+                    }
+
+                }
+                if(isTelePhone(v)){
+                    $("#vericode").attr("placeholder","手机验证码");
+                    $("#accountType").val("sms");
+                }
+            }
+
+        });
+
+    })
+    function sendCode(){
+        var account=$("#username").val();
+        if($.common.isEmpty(account)){
+            showErrorMsg("手机号/邮箱不能为空!");
+            return;
+        }
+        var flag=false;
+        if(isEmail(account)){
+            if(!isQQEmail(account)){
+                showErrorMsg("目前仅支持QQ邮箱!");
+            }else{
+                flag=true;
+            }
+        }else{
+            if(isTelePhone(account)){
+                flag=true;
+            }
+        }
+        if(!flag){
+            showErrorMsg("手机号/邮箱格式不正确!");
+            return;
+        }
+        var okFlag=false;
+        $.ajax({
+            async: false,
+            type: "post",
+            url: ctx + "checkAccount",//检测账户是否注册
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                "username": account
+            },
+            success: function(r) {
+                if (r.code == 0) {
+                    //已经注册则继续向下走
+                    okFlag=true;
+                }
+            }
+        });
+
+        if(!okFlag){
+           //账户不ok，检测手机号
+            if(isTelePhone(account)){
+                //是手机号
+                //检测手机是否注册
+                $.ajax({
+                    async: false,
+                    type: "post",
+                    url: ctx + "checkPhone",//检测手机是否注册
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    data: {
+                        "phone": account
+                    },
+                    success: function(r) {
+                        if (r.code == 0) {
+                            //已经注册则继续向下走
+                            okFlag=true;
+                        }
+                    }
+                });
+            }
+        }
+        if(!okFlag){
+            showErrorMsg("该帐号不存在!");
+            return;
+        }
+
+        //发送验证码
+        var type= $("#accountType").val();//账户类型：邮箱email和手机sms
+
+        $.ajax({
+            type: "post",
+            url: ctx + "resetpwd/sendCode",//发送手机或者邮箱验证码
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                "account": account,
+                "type":type
+            },
+            success: function(r) {
+
+                if (r.code == 0) {
+                    $.modal.msgSuccess(r.msg);
+                    smsWaitTime($('#veribtn'), 60);
+                } else {
+                    showErrorMsg(r.msg);
+                }
+            }
+        });
+    }
+    function submit(){
+        var account=$("#username").val();
+        if($.common.isEmpty(account)){
+            showErrorMsg("手机号/邮箱不能为空!");
+            return;
+        }
+        var flag=false;
+        if(isEmail(account)){
+            if(!isQQEmail(account)){
+                showErrorMsg("目前仅支持QQ邮箱!");
+            }else{
+                flag=true;
+            }
+        }else{
+            if(isTelePhone(account)){
+                flag=true;
+            }
+        }
+        if(!flag){
+            showErrorMsg("手机号/邮箱格式不正确!");
+            return;
+        }
+        var code=$("#vericode").val();
+        if($.common.isEmpty(code)){
+            showErrorMsg("验证码不能为空!");
+            return;
+        }
+        var pwd=$("#password").val();
+        if($.common.isEmpty(pwd)){
+            showErrorMsg("密码不能为空!");
+            return;
+        }
+
+        //重置密码
+        $.ajax({
+            type: "post",
+            url: ctx + "resetpwd",//重置密码提交
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                "account": account,
+                "code":code,
+                "password":pwd
+            },
+            success: function(r) {
+                if (r.code == 0) {
+                    $.modal.msgSuccess(r.msg);
+                    $("#reset_form")[0].reset();
+                } else {
+                    showErrorMsg(r.msg);
+                }
+            }
+        });
+
+
+    }
+    function showErrorMsg(msg){
+        var errorObj=$("#pass-error-tips .js-err-l");
+        $(".passcon .retrieve-pass-box").css("padding","68px 0 40px");
+        $("#pass-error-tips").show();
+        errorObj.html(msg),
+            setTimeout(function() {
+                errorObj.html ("");
+                $("#pass-error-tips").hide();
+                $(".passcon .retrieve-pass-box").css("padding","40px 0 40px");
+            },6000);
+    }
+
+
+    // 验证码倒计时；
+    var wait = 60;
+    function smsWaitTime(o, waitP) {
+        if (wait == 0) {
+            $(o).removeAttr('disabled');
+            $(o).removeClass("btn-disabled").addClass('btn-default-main').removeAttr('disabled');
+            $(o).val("发送验证码");
+            wait = waitP;
+            $(o).attr('time', '1')
+            //$('.js-no-ver-code').show();
+        } else {
+            $(o).prop('disabled', true);
+            $(o).addClass("btn-disabled").removeClass('btn-default-main').attr('disabled',true);
+            $(o).attr('disabled', 'disabled');
+            $(o).val(wait + 's' + "后重新发送");
+            $(o).attr('time', '0')
+            wait--;
+            setTimeout(function () { smsWaitTime(o, waitP) }, 1000);
+        }
+    }
+    function isEmail(v) {
+        var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+        if (!myreg.test(v))//对输入的值进行判断
+        {
+            return false;
+        }
+        return true;
+    }
+    //是否QQ邮箱(目前仅支持qq邮箱)
+    function isQQEmail(v){
+        if(v.indexOf("@qq.com")>0){
+            v=v.replace(/@qq.com/i, "");
+            if(isQQ(v)){
+                return true;
+            }
+        }
+        return false;
+    }
+    function isQQ(v){
+        if(/^[0-9]{5,10}$/.test(v)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    //手机号
+    function isTelePhone(v){
+        var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+        if (!myreg.test(v)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>
+</body>
+</html>

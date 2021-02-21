@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>账号安全 - 通行证 </title>
+
+
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <LINK rel="Bookmark" href="/favicon.ico" >
+    <LINK rel="Shortcut Icon" href="/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" href="/login/theme/front/zcool/css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="/login/theme/front/zcool/css/passnumberbind.css"/>
+    <link rel="stylesheet" type="text/css" href="/login/theme/front/zcool/css/passlogin.css"/>
+</head>
+<body>
+<div id="body">
+    <div class="passcard-box">
+
+        <div class="passcard-nav">
+            <a href="/" class="check-zcool-logo"></a>
+            通行证
+            <a href="/logout" class="login-right-subnav main-link-color" style="cursor: pointer;">退出</a>
+            <a href="/" class="login-right-subnav main-link-color">返回首页</a>
+            <span class="login-right-subnav login-nav">
+	          	<!--<a th:href="@{'/u/'+${userId}}" target="_blank" class="main-link-color" th:text="${userName}"></a>-->
+                <a  class="main-link-color" th:text="${userName}"></a>
+          	</span>
+        </div>
+
+        <div class="passcon account-wrap">
+            <div class="account-number-tab">
+                <span class="current-status">帐号安全</span> <span>第三方帐号绑定</span>
+            </div>
+            <div class="account-num-box">
+                <div class="account-num-tabcon">
+
+                    <p>
+                        <span class="account-title">邮箱帐号</span>
+                        <span th:if="${emailFlag=='1'}" class="account-tips-text">已绑定邮箱[[${email}]]。</span>
+                        <span th:if="${emailFlag=='0'}" class="account-tips-text">未绑定邮箱</span>
+
+                        <a th:if="${emailFlag=='1'}" href="/modifyemail_view?type=2"  class="btn-default-main">修改</a>
+                        <a th:if="${emailFlag=='0'}" href="/modifyemail_view?type=1"  class="btn-default-main">绑定</a>
+                    </p>
+                    <p>
+                        <span class="account-title">手机帐号</span>
+                        <span class="account-tips-text"  th:if="${phoneFlag=='1'}">已绑定手机[[${phone}]]。</span>
+                        <span class="account-tips-text"  th:if="${phoneFlag=='0'}">未绑定手机!</span>
+
+                        <a  th:if="${phoneFlag=='0'}"  href="/modifyphone_view?type=1" class="btn-default-main">绑定</a>
+
+                        <a  th:if="${phoneFlag=='1'}"  href="/modifyphone_view?type=2" class="btn-default-main">更换</a>
+                        <a  th:if="${phoneFlag=='1'}" href="/unbindphone_view" id="unbindphone" class="btn-default-secondary">解绑</a>
+
+                    </p>
+
+                    <p>
+                        <span class="account-title">身份证号</span>
+                        <span th:if="${not #strings.isEmpty(id_card)}" class="account-tips-text">已绑定身份证[[${id_card}]]。</span>
+                        <span th:if="${#strings.isEmpty(id_card)}" class="account-tips-text">未绑定身份证帐</span>
+
+                        <!--<a th:if="${not #strings.isEmpty(id_card)}" href="/modifyemail_view?type=2"  class="btn-default-main">修改</a>-->
+                        <a th:if="${#strings.isEmpty(id_card)}" href="/idcard_view"  class="btn-default-main">绑定</a>
+                    </p>
+
+                    <p>
+                        <span class="account-title">登录密码</span><span class="account-tips-text two-line-txt">建议您经常修改密码，以保证帐号更加安全。</span>
+                        <a href="/modifypwd_view" id="modifysafepwd" class="btn-default-main">修改</a>
+                    </p>
+
+                </div>
+                <div class="account-binding-box hide">
+                    <p class="icon-box qqicon">
+                        <span><span class="qq-login"></span>QQ</span>
+
+                        <span class="bindtxt">
+										踏雪无痕
+                  </span>
+                        <input type="button" class="btn-default-secondary bound" onclick="unbindThird(3)" value="解绑">
+
+                    </p>
+                    <p class="icon-box sinaicon">
+                        <span><span class="weibo-login"></span>微博</span>
+
+                        <span class="bindtxt">未绑定</span>
+                        <input id="wbbind" type="button" class="btn-default-main binding-btn" value="绑定">
+
+                    </p>
+                    <p class="icon-box">
+                        <span><span class="wechat-login"></span>微信</span>
+
+                        <span class="bindtxt">未绑定</span>
+                        <input id="weixinbind" type="button" class="btn-default-main binding-btn" value="绑定">
+
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <p>京ICP备11017824号-4 / 京ICP证130164号 北京市公安局朝阳分局备案编号:110105000501</p>
+        <p>Copyright © 2006-2018 ZCOOL</p>
+    </div>
+    <script type="text/javascript" src="/front/H-ui/lib/jquery/1.9.1/jquery.min.js"></script>
+    <script  th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+    <script  th:src="@{/ruoyi/js/ry-ui.js}"></script>
+    <script th:inline="javascript"> var ctx = [[@{/}]];</script>
+
+</div>
+
+<!-- 弹框 -->
+<div class="pop-up-normal unbunding hide">
+    <p class="tips-text tips-text-normal">解绑成功</p>
+</div>
+<script>
+    $(function(){
+        $(".account-number-tab span").click(function(){
+            var index=$(this).index();
+            $(this).addClass("current-status").siblings().removeClass("current-status");
+            $(".account-num-box div").eq(index).show().siblings().hide();
+        });
+
+    })
+</script>
+</body>
+</html>

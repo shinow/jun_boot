@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>侵权申诉  (ZCOOL)</title>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="/front/zcool/css/main.min.css">
+    <link rel="bookmark" type="image/x-icon" href="/front/zcool/images/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="/front/zcool/images/favicon.ico" />
+    <script>
+        function addLinkCss(linkUrl){
+            var link = document.createElement('link');
+            link.type = 'text/css';
+            link.rel = 'stylesheet';
+            link.href = linkUrl;
+            document.getElementsByTagName("head")[0].appendChild(link);
+        }
+    </script>
+
+    <style>
+        .protocol-box { padding: 0 30px 17px; }
+
+        .container-area-left .current { -webkit-box-sizing: border-box; box-sizing: border-box; position: relative; }
+
+        .container-area-left .current span { position: absolute; left: 0; top: 10px; height: 32px; width: 0; border-right: 3px solid #ffe300; }
+
+        .protocol-middle-con { font-size: 14px; margin-top: 25px; }
+
+        .piecemeal-box { padding-bottom: 13px; color: #282828; border-bottom: 1px solid #eeeeee; }
+
+        .piecemeal-box h4 { font-size: 16px; font-weight: 600; margin-top: 20px; margin-bottom: 5px; }
+
+        .piecemeal-box p { line-height: 34px; }
+
+        .piecemeal-box:last-of-type { border-bottom: 0; }
+
+        .sub-protocol-box { margin-top: 14px; }
+
+        .sub-protocol-box p:first-of-type { font-weight: 600; }
+
+        .sub-tips-protocol { padding-left: 28px; }
+
+        .agree-table td { width: 208px; padding: 10px; }
+
+
+
+
+    </style>
+</head>
+<body>
+<div id="body">
+    <div th:replace="front/zcool/header"></div>
+    <!--*******************************-->
+    <main class="main-wrapper">
+        <div class="container-area clearFix">
+            <div class="container-area-left">
+                <div class="card-media personal-menu">
+                    <ul class="menu-list">
+                        <li ><a href="/aboutUs">关于我们</a><span></span></li>
+                        <li ><a href="/userAgreement">用户协议</a><span></span></li>
+                        <li ><a href="/policy">隐私政策</a><span></span></li>
+                        <li  class="current"><a href="/violationClaim">侵权申诉</a><span></span></li>
+                        <li ><a href="/help">帮助中心</a><span></span></li>
+                        <li ><a href="/contactUs">联系我们</a><span></span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="container-area-right">
+                <div class="bg-box-radius">
+                    <div class="middle-title-wrap border-bottom">
+                        <h2 class="middle-title">侵权申诉</h2>
+                    </div>
+                    <div class="protocol-box">
+                        <div class="protocol-middle-con">
+                            <p>站酷作为平台服务提供者，是广大设计师喜爱的互动平台。站酷尊重并鼓励原创，始终重视知识产权的保护。</p>
+                        </div>
+                        <div class="piecemeal-box">
+                            <h4>1.投诉指引</h4>
+                            <p>如您认为站酷用户所上传的内容信息侵犯了您的合法权益，请参照以下指引进行投诉。为了保证投诉的有效性，权利人应尽量提供原件。</p>
+                            <p>1.1 下载并填写侵权投诉通知书。通知书需由权利人或其合法授权的代理人亲笔签名，若为单位则需加盖单位公章。侵权投诉通知书包括但不限于以下内容：</p>
+
+                            <p>（1）权利人的基本信息</p>
+                            <p>包括权利人的姓名（名称）、地址、联系方式、身份证（个人）、营业执照（单位）等材料。如委托他人代理发出通知的，应同时填写代理人的身份信息，并提供权利人的委托书。</p>
+                            <p>（2）投诉内容及要求</p>
+                            <p>包括要求删除、断开链接的内容的具体名称和网络地址等。</p>
+                            <p>（3）构成侵权的证明材料</p>
+                            <p>包括权利人拥有权利的权属证明材料（包括但不限于相关有权机构颁发的版权、商标权及专利权等登记证明、作品首次公开发表或发行日期证明材料、创作手稿、经权威机构签发的作品创作时间戳及其他能证明权利人拥有相关权利的有效权属证明等）和被投诉方提供的内容构成侵权的证明。</p>
+                            <p>（4）权利人保证</p>
+                            <p>权利人及其代理人须保证其在本通知书中提供的信息及相关材料真实、合法、有效。由此通知书及相关材料引起的一切后果皆由权利人承担。权利人保证承担和赔偿因站酷根据权利人的通知书而删除有关内容或者断开有关内容链接而给站酷和站酷用户造成的全部损失。</p>
+                            <div class="sub-protocol-box">
+                                <p>下载表单：
+                                    <a href="http://file.zcool.cn/community/file/2019/qinquan/qinquantousu.doc" class="zcool-link-color" target="_blank">侵权投诉通知书</a>
+                                </p>
+                                <br>
+                                <p>1.2 将填写完毕的通知书及有效证明文件的扫描件通过电子邮件方式发送至：jubao@zcool.com.cn。</p>
+                                <p>1.3 一旦收到符合上述要求之通知，我们将在合理时间内删除涉嫌侵权内容或断开涉嫌侵权内容链接。为保障各方权益，我们可能会按照法律规定将您的投诉通知书及相关文件转送给站酷用户。如不符合上述条件，我们将不予受理，或请您补充相应信息且暂不采取相应措施。</p>
+                                <p>在您发送邮件后，我们会尽快核实处理，请耐心等待。</p>
+                                <br>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div th:replace="front/zcool/footer"></div>
+</div>
+
+<div class="sidebar-fixed-wrapper js-sidebar-fixed" style="bottom: 40px;">
+    <div class="back-to-top sidebar-fixed_box" z-st="shortcut_totop" style="display: none;"></div>
+</div>
+<script type="text/javascript" src="/front/H-ui/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="/front/zcool/js/common.js"></script>
+</body>
+</html>

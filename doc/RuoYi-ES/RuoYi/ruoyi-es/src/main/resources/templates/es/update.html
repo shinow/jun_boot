@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改用户')" />
+    <th:block th:include="include :: select2-css" />
+</head>
+<body>
+<div class="main-content">
+    <form class="form-horizontal" id="form-user-edit" th:object="${user}">
+        <input name="id"  type="hidden" th:field="*{id}" />
+        <h4 class="form-header h4">基本信息</h4>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label is-required">姓名：</label>
+                    <div class="col-sm-8">
+                        <input name="userName" placeholder="请输入用姓名" class="form-control" type="text" maxlength="4" th:field="*{name}" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label is-required">年龄：</label>
+                    <div class="col-sm-8">
+                        <input name="age" class="form-control" type="text" maxlength="3" placeholder="请输入年龄" th:field="*{age}" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label is-required">手机号码：</label>
+                    <div class="col-sm-8">
+                        <input name="phone" placeholder="请输入手机号码" class="form-control" type="text" maxlength="11" th:field="*{phone}" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h4 class="form-header h4">其他信息</h4>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">备注：</label>
+                    <div class="col-xs-10">
+                        <textarea name="remark" maxlength="500" class="form-control" rows="3">[[*{remark}]]</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<th:block th:include="include :: footer" />
+<script type="text/javascript">
+    var prefix = ctx + "es";
+    function submitHandler() {
+        if ($.validate.form()) {
+            var data = $("#form-user-edit").serializeArray();
+            $.operate.save(prefix + "/updateSave", data);
+        }
+    }
+</script>
+</body>
+</html>

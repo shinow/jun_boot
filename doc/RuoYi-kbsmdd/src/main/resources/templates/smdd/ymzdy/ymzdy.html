@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('页面自定义列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div" id="app">
+         <div class="row">
+             <div class="col-sm-12 search-collapse">
+                 <form id="formId" action="/smdd/ymzdy" method="get">
+                     <div class="select-list">
+                         <ul>
+                             <li>
+                                 <label>微信小程序id：</label>
+                                 <input type="text" name="id" id="wxappId" th:value="${id}"/>
+                             </li>
+                             <li>
+                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="submit()"><i class="fa fa-search"></i>切换</a>
+                             </li>
+                         </ul>
+                     </div>
+                 </form>
+             </div>
+
+             <div class="col-sm-12">
+                 <div class="tabs-container">
+                     <div class="tabs-left">
+                         <ul class="nav nav-tabs">
+                             <li class="active"><a data-toggle="tab" href="#tab-10">页面基础设置</a>
+                             </li>
+                             <li class=""><a data-toggle="tab" href="#tab-11"> 轮播图设置</a>
+                             </li>
+                             <li class=""><a data-toggle="tab" href="#tab-12"> 单图组设置</a>
+                             </li>
+                             <li class=""><a data-toggle="tab" href="#tab-13"> 图片橱窗设置</a>
+                             </li>
+                             <li class=""><a data-toggle="tab" href="#tab-14"> 视频组设置</a>
+                             </li>
+                             <li class=""><a data-toggle="tab" href="#tab-18"> 导航组设置</a>
+                             </li>
+                             <li class=""><a data-toggle="tab" href="#tab-21">在线客服设置</a>
+                             </li>
+                             <li class=""><a data-toggle="tab" href="#tab-22">辅助空白设置</a>
+                             </li>
+                         </ul>
+                         <div class="tab-content ">
+                             <div id="tab-10" class="tab-pane active">
+                                 <div class="panel-body">
+                                     <strong>页面基础设置</strong>
+
+                                     <div class="form-group">
+                                         <label class="font-noraml">页面类型</label>
+                                         <select class="form-control" v-model="pageType">
+                                             <option value="1">首页</option>
+                                             <option value="2">自定义页面</option>
+                                         </select>
+                                     </div>
+                                     <div class="form-group">
+                                         <label>页面标题</label>
+                                         <input type="email" v-model="pageData.page.params.title" class="form-control">
+                                     </div>
+                                     <div class="form-group">
+                                         <label>分享标题</label>
+                                         <input type="email" v-model="pageData.page.params.shareTitle" class="form-control">
+                                     </div>
+                                     <div class="form-group">
+                                         <label>分享图片</label>
+                                         <input type="email" v-model="pageData.page.params.shareImage" class="form-control">
+                                     </div>
+                                     <div class="form-group">
+                                         <label>标题文本颜色</label>
+                                         <input  v-model="pageData.page.style.titleTextColor" class="form-control" data-jscolor="">
+                                     </div>
+                                     <div class="form-group">
+                                         <label>标题背景颜色</label>
+                                         <input v-model="pageData.page.style.titleBackgroundColor" class="form-control" data-jscolor="">
+                                     </div>
+                                 </div>
+                             </div>
+                             <div id="tab-11" class="tab-pane">
+                                 <div class="panel-body">
+                                     <strong>轮播图设置</strong>
+                                     <div class="form-group">
+                                         <label>轮播图按钮背景</label>
+                                         <input  v-model="pageData.items[0].style.btnColor" class="form-control" data-jscolor="">
+                                     </div>
+
+                                     <div class="form-group" v-for="(item, i) in pageData.items[0].data">
+                                         <label>轮播图选择 &nbsp;<i class="fa fa-close" v-on:click="deleteLunbo(i)"></i></label>
+                                         <div class="fileinput-button">
+                                             <input type="text" class="file-upload-url" v-model="pageData.items[0].data[i].imgUrl" />
+                                             <img v-bind:src="pageData.items[0].data[i].imgUrl"  style="width: 120px; height: 120px; position: absolute; z-index: 3;background-color: lightgray" class="file-upload-img">
+                                             <input type="file" style="" class="file-upload" accept="image/*" v-on:change="upload($event)"/>
+                                         </div>
+                                         <label>链接地址</label>
+                                         <input type="text" v-model="pageData.items[0].data[i].linkUrl" class="form-control">
+                                     </div>
+                                     <button class="btn btn-primary" v-on:click="addLunbo()">添加一个轮播图</button>
+                                 </div>
+                             </div>
+                             <div id="tab-12" class="tab-pane">
+                                 <div class="panel-body">
+                                     <strong>单图组设置</strong>
+                                     <div class="form-group">
+                                         <label>背景色</label>
+                                         <input  v-model="pageData.items[1].style.background" class="form-control" data-jscolor="">
+                                     </div>
+
+                                     <div class="form-group" v-for="(item, i) in pageData.items[1].data">
+                                         <label>图片选择 &nbsp;<i class="fa fa-close" v-on:click="deleteSingel(i)"></i></label>
+                                         <div class="fileinput-button">
+                                             <input type="text" class="file-upload-url" v-model="pageData.items[1].data[i].imgUrl" />
+                                             <img v-bind:src="pageData.items[1].data[i].imgUrl"  style="width: 120px; height: 120px; position: absolute; z-index: 3;background-color: lightgray" class="file-upload-img">
+                                             <input type="file" style="" class="file-upload" accept="image/*" v-on:change="upload($event)"/>
+                                         </div>
+                                         <label>链接地址</label>
+                                         <input type="text" v-model="pageData.items[1].data[i].linkUrl" class="form-control">
+                                         <label>图片名称</label>
+                                         <input type="text" v-model="pageData.items[1].data[i].imgName" class="form-control">
+                                     </div>
+                                     <button class="btn btn-primary" v-on:click="addSingel()">添加一个图片</button>
+                                 </div>
+                             </div>
+                             <div id="tab-13" class="tab-pane">
+                                 <div class="panel-body">
+                                     <strong>图片橱窗设置</strong>
+                                     <div class="form-group">
+                                         <label>背景色</label>
+                                         <input  v-model="pageData.items[2].style.background" class="form-control" data-jscolor="">
+                                     </div>
+
+                                     <div class="form-group" v-for="(item, i) in pageData.items[2].data">
+                                         <label>图片选择 &nbsp;<i class="fa fa-close" v-on:click="deleteTpcc(i)"></i></label>
+                                         <div class="fileinput-button">
+                                             <input type="text" class="file-upload-url" v-model="pageData.items[2].data[i].imgUrl" />
+                                             <img v-bind:src="pageData.items[2].data[i].imgUrl"  style="width: 120px; height: 120px; position: absolute; z-index: 3;background-color: lightgray" class="file-upload-img">
+                                             <input type="file" style="" class="file-upload" accept="image/*" v-on:change="upload($event)"/>
+                                         </div>
+                                         <label>链接地址</label>
+                                         <input type="text" v-model="pageData.items[2].data[i].linkUrl" class="form-control">
+                                     </div>
+                                     <button class="btn btn-primary" v-on:click="addTpcc()">添加一个图片橱窗</button>
+                                 </div>
+                             </div>
+                             <div id="tab-14" class="tab-pane">
+                                 <div class="panel-body">
+                                     <strong>视频组设置</strong>
+
+                                     <div class="form-group">
+                                         <label>封面地址</label>
+                                         <div class="fileinput-button">
+                                             <input type="text" class="file-upload-url" v-model="pageData.items[3].params.poster" />
+                                             <img v-bind:src="pageData.items[3].params.poster"  style="width: 120px; height: 120px; position: absolute; z-index: 3;background-color: lightgray" class="file-upload-img">
+                                             <input type="file" style="" class="file-upload" accept="image/*" v-on:change="upload($event)"/>
+                                         </div>
+                                     </div>
+                                     <div class="form-group">
+                                         <label>视频选择</label>
+                                         <div class="video-button" style="width: 400px; height: 300px">
+                                             <input type="text" class="video-upload-url" v-model="pageData.items[3].params.videoUrl" />
+                                             <video  v-bind:src="pageData.items[3].params.videoUrl" controls="controls" style="width:100%;height:100%;object-fit:fill" class="file-upload-video"></video>
+                                             <input type="file" style="" class="file-upload"  v-on:change="uploadVideo($event)"/>
+                                         </div>
+                                     </div>
+                                     <div class="form-group">
+                                         <label>是否禁用视频组</label>
+                                         <input type="radio" name="jy"  v-on:click="openVideo()">开启
+                                         <input type="radio" name="jy"  v-on:click="closeVideo()">关闭
+                                     </div>
+                                 </div>
+                             </div>
+                             <div id="tab-18" class="tab-pane">
+                                 <div class="panel-body">
+                                     <strong>导航组设置</strong>
+                                     <div class="form-group" v-for="(item, i) in pageData.items[4].data" style="border-top: grey 1px solid;">
+                                         <label>图片选择 &nbsp;<i class="fa fa-close" v-on:click="deleteDhz(i)"></i></label>
+                                         <div class="fileinput-button">
+                                             <input type="text" class="file-upload-url" v-model="pageData.items[4].data[i].imgUrl" />
+                                             <img v-bind:src="pageData.items[4].data[i].imgUrl"  style="width: 120px; height: 120px; position: absolute; z-index: 3;background-color: lightgray" class="file-upload-img">
+                                             <input type="file" style="" class="file-upload" accept="image/*" v-on:change="upload($event)"/>
+                                         </div>
+                                         <label>链接地址</label>
+                                         <input type="text" v-model="pageData.items[4].data[i].linkUrl" class="form-control">
+                                         <label>图片名称</label>
+                                         <input type="text" v-model="pageData.items[4].data[i].imgName" class="form-control">
+                                         <label>文本</label>
+                                         <input type="text" v-model="pageData.items[4].data[i].text" class="form-control">
+                                         <label>颜色</label>
+                                         <input  v-model="pageData.items[4].data[i].color" class="form-control" data-jscolor="">
+                                     </div>
+                                     <button class="btn btn-primary" v-on:click="addDhz()">添加一个导航组</button>
+
+
+                                 </div>
+                             </div>
+                             <div id="tab-21" class="tab-pane">
+                                 <div class="panel-body">
+                                     <strong>在线客服设置</strong>
+                                     <div class="form-group">
+                                         <label>图片选择</label>
+                                         <div class="fileinput-button">
+                                             <input type="text" class="file-upload-url" v-model="pageData.items[5].params.image" />
+                                             <img v-bind:src="pageData.items[5].params.image"  style="width: 120px; height: 120px; position: absolute; z-index: 3;background-color: lightgray" class="file-upload-img">
+                                             <input type="file" style="" class="file-upload" accept="image/*" v-on:change="upload($event)"/>
+                                         </div>
+                                     </div>
+                                     <div class="form-group">
+                                         <label>电话号码</label>
+                                         <input type="text" v-model="pageData.items[5].params.phone_num" class="form-control">
+                                     </div>
+
+                                 </div>
+                             </div>
+                             <div id="tab-22" class="tab-pane">
+                                 <div class="panel-body">
+                                     <strong>辅助空白设置</strong>
+                                     <div class="form-group">
+                                         <label>辅助背景颜色选择</label>
+                                         <input  v-model="pageData.items[6].style.background" class="form-control" data-jscolor="">
+                                     </div>
+                                     <div class="form-group">
+                                         <label>高度</label>
+                                         <input type="text" v-model="pageData.items[6].style.height" class="form-control">
+                                     </div>
+
+                                 </div>
+                             </div>
+
+                         </div>
+
+                     </div>
+
+                     <button v-on:click="submit()">提交页面修改</button>
+                 </div>
+             </div>
+         </div>
+
+    </div>
+    <th:block th:include="include :: footer" />
+     <script src="/vue/vue.js"></script>
+     <script src="/js/jscolor.js"></script>
+    <script type="text/javascript">
+
+        function change() {
+            console.log("change")
+        }
+
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                pageData: {
+
+                }
+             },
+            created: function() {
+                var _this = this;
+
+                $.myOperate.formPostSynchronous("/smdd/ymzdy/detail", {wxappId: $("#wxappId").val()}, function (res) {
+                    _this.pageData = JSON.parse(res.data.pageData);
+                })
+            },
+            methods: {
+                openVideo: function() {
+                    console.log("openVideo")
+                    this.pageData.items[3].type="video"
+                },
+                closeVideo: function() {
+                    this.pageData.items[3].type="video1111"
+                  console.log("closeVideo")
+                },
+                deleteLunbo: function (i) {
+                    this.$delete(this.pageData.items[0].data, i);
+                    // this.pageData.items[0].data.splice(i, 1);
+                },
+                addLunbo: function () {
+                    console.log($)
+                    this.pageData.items[0].data.push({
+                        "imgUrl": "",
+                        "linkUrl": ""
+                    })
+                    console.log(this.pageData.items[0].data)
+                },
+                deleteSingel: function(i) {
+                    this.$delete(this.pageData.items[1].data, i);
+
+                },
+                addSingel: function() {
+                    this.pageData.items[1].data.push({
+                        "imgUrl": "",
+                        "imgName": "",
+                        "linkUrl": ""
+                    })
+                },
+                addTpcc: function() {
+                    console.log("addTpcc")
+                    this.pageData.items[2].data.push({
+                        "imgUrl": "",
+                        "linkUrl": ""
+                    })
+                },
+                deleteTpcc: function(i) {
+                    this.$delete(this.pageData.items[2].data, i);
+                },
+
+                addDhz: function() {
+                    this.pageData.items[4].data.push({
+                        "imgUrl": "",
+                        "linkUrl": ""
+                    })
+                },
+                deleteDhz: function(i) {
+                    this.$delete(this.pageData.items[4].data, i);
+                },
+
+                upload: function (e) {
+                    console.log(e.currentTarget.files[0])
+                    var file = e.currentTarget.files[0];
+                    console.log(file);
+                    var _this = e.currentTarget;
+                    var reader = new FileReader();
+                    reader.onload = function(e){
+                        console.log( e.target.result);
+                        $.myOperate.jsonPostUploadIMG("/common/upload", file, function (res) {
+                            if (res.code == 0) {
+                                var urlInput = _this.parentElement.getElementsByClassName("file-upload-url")[0];
+                                console.log(urlInput)
+                                urlInput.value = res.url
+                                $(urlInput)[0].dispatchEvent(new Event("input"));
+                                $(_this).parent().find(".file-upload-img").attr("src", e.target.result);
+                            } else {
+                                console.log("上传失败")
+                            }
+
+                        })
+
+                    };
+                    reader.readAsDataURL(file);
+                },
+                uploadVideo: function (e) {
+                    console.log(e.currentTarget.files[0])
+                    var file = e.currentTarget.files[0];
+                    console.log(file);
+                    var _this = e.currentTarget;
+                    var reader = new FileReader();
+                    reader.onload = function(e){
+                        console.log( e.target.result);
+                        $.myOperate.jsonPostUploadIMG("/common/upload", file, function (res) {
+                            if (res.code == 0) {
+                                var urlInput = _this.parentElement.getElementsByClassName("video-upload-url")[0];
+                                urlInput.value = res.url
+                                $(urlInput)[0].dispatchEvent(new Event("input"));
+                                $(_this).parent().find(".video-upload-img").attr("src", res.url);
+                                alert("上传视频成功")
+                            } else {
+                                console.log("上传失败")
+                            }
+
+                        })
+
+                    };
+                    reader.readAsDataURL(file);
+                },
+                submit: function () {
+
+                    var pageData = JSON.stringify(this.pageData);
+                    $.myOperate.formPost("/smdd/ymzdy/edit", {"wxappId": $("#wxappId").val(), "pageData": pageData}, function (res) {
+                        console.log(JSON.stringify(res))
+                        if (res.code == 0) {
+                            alert("修改成功")
+                        } else {
+                            alert(res.msg)
+                        }
+                    })
+
+                }
+            }
+
+
+        })
+        function submit() {
+            $("#formId").submit()
+        }
+
+    </script>
+</body>
+</html>

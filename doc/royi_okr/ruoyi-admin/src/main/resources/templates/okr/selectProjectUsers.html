@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('选择用户')"/>
+    <th:block th:include="include :: layout-latest-css"/>
+    <th:block th:include="include :: ztree-css"/>
+</head>
+<body class="gray-bg">
+<div class="ui-layout-west">
+    <div class="box box-main">
+        <div class="box-header">
+            <div class="box-title">
+                <i class="fa icon-grid"></i> 组织机构
+            </div>
+            <div class="box-tools pull-right">
+                <a type="button" class="btn btn-box-tool" href="#" onclick="dept()" title="管理部门"><i
+                        class="fa fa-edit"></i></a>
+                <button type="button" class="btn btn-box-tool" id="btnExpand" title="展开" style="display:none;"><i
+                        class="fa fa-chevron-up"></i></button>
+                <button type="button" class="btn btn-box-tool" id="btnCollapse" title="折叠"><i
+                        class="fa fa-chevron-down"></i></button>
+                <button type="button" class="btn btn-box-tool" id="btnRefresh" title="刷新部门"><i
+                        class="fa fa-refresh"></i></button>
+            </div>
+        </div>
+        <div class="ui-layout-content">
+            <div id="tree" class="ztree"></div>
+        </div>
+    </div>
+</div>
+
+<div class="ui-layout-center">
+    <div class="container-div">
+        <div class="row">
+
+            <div class="tabs-container">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true"> 选择用户</a>
+                    </li>
+                    <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">已选择</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div id="tab-1" class="tab-pane active">
+                        <div class="panel-body">
+                            <div class="col-sm-12 search-collapse">
+                                <form id="user-form">
+                                    <input type="hidden" id="deptId" name="deptId">
+                                    <input type="hidden" id="parentId" name="parentId">
+                                    <input type="hidden" id="projectIds" name="projectIds" th:value="${projectIds}">
+                                    <div class="select-list">
+                                        <ul>
+                                            <li>
+                                                用户名称：<input type="text" name="loginName"/>
+                                            </li>
+                                            <li>
+                                                手机号码：<input type="text" name="phonenumber"/>
+                                            </li>
+                                            <li>
+                                                <a class="btn btn-primary btn-rounded btn-sm"
+                                                   onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                                <a class="btn btn-warning btn-rounded btn-sm"
+                                                   onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="btn-group-sm" id="toolbar1" role="group">
+                                <a class="btn btn-success" onclick="appendUsers()" shiro:hasPermission="okr:info:add">
+                                    <i class="fa fa-plus"></i> 追加
+                                </a>
+                            </div>
+                            <div class="col-sm-12 select-table table-striped">
+                                <table id="bootstrap-table"></table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab-2" class="tab-pane">
+                        <div class="panel-body">
+                            <div class="btn-group-sm" id="toolbar" role="group">
+                                <a class="btn btn-danger multiple disabled" onclick="removeRow()">
+                                    <i class="fa fa-remove"></i> 移除
+                                </a>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 select-table table-striped">
+                                    <table id="select-bootstrap-table"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: layout-latest-js"/>
+<th:block th:include="include :: ztree-js"/>
+<script th:inline="javascript">
+    var editFlag = [[${@permission.hasPermi('system:user:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('system:user:remove')}]];
+    var resetPwdFlag = [[${@permission.hasPermi('system:user:resetPwd')}]];
+    var prefix = ctx + "system/user";
+
+    $(function () {
+        var panehHidden = false;
+        if ($(this).width() < 769) {
+            panehHidden = true;
+        }
+        $('body').layout({initClosed: panehHidden, west__size: 185});
+        queryUserList();
+        queryDeptTree();
+        querySelectUserList();
+    });
+    //初始化查询清单
+    function queryUserList() {
+        var options = {
+            id:"bootstrap-table",
+            url: prefix + "/selectList",
+            pagination: false,
+            modalName: "用户",
+            clickToSelect: true,
+            rememberSelected: true,
+            toolbar:"toolbar1",
+            uniqueId: "userId",
+            columns: [{
+                checkbox: true
+            },
+                {
+                    field: 'userId',
+                    title: '用户ID'
+                },
+                {
+                    field: 'loginName',
+                    title: '登录名称',
+                    sortable: true
+                },
+                {
+                    field: 'userName',
+                    title: '用户名称'
+                },
+                {
+                    field: 'dept.deptName',
+                    title: '部门'
+                }]
+        };
+        $.table.init(options);
+    }
+
+    // 初始化选中列表
+    function querySelectUserList() {
+        var options = {
+            id:"select-bootstrap-table",
+            // url: prefix + "/selectList",
+            pagination: false,
+            modalName: "用户",
+            clickToSelect: true,
+            rememberSelected: true,
+            uniqueId: "userId",
+            columns: [{
+                checkbox: true
+            },
+                {
+                    field: 'userId',
+                    title: '用户ID'
+                },
+                {
+                    field: 'loginName',
+                    title: '登录名称',
+                    sortable: true
+                },
+                {
+                    field: 'userName',
+                    title: '用户名称'
+                },
+                {
+                    field: 'dept.deptName',
+                    title: '部门'
+                }]
+        };
+        $.table.init(options);
+    }
+
+    let selectMap = new Map();  //选中数据的map对象-- 将作为最终提交数据
+    /* 新增表格行 */
+    function appendUsers() {
+        var rows = $.table.selectRowData();
+
+        if (rows.length > 0) {
+            for (var i = 0; i < rows.length; i++) {
+                var key = rows[i].userId;
+                if(!selectMap.has(key))
+                {
+                    selectMap.set(key,rows[i]);
+                    $("#select-bootstrap-table").bootstrapTable('insertRow', {
+                        index: 0, // 你想插入到哪，0表示第一行
+                        row: rows[i]});
+                }
+            }
+        }
+        $.table.refresh("bootstrap-table");
+    }
+
+
+    /* 删除指定表格行 */
+    function removeRow(){
+        var rows = $("#select-bootstrap-table").bootstrapTable('getSelections');
+        if (rows.length == 0) {
+            $.modal.alertWarning("请至少选择一条记录");
+            return;
+        }
+        var idsArr = new Array();
+        for(var i=0;i<rows.length;i++)
+        {
+            var key = rows[i].userId;
+            idsArr.push(key);
+            //数组移除
+            selectMap.delete(key);
+        }
+        $("#select-bootstrap-table").bootstrapTable('remove', {
+            field: 'userId',
+            values: idsArr
+        })
+    }
+
+    /* 添加用户-选择用户-提交 */
+    function submitHandler() {
+        var idsArr = new Array();
+        for(let item of selectMap.keys()) {
+            idsArr.push(item);
+        }
+        $.modal.confirm("批量协同将会覆盖单独协同的数据，你确定执行吗?", function() {
+            var data = { "projectIds": $("#projectIds").val(), "userIds": idsArr.join(",") };
+            $.operate.save("/okr/info/batchProjectUsers",data,function(e){
+                if(e.code==0)
+                {
+                    $.modal.alertSuccess(e.msg)
+                }
+                else {
+                    $.modal.alertError(e.msg)
+                }
+            });
+        });
+    }
+
+
+
+    function queryDeptTree() {
+        var url = ctx + "system/dept/treeData";
+        var options = {
+            url: url,
+            expandLevel: 2,
+            onClick: zOnClick
+        };
+        $.tree.init(options);
+
+        function zOnClick(event, treeId, treeNode) {
+            $("#deptId").val(treeNode.id);
+            $("#parentId").val(treeNode.pId);
+            $.table.search();
+        }
+    }
+
+    $('#btnExpand').click(function () {
+        $._tree.expandAll(true);
+        $(this).hide();
+        $('#btnCollapse').show();
+    });
+
+    $('#btnCollapse').click(function () {
+        $._tree.expandAll(false);
+        $(this).hide();
+        $('#btnExpand').show();
+    });
+
+    $('#btnRefresh').click(function () {
+        queryDeptTree();
+    });
+
+    /* 用户管理-部门 */
+    function dept() {
+        var url = ctx + "system/dept";
+        $.modal.openTab("部门管理", url);
+    }
+
+    /* 用户管理-重置密码 */
+    function resetPwd(userId) {
+        var url = prefix + '/resetPwd/' + userId;
+        $.modal.open("重置密码", url, '800', '300');
+    }
+
+    /* 用户管理-分配角色 */
+    function authRole(userId) {
+        var url = prefix + '/authRole/' + userId;
+        $.modal.openTab("用户分配角色", url);
+    }
+
+    /* 用户状态显示 */
+    function statusTools(row) {
+        if (row.status == 1) {
+            return '<i class=\"fa fa-toggle-off text-info fa-2x\" onclick="enable(\'' + row.userId + '\')"></i> ';
+        } else {
+            return '<i class=\"fa fa-toggle-on text-info fa-2x\" onclick="disable(\'' + row.userId + '\')"></i> ';
+        }
+    }
+
+    /* 用户管理-停用 */
+    function disable(userId) {
+        $.modal.confirm("确认要停用用户吗？", function () {
+            $.operate.post(prefix + "/changeStatus", {"userId": userId, "status": 1});
+        })
+    }
+
+    /* 用户管理启用 */
+    function enable(userId) {
+        $.modal.confirm("确认要启用用户吗？", function () {
+            $.operate.post(prefix + "/changeStatus", {"userId": userId, "status": 0});
+        })
+    }
+</script>
+</body>
+
+</html>

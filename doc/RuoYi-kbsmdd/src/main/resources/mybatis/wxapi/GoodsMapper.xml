@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.wxapi.model.mapper.GoodsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ruoyi.project.wxapi.model.bean.Goods">
+        <id column="id" property="id" />
+        <result column="goods_name" property="goodsName" />
+        <result column="category_id" property="categoryId" />
+        <result column="spec_type" property="specType" />
+        <result column="deduct_stock_type" property="deductStockType" />
+        <result column="content" property="content" />
+        <result column="sales_initial" property="salesInitial" />
+        <result column="sales_actual" property="salesActual" />
+        <result column="goods_sort" property="goodsSort" />
+        <result column="goods_status" property="goodsStatus" />
+        <result column="pack_price" property="packPrice" />
+        <result column="is_delete" property="isDelete" />
+        <result column="shop_id" property="shopId" />
+        <result column="wxapp_id" property="wxappId" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, goods_name, category_id, spec_type, deduct_stock_type, content, sales_initial, sales_actual, goods_sort, goods_status, pack_price, is_delete, shop_id, wxapp_id, gmt_create, gmt_modified
+    </sql>
+    <select id="listByCategoryId" resultType="com.ruoyi.project.wxapi.model.bean.Goods">
+        select <include refid="Base_Column_List"></include>
+        from kbsm_goods
+        where category_id=#{categoryId}
+    </select>
+    <select id="getByGoodsId" resultType="com.ruoyi.project.wxapi.model.bean.Goods">
+        SELECT a.*,c.file_url,c.file_name,c.id as image_id,d.spec_sku_id,d.id as goods_spec_id,d.goods_price,d.out_price,d.line_price,d.stock_num,d.version
+        from kbsm_goods a LEFT JOIN kbsm_goods_image b ON a.id = b.goods_id
+        LEFT JOIN kbsm_upload_file c on b.image_id=c.id
+        LEFT JOIN kbsm_goods_spec d on a.id=d.goods_id and d.group_id=0
+        WHERE a.id=#{goodsId}
+    </select>
+
+</mapper>

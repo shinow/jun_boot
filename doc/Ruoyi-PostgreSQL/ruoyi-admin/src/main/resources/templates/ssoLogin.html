@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('SSO登录')" />
+    <th:block th:include="include :: footer"/>
+    <script th:inline="javascript">
+        $(function () {
+            location.href = ctx +'index';
+        });
+    </script>
+</head>
+<body class="gray-bg">
+<!--    <iframe id="rep"></iframe>-->
+</body>
+</html>

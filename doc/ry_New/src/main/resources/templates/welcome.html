@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-theme-skin">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">颜色主题：</label>
+            <div class="col-sm-8">
+                <div class="radio-box">
+                    <input type="radio" id="theme-black" name="theme" value="theme-black" th:checked="${theme=='theme-black'}">
+                    <label for="theme-black">深色主题</label>
+                </div>
+                <div class="radio-box">
+                    <input type="radio" id="theme-white" name="theme" value="theme-white" th:checked="${theme=='theme-white'}">
+                    <label for="theme-white">浅色主题</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">皮肤样式：</label>
+            <div class="col-sm-9">
+                <div class="radio-box">
+                    <input type="radio" id="skin-blue" name="skin" value="skin-blue" th:checked="${skin=='skin-blue'}">
+                    <label for="skin-blue">蓝色</label>
+                </div>
+                <div class="radio-box" >
+                    <input type="radio" id="skin-green" name="skin" value="skin-green" th:checked="${skin=='skin-green'}">
+                    <label for="skin-green">绿色</label>
+                </div>
+                <div class="radio-box">
+                    <input type="radio" id="skin-purple" name="skin" value="skin-purple" th:checked="${skin=='skin-purple'}">
+                    <label for="skin-purple" >紫色</label>
+                </div>
+                <div class="radio-box">
+                    <input type="radio" id="skin-red" name="skin" value="skin-red" th:checked="${skin=='skin-red'}">
+                    <label for="skin-red">红色</label>
+                </div>
+                <div class="radio-box" >
+                    <input type="radio" id="skin-yellow" name="skin" value="skin-yellow" th:checked="${skin=='skin-yellow'}">
+                    <label for="skin-yellow">黄色</label>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div th:include="include::footer"></div>
+<script>
+    function submitHandler() {
+        $.ajax({
+            url: ctx + "system/config/initThemeSkin",
+            type: "post",
+            dataType: "json",
+            data: $('#form-theme-skin').serialize(),
+            beforeSend: function () {
+                $.modal.loading("正在处理中，请稍后...");
+                $.modal.disable();
+            },
+            success: function(result) {
+                $.cookies.set("isFirstVisit",1);
+                $.modal.close();
+                parent.$.modal.msgSuccess("设置主题成功！");
+            }
+        });
+    }
+
+    $(function () {
+        $("ins,.radio-box label").on("click",function () {
+            var input = $(this).parent().find("input")[0];
+            if(input.name=="theme"){
+                setTheme(input.value);
+            }else{
+                setSkin(input.value);
+            }
+        });
+    });
+    function setTheme(theme){
+        $("body",parent.document).removeClass("theme-black")
+            .removeClass("theme-white").addClass(theme);
+    }
+    function setSkin(skin){
+        $("body",parent.document).removeClass("skin-blue")
+            .removeClass("skin-green")
+            .removeClass("skin-purple")
+            .removeClass("skin-red")
+            .removeClass("skin-yellow").addClass(skin);
+    }
+</script>
+</body>
+</html>

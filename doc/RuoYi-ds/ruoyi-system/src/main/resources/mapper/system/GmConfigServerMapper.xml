@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.GmConfigServerMapper">
+    
+    <resultMap type="GmConfigServer" id="GmConfigServerResult">
+    	<id     property="serverId"      column="server_id"      />
+        <result property="serverName"    column="server_name"    />
+        <result property="serverIp"     column="server_ip"     />
+        <result property="webPort"   column="web_port"   />
+        <result property="serverPort"    column="server_port"    />
+        <result property="gmPort"      column="gm_port"      />
+        <result property="url"    column="url"    />
+        <result property="gameDataBase"      column="game_data_base"      />
+        <result property="logDataBase"    column="log_data_base"    />
+        <result property="username"    column="username"    />
+        <result property="password"    column="password"    />
+    </resultMap>
+    
+    <sql id="selectGmConfigServerVo">
+        select server_id, server_name, server_ip, web_port, server_port, gm_port, url, game_data_base, log_data_base, username , password
+		from gm_config_server
+    </sql>
+    
+    <select id="selectGmConfigServerList" parameterType="GmConfigServer" resultMap="GmConfigServerResult">
+        <include refid="selectGmConfigServerVo"/>
+    </select>
+    
+</mapper>

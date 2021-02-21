@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="common :: header"></head>
+<body class="gray-bg">
+<div th:include="common :: navigation"></div>
+<div class="wrapper wrapper-content  animated fadeInRight article">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="pull-right" th:each="cate : ${list}">
+                        <a th:href="${'/front/categoryById/'+cate.id +'/' +id}">
+                            <button class="btn btn-white btn-xs" type="button" th:utext="${cate.name}"></button>
+                        </a>
+                    </div>
+                    <div class="text-center article-title">
+                        <h1 th:text="${article.title}">
+
+                        </h1>
+                    </div>
+                    <p th:utext="${article.content}">
+                    </p>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="font-bold">
+                                发布者：<span
+                                    th:text="${article.createUser ==null ? '':article.createUser.userName}"></span>
+                                &nbsp;
+                            </div>
+
+                        </div>
+                        <div class="col-md-2">
+                            <div class="font-bold">
+                                点击数：<span th:text="${article.hits}"></span>&nbsp;
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="font-bold pull-right">
+                                更新时间：<span th:text="${#dates.format(article.updateTime, 'yyyy-MM-dd')}"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+
+                            <h2>评论：</h2>
+                            <div class="social-feed-box">
+                                <div class="social-avatar">
+                                    <a href="#" class="pull-left">
+                                        <img alt="image" src="http://placehold.it/40x40">
+                                    </a>
+                                    <div class="media-body">
+                                        <a href="#">
+                                            逆光狂胜蔡舞娘
+                                        </a>
+                                        <small class="text-muted">17 小时前</small>
+                                    </div>
+                                </div>
+                                <div class="social-body">
+                                    <p>
+                                        好东西，我朝淘宝准备跟进，1折开卖
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="social-feed-box">
+                                <div class="social-avatar">
+                                    <a href="#" class="pull-left">
+                                        <img alt="image" src="http://placehold.it/40x40">
+                                    </a>
+                                    <div class="media-body">
+                                        <a href="#">
+                                            避雷范儿
+                                        </a>
+                                        <small class="text-muted"> 16 小时前</small>
+                                    </div>
+                                </div>
+                                <div class="social-body">
+                                    <p>
+                                        第一个真的好美 就是噪音太大了 挺唯美的意境瞬间变成工厂了
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="social-feed-box">
+                                <div class="social-avatar">
+                                    <a href="#" class="pull-left">
+                                        <img alt="image" src="http://placehold.it/40x40">
+                                    </a>
+                                    <div class="media-body">
+                                        <a href="#">
+                                            kamppi
+                                        </a>
+                                        <small class="text-muted"> 6 小时前</small>
+                                    </div>
+                                </div>
+                                <div class="social-body">
+                                    <p>
+                                        好美的装置艺术，第二个让我想起了海中缓缓游动的鲸鱼。
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="social-feed-box">
+                                <div class="social-avatar">
+                                    <a href="#" class="pull-left">
+                                        <img alt="image" src="http://placehold.it/40x40">
+                                    </a>
+                                    <div class="media-body">
+                                        <a href="#">
+                                            kamppi
+                                        </a>
+                                        <small class="text-muted">6 小时前</small>
+                                    </div>
+                                </div>
+                                <div class="social-body">
+                                    <p>
+                                        “Flylight 的灯管并不固定，由一套软件控制：每一个灯管都根据与其它灯管的互动进行移动，就像一群真正的鸟群一样。”
+                                        好像介绍的描述不对，灯管是固定的，控制的只是点亮和熄灭的时间，模拟成一团亮点移动
+                                    </p>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+
+
+<div th:include="common :: footer"></div>
+</body>
+</html>

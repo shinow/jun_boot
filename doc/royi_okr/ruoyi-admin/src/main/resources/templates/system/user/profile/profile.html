@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header(#{system.user.title})" />
+</head>
+
+<body class="gray-bg" style="font: 14px Helvetica Neue, Helvetica, PingFang SC, 微软雅黑, Tahoma, Arial, sans-serif !important;">
+    <input id="userId" name="userId" type="hidden" th:value="${user.userId}" />
+    <section class="section-content">
+    <div class="row">
+        <div class="col-sm-4 pr5">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title ibox-title-gray dashboard-header gray-bg">
+                    <h5>[[#{system.user.personinfo}]]</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="text-center">
+                        <p><img class="img-circle img-lg" th:src="(${user.avatar} == '') ? @{/img/profile.jpg} : @{${user.avatar}}"></p>
+                        <p style="margin: 16px;"><a href="javascript:avatar()">[[#{system.user.updateAvator}]]</a></p>
+                    </div>
+                    <ul class="list-group list-group-striped">
+                        <li class="list-group-item"><i class="fa fa-user"></i>
+                            <b class="font-noraml">[[#{system.user.loginname}]]：</b>
+                            <p class="pull-right">[[${user.loginName}]]</p>
+                        </li>
+                        <li class="list-group-item"><i class="fa fa-phone"></i>
+                            <b  class="font-noraml">[[#{system.user.phone}]]：</b>
+                            <p class="pull-right">[[${user.phonenumber}]]</p>
+                        </li>
+                        <li class="list-group-item" th:if="${user.dept?.deptName != null}"><i class="fa fa-group"></i>
+                            <b  class="font-noraml">[[#{system.user.dept}]]：</b>
+                            <p class="pull-right">[[${user.dept?.deptName}]] / [[${#strings.defaultString(postGroup,'No Position')}]]</p>
+                        </li>
+                        <li class="list-group-item"><i class="fa fa-envelope-o"></i>
+                            <b  class="font-noraml">[[#{system.user.email1}]]：</b>
+                            <p class="pull-right" th:title="${user.email}">[[${#strings.abbreviate(user.email, 16)}]]</p>
+                        </li>
+                        <li class="list-group-item"><i class="fa fa-calendar"></i>
+                            <b  class="font-noraml">[[#{system.user.createtime}]]：</b>
+                            <p class="pull-right">[[${#dates.format(user.createTime, 'yyyy-MM-dd')}]]</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-sm-8 about">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title ibox-title-gray dashboard-header">
+                    <h5>[[#{system.user.basicInfo}]]</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#user_info" data-toggle="tab" aria-expanded="true">[[#{system.user.basicInfo}]]</a></li>
+                            <li><a href="#modify_password" data-toggle="tab" aria-expanded="false">[[#{system.user.changePwd}]]</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <!--用户信息-->
+                            <div class="tab-pane active" id="user_info" th:object="${user}">
+                                <form class="form-horizontal" id="form-user-edit">
+                                    <!--隐藏ID-->
+                                    <input name="id" id="id" type="hidden">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">[[#{system.user.name}]]：</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" name="userName" th:field="*{userName}" th:placeholder="#{system.user.entername}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">[[#{system.user.phone}]]：</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" name="phonenumber" maxlength="11" th:field="*{phonenumber}" th:placeholder="#{system.user.enterphone}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">[[#{system.user.email2}]]：</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" name="email" th:field="*{email}" th:placeholder="#{system.user.enteremail2}" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">[[#{system.user.sex}]]：</label>
+                                        <div class="col-sm-10">
+                                            <div class="radio-box">
+												<input type="radio" id="radio1" th:field="*{sex}" name="sex" value="0">
+												<label for="radio1">[[#{system.user.male}]]</label>
+											</div>
+											<div class="radio-box">
+												<input type="radio" id="radio2" th:field="*{sex}" name="sex" value="1">
+												<label for="radio2">[[#{system.user.fmale}]]</label>
+											</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">[[#{system.user.language}]]：</label>
+                                        <div class="col-sm-10">
+                                            <select name="language" class="form-control m-b" th:with="type=${@dict.getType('sys_show_language')}">
+                                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}"  th:value="${dict.dictValue}" th:selected="*{language} == ${dict.dictValue}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button type="button" class="btn btn-sm btn-primary" onclick="submitUserInfo()"><i class="fa fa-check"></i> [[#{system.user.save}]]</button>&nbsp;
+                                            <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i> [[#{system.user.close}]] </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <!--修改密码-->
+                            <div class="tab-pane" id="modify_password">
+                                <form class="form-horizontal" id="form-user-resetPwd">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">[[#{system.user.oldPwd}]]：</label>
+                                        <div class="col-sm-10">
+                                            <input type="password" class="form-control" name="oldPassword" th:placeholder="#{system.user.enterOldPwd}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">[[#{system.user.newPwd}]]：</label>
+                                        <div class="col-sm-10">
+                                            <input type="password" class="form-control" name="newPassword" id="newPassword" th:placeholder="#{system.user.enterNewPwd}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">[[#{system.user.comfirmPwd}]]：</label>
+                                        <div class="col-sm-10">
+                                            <input type="password" class="form-control" name="confirmPassword" th:placeholder="#{system.user.enterComfirmPwd}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button type="button" class="btn btn-sm btn-primary" onclick="submitChangPassword()"><i class="fa fa-check"></i> [[#{system.user.save}]]</button>&nbsp;
+                                            <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i> [[#{system.user.close}]]</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	</section>
+    
+    <th:block th:include="include :: footer" />
+    <script>
+	    /*用户管理-头像*/
+	    function avatar() {
+	        var url = ctx + 'system/user/profile/avatar';
+	        $.modal.open("[[#{system.user.updateAvator}]]", url);
+	    }
+	    
+	    /*用户信息-修改*/
+	    $("#form-user-edit").validate({
+			onkeyup: false,
+			rules:{
+				userName:{
+					required:true,
+				},
+				email:{
+					required:true,
+		            email:true,
+		            remote: {
+		                url: ctx + "system/user/checkEmailUnique",
+		                type: "post",
+		                dataType: "json",
+		                data: {
+		                	"userId": function() {
+		                        return $("#userId").val();
+		                    },
+		        			"email": function() {
+		                        return $.common.trim($("#email").val());
+		                    }
+		                },
+		                dataFilter: function (data, type) {
+		                	return $.validate.unique(data);
+		                }
+		            }
+				},
+				phonenumber:{
+					required:true,
+					isPhone:true,
+		            remote: {
+		                url: ctx + "system/user/checkPhoneUnique",
+		                type: "post",
+		                dataType: "json",
+		                data: {
+		                	"userId": function() {
+		                		return $("#userId").val();
+		                    },
+		        			"phonenumber": function() {
+		                        return $.common.trim($("#phonenumber").val());
+		                    }
+		                },
+		                dataFilter: function (data, type) {
+		                	return $.validate.unique(data);
+		                }
+		            }
+				},
+			},
+			messages: {
+				"userName": {
+	                required: "[[#{system.user.entername}]]",
+	            },
+				"email": {
+					required: "[[#{system.user.enteremail2}]]",
+		            remote: "[[#{system.user.mailExist}]]"
+		        },
+				"phonenumber":{
+					required: "[[#{system.user.enterphone}]]",
+		        	remote: "[[#{system.user.phoneExist}]]"
+				}
+		    },
+		    focusCleanup: true
+		});
+
+		function submitUserInfo() {
+	        if ($.validate.form()) {
+                $.operate.saveModal(ctx + "system/user/profile/update", $('#form-user-edit').serialize(),function(result){ $.operate.saveSuccess(result);});
+	        }
+	    }
+	    
+	    /*用户管理-修改密码*/
+	    $("#form-user-resetPwd").validate({
+	    	onkeyup: false,
+			rules:{
+				oldPassword:{
+					required:true,
+					remote: {
+	                    url: ctx + "system/user/profile/checkPassword",
+	                    type: "get",
+	                    dataType: "json",
+	                    data: {
+	                        password: function() {
+	                            return $("input[name='oldPassword']").val();
+	                        }
+	                    }
+	                }
+				},
+				newPassword: {
+	                required: true,
+	                minlength: 6,
+	    			maxlength: 20
+	            },
+	            confirmPassword: {
+	                required: true,
+	                equalTo: "#newPassword"
+	            }
+			},
+			messages: {
+	            oldPassword: {
+	                required: "[[#{system.user.originPwd}]]",
+	                remote: "[[#{system.user.errorOriginPwd}]]"
+	            },
+	            newPassword: {
+	                required: "[[#{system.user.enterNewPwd}]]",
+	                minlength: "[[#{system.user.pwdError1}]]",
+	                maxlength: "[[#{system.user.pwdError2}]]"
+	            },
+	            confirmPassword: {
+	                required: "[[#{system.user.againEnterNewPwd}]]",
+	                equalTo: "[[#{system.user.inconsistentPwd}]]"
+	            }
+	        },
+	        focusCleanup: true
+		});
+
+		function submitChangPassword () {
+	        if ($.validate.form("form-user-resetPwd")) {
+	        	$.operate.saveModal(ctx + "system/user/profile/resetPwd", $('#form-user-resetPwd').serialize());
+	        }
+	    }
+
+
+	</script>
+</body>
+</html>

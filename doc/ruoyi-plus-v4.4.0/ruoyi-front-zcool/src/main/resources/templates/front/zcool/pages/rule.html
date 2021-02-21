@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>站酷规则  (ZCOOL)</title>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="/front/zcool/css/main.min.css">
+    <link rel="bookmark" type="image/x-icon" href="/front/zcool/images/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="/front/zcool/images/favicon.ico" />
+    <script>
+        function addLinkCss(linkUrl){
+            var link = document.createElement('link');
+            link.type = 'text/css';
+            link.rel = 'stylesheet';
+            link.href = linkUrl;
+            document.getElementsByTagName("head")[0].appendChild(link);
+        }
+    </script>
+
+    <style>
+        .container-area { color: #282828; }
+
+        .container-area-left { float: left; }
+
+        .container-area-left .current { box-sizing: border-box; position: relative; }
+
+        .container-area-left .current span { position: absolute; left: 0; top: 10px; height: 32px; width: 0; border-right: 3px solid #ffe300; }
+
+        .container-area-right { float: right; width: 898px; border-radius: 4px; background: #fff; margin: 0 0 0 20px; }
+
+        .container-area-right .server { height: 66px; line-height: 64px; font-size: 16px; border-bottom: 1px solid #eeeeee; }
+
+        .container-area-right .server div { float: left; color: #999999; margin: 0 20px 0 30px; font-size: 16px; }
+
+        .container-area-right .server div:hover { border-bottom: 2px solid #282828; color: #282828; }
+
+        .container-area-right .server .sele { border-bottom: 2px solid #282828; color: #282828; }
+
+        .container-area-right .textarea { color: #282828; min-height: 270px; font-size: 14px; color: #666666; }
+
+        .container-area-right .textarea .hide { display: none; }
+
+        .container-area-right .textarea .ques { margin: 0 30px; }
+
+        .container-area-right .textarea .ques li { padding: 25px 0 25px; color: #666666; border-bottom: 1px solid #eeeeee; }
+
+        .container-area-right .textarea .ques li p:first-of-type { color: #282828; font-size: 15px; font-weight: 600; margin-bottom: 20px; }
+
+        .container-area-right .textarea .ques li:last-of-type { border: none; }
+
+        .container-area-right .textarea .ques li:last-of-type a { color: #d67b35; }
+
+        .container-area-right .textarea .ques li .question { line-height: 30px; color: #282828; }
+
+        .container-area-right .textarea .ques li .question .answer { display: none; background: #fff6cc; padding: 15px; position: relative; margin: 10px 0; border-radius: 4px; }
+
+        .container-area-right .textarea .ques li .question .answer a { color: #d36f16; }
+
+        .container-area-right .textarea .ques li .question .answer p { margin: 0; font-weight: normal; font-size: 14px; line-height: 20px; color: #333333; }
+
+        .container-area-right .textarea .ques li .question .answer:before { content: ""; width: 0; height: 0; position: absolute; top: -20px; left: 15px; border-bottom: 10px solid #fff6cc; border-top: 10px solid transparent; border-left: 10px solid transparent; border-right: 10px solid transparent; }
+
+        .container-area-right .textarea .ques li .question > a:hover { color: #d36f16; }
+
+        .container-area-right .textarea .rule { min-height: 540px; }
+
+        .container-area-right .textarea .rule .stack:first-of-type .tit { color: #282828; line-height: 80px; margin-left: 30px; border-top: none; }
+
+        .container-area-right .textarea .rule .stack .tit { color: #282828; font-weight: 600; line-height: 80px; margin: 0 30px 0 30px; border-top: 1px solid #dddddd; }
+
+        .container-area-right .textarea .rule .stack .ques { margin: -10px 0 0 0; padding-bottom: 20px; }
+
+        .container-area-right .textarea .rule .stack .ques .lines { line-height: 20px; padding: 5px 0; }
+
+        .container-area-right .textarea .rule .stack .ques li { line-height: 40px; height: 40px; padding: 0; border: none; }
+
+        .container-area-right .textarea .rule .stack .ques li div { float: left; color: #282828; width: 700px; margin-left: 30px; }
+
+        .container-area-right .textarea .rule .stack .ques li div:last-of-type { float: right; width: 143px; margin-left: 0; }
+
+        .container-area-right .textarea .rule .stack .ques li:first-of-type div { float: left; }
+
+        .container-area-right .textarea .rule .stack .ques li:first-of-type div:last-of-type { float: right; }
+
+        .container-area-right .textarea .rule .stack .ques li:nth-of-type(2n) { background: #fbeabd; }
+
+        @media screen and (min-width: 1600px) { .container-area-right { width: 1100px; margin: 0 0 0 18px; } }
+
+    </style>
+</head>
+<body>
+<div id="body">
+    <div th:replace="front/zcool/header"></div>
+    <!--*******************************-->
+    <main class="main-wrapper">
+        <div class="container-area clearFix">
+            <div class="container-area-left">
+                <div class="card-media personal-menu">
+                    <ul class="menu-list">
+                        <li ><a href="/aboutUs">关于我们</a><span></span></li>
+                        <li ><a href="/userAgreement">用户协议</a><span></span></li>
+                        <li ><a href="/policy">隐私政策</a><span></span></li>
+                        <li ><a href="/violationClaim">侵权申诉</a><span></span></li>
+                        <li  class="current"><a href="/help">帮助中心</a><span></span></li>
+                        <li ><a href="/contactUs">联系我们</a><span></span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="container-area-right">
+                <div class="tab-menu">
+                    <ul class="tab-box border-bottom">
+                        <li><a href="/help">常见问题</a></li>
+                        <li class="current"><a href="/rule">站酷规则</a></li>
+                    </ul>
+                </div>
+                <div class="textarea">
+                    <ul class="rule">
+                        <li class="stack">
+                            <p class="tit">一、积分获取规则</p>
+                            <ul class="ques">
+                                <li>
+                                    <div>事项</div>
+                                    <div>分值</div>
+                                </li>
+                                <li>
+                                    <div>1.上传发布原创作品、原创设计文章。</div>
+                                    <div>+1分</div>
+                                </li>
+                                <li>
+                                    <div>2.发布的作品 / 文章，被管理员设置为“普通推荐”。</div>
+                                    <div>+1分</div>
+                                </li>
+                                <li>
+                                    <div>3.发布的作品 / 文章，被管理员设置为“编辑精选”。</div>
+                                    <div>+3分</div>
+                                </li>
+                                <li>
+                                    <div>4.发布的作品 / 文章，被管理员设置为“首页推荐”。</div>
+                                    <div>+5分</div>
+                                </li>
+                                <li>
+                                    <div>5.发表的评论，被管理员设置为“精彩评论”。</div>
+                                    <div>+3分</div>
+                                </li>
+                                <li>
+                                    <div>6.被管理员列入“站酷推荐设计师”列表。</div>
+                                    <div>+10分</div>
+                                </li>
+                                <li>
+                                    <div>7.正确举报违规的内容。</div>
+                                    <div>+1分</div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="stack">
+                            <p class="tit">二、内容处理规则</p>
+                            <ul class="ques">
+                                <li>
+                                    <div>事项</div>
+                                    <div>处理</div>
+                                </li>
+                                <li>
+                                    <div>1.发布的内容，与本站内容无关。</div>
+                                    <div>删除内容</div>
+                                </li>
+                                <li>
+                                    <div>2.发布的内容，含色情、血腥、辱骂、暴力、政治等内容。</div>
+                                    <div>删除内容</div>
+                                </li>
+                                <li>
+                                    <div>3.发布的内容，含广告信息。</div>
+                                    <div>删除内容</div>
+                                </li>
+                                <li class="lines">
+                                    <div>4.发表的内容，含有恶语、讥讽、骚扰等内容。</div>
+                                    <div>删除内容</div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="stack">
+                            <p class="tit">三、“禁止访问”规则</p>
+                            <ul class="ques">
+                                <li>
+                                    <div>原因</div>
+                                    <div>操作</div>
+                                </li>
+                                <li>
+                                    <div>1.发布违反国家相关法律、危害国家安全的内容及言论。</div>
+                                    <div>禁止访问</div>
+                                </li>
+                                <li>
+                                    <div>2.发布严重侮辱他人、诽谤他人、侵害他人合法权益的内容及言论。</div>
+                                    <div>禁止访问</div>
+                                </li>
+                                <li>
+                                    <div>3.发布恶意捆绑病毒、木马的压缩包文件。</div>
+                                    <div>禁止访问</div>
+                                </li>
+                                <li>
+                                    <div>4.通过主题帖、回帖、短消息、留言等方式，发布硬、软广告2次以上。</div>
+                                    <div>禁止访问</div>
+                                </li>
+                                <li>
+                                    <div>5.发布无意义、乱写乱填、与主题无关的内容2次以上。</div>
+                                    <div>禁止访问</div>
+                                </li>
+                                <li>
+                                    <div>6.未经原作者授权，在原创作品区发布他人原创作品。</div>
+                                    <div>禁止访问</div>
+                                </li>
+                                <li>
+                                    <div>7.使用违规图片作为头像，如色情、血腥、辱骂、暴力、政治等图片。</div>
+                                    <div>禁止访问</div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </main>
+    <div th:replace="front/zcool/footer"></div>
+</div>
+
+<div class="sidebar-fixed-wrapper js-sidebar-fixed" style="bottom: 40px;">
+    <div class="back-to-top sidebar-fixed_box" z-st="shortcut_totop" style="display: none;"></div>
+</div>
+<script type="text/javascript" src="/front/H-ui/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="/front/zcool/js/common.js"></script>
+</body>
+</html>

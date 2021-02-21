@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Pear Admin 官网</title>
+		<meta name="description" content="快速开发平台">
+		<meta name="keyword" content="layui,spring,admin,vue,element,开源框架,开发平台,开源社区">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="baidu_union_verify" content="fbd9a27c6ab795781006bc2095348a8d">
+		<link rel="stylesheet" href="assets/layui/css/layui.css" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/load.css" />
+		<style>
+			.layui-nav .layui-this:after{
+				display: none;
+			}
+			.layui-nav .layui-nav-bar{
+				display: none;
+			}
+		</style>
+	</head>
+	<body onload="countTime()">
+		<!-- header -->
+		<div class="ew-header">
+			<img class="layui-logo" src="assets/images/un28.svg" style="height:50px;padding: 10px;" />
+			<div class="ew-nav-group">
+				<div class="nav-toggle"><i class="layui-icon layui-icon-more-vertical"></i></div>
+				<ul class="layui-nav" lay-filter="ew-header-nav">
+					<li class="layui-nav-item">
+						<a lay-href="index.html">首页</a>
+					</li>
+					<li class="layui-nav-item">
+						<a lay-href="#product">项目</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="http://forum.pearadmin.com" target="_blank">社区</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="doc/index.html" target="_blank">文档</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="team.html">团队</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- banner -->
+		<div class="ew-banner" style="box-shadow: 0 0 8px rgba(0,0,0,.101562);">
+			<div class="layui-container">
+				<div class="layui-row layui-col-space25" style="margin-top: 10px;">
+					<div class="layui-col-md6  layui-col-xs12">
+						<img style="margin-top: 0px;margin-bottom: 40px;width: 80%;" src="assets/images/pear.png"></h1>
+						<img style="width: 25%;position: absolute;left: 38%;margin-top: 5px;" src="assets/images/admin.png"></h1>
+						<p style="font-size: 13.8px;font-weight: 500;margin-top: 10px;">💐 致 力 于 让 " Web " 开 发 变 得 简 单 优 雅 </p>
+						<div class="ew-banner-btngroup" style="margin-top: 50px;margin-bottom: 50px;">
+							<ul class="layui-nav" style="background-color: white;" lay-filter="ew-header-nav">
+								<li class="layui-nav-item">
+									<a target="_blank" href="https://gitee.com/pear-admin" class="layui-btn layui-btn-primary" nav-scroll="pricing">
+										<svg data-v-796d512c="" style="width:20px;position: relative;top: 5px;margin-right: 5px;" aria-hidden="true"
+										 focusable="false" data-prefix="fad" data-icon="meteor" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+										 class="svg-inline--fa fa-meteor fa-w-16 h-5 -mb-1 mr-1">
+											<g data-v-796d512c="" class="fa-group">
+												<path data-v-796d512c="" fill="currentColor" d="M491.14.7C452.44 12.3 379.34 35 303.44 62c-2.1-7-4-13.5-5.6-18.6a16.06 16.06 0 0 0-20-10.69 16.6 16.6 0 0 0-2.86 1.19C232.54 56 122.14 116.5 60.54 176.4c-1.1 1-2.5 2-3.5 3C-19 255.5-19 378.87 57.09 455s199.48 76 275.55-.1c1-1 2-2.4 3-3.5C395.44 389.8 456 279.3 478.14 237a16.05 16.05 0 0 0-6.64-21.72 15.52 15.52 0 0 0-2.86-1.18c-5.2-1.6-11.6-3.5-18.6-5.6 27-76 49.7-149 61.3-187.7A16.17 16.17 0 0 0 491.14.7zM191.94 448a128 128 0 1 1 128-128 128 128 0 0 1-128 128z"
+												 opacity="0.4" class="fa-secondary"></path>
+												<path data-v-796d512c="" fill="currentColor" d="M191.94 192a128 128 0 1 0 128 128 128 128 0 0 0-128-128zm-32 128a32 32 0 1 1 32-32 32 32 0 0 1-32 32zm48 64a16 16 0 1 1 16-16 16 16 0 0 1-16 16z"
+												 class="fa-primary"></path>
+											</g>
+										</svg>
+										Gitee 仓库</a>
+								</li>
+								<li class="layui-nav-item">
+									<a target="_blank" href="http://forum.pearadmin.com" class="layui-btn" nav-scroll="pricing">
+										<svg data-v-796d512c="" style="width:20px;position: relative;top: 5px;margin-right: 5px;" data-v-ef02ec52=""
+										 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512" class="nui-svg nui-svg-gh inline-block h-6 -mt-1 mr-1">
+											<path data-v-796d512c="" data-v-ef02ec52="" fill="currentColor" d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"></path>
+										</svg>
+										社区交流</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="layui-col-md6 layui-col-xs12">
+						<div class="ew-banner-right">
+							<img class="show" style="width: 92%;" style="margin-top: 0px!important;" src="assets/images/un26.svg">
+						</div>
+					</div>
+				</div>
+			</div>
+			<br />
+			<br />
+		</div>
+		<div class="section">
+
+		</div>
+		<!-- feature -->
+		<div class="section" style="padding-bottom: 15px;padding-top: 20px;">
+			<div class="section-title">
+			</div>
+			<div class="layui-container">
+				<div class="layui-row">
+					<div class="layui-col-md4 layui-col-sm4 layui-col-xs12">
+						<div class="feature">
+							<img style="width:210px;height: 170px;" src="assets/images/un3.svg" />
+							<br />
+							<h3>源码可控</h3>
+							<p>源码注释详细，便于阅读</p>
+							<p>代码无后门，可放心使用</p>
+						</div>
+					</div>
+					<div class="layui-col-md4 layui-col-sm4 layui-col-xs12">
+						<div class="feature">
+							<img style="width:210px;height: 170px;" src="assets/images/un19.svg" />
+							<br />
+							<h3>功能完善</h3>
+							<p>包含管理系统常用的基础功能</p>
+							<p>拥有众多原创组件及常用模板</p>
+						</div>
+					</div>
+					<div class="layui-col-md4 layui-col-sm4 layui-col-xs12">
+						<div class="feature">
+							<img style="width:210px;height: 170px;" src="assets/images/un14.svg" />
+							<br />
+							<h3>多端支持</h3>
+							<p>支持平板、智能手机、微信浏览器</p>
+							<p>支持IE8+，支持各种常见的浏览器</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="section" nav-id="fuck" style="box-shadow: 0 0 8px rgba(0,0,0,.101562);">
+			<div class="section-title" style="font-size: 20px;font-weight:500;padding-bottom: 25px;">
+				推 荐 项 目
+			</div>
+			<div class="layui-container" style="padding-bottom: 55px;">
+				<div class="layui-row layui-col-space30">
+					<div class="layui-col-md6 layui-col-sm6" style="padding: 45px;">
+						<img src="assets/images/layui.PNG" style="width: 46%;margin-left: 30%;margin-bottom: 30px;">
+						<div class="product-card">
+							<div class="product-cover" style="height: 245px;">
+								<div class="product-cover-img" style="background-size: 100%; background-image: url('assets/images/show.png');"></div>
+								<div class="product-tools">
+									<a href="http://layui.pearadmin.com" class="layui-btn  layui-btn-primary" target="_blank">演示</a>
+									<a href="https://gitee.com/pear-admin/Pear-Admin-Layui" class="layui-btn  layui-btn-primary">前往</a>
+								</div>
+							</div>
+							<div class="product-body" style="padding: 10px;">
+								<a href='https://gitee.com/pear-admin/Pear-Admin-Layui/stargazers'><img src='https://gitee.com/pear-admin/Pear-Admin-Layui/badge/star.svg?theme=white'
+									 alt='star'></img></a>
+								<a href='https://gitee.com/pear-admin/Pear-Admin-Layui/members'><img src='https://gitee.com/pear-admin/Pear-Admin-Layui/badge/fork.svg?theme=white'
+									 alt='fork'></img></a>
+								<span style="float: right;font-size: 13px;">最近更新：2021-1-25</span>
+							</div>
+						</div>
+					</div>
+					<div class="layui-col-md6 layui-col-sm6" style="padding: 45px;">
+						<img src="assets/images/ant.PNG" style="width: 46%;margin-left: 27%;margin-bottom: 30px;">
+						<div class="product-card">
+							<div class="product-cover" style="height: 245px;">
+								<div class="product-cover-img" style="background-size: 100%; background-image: url('assets/images/vue.png');"></div>
+								<div class="product-tools">
+									<a href="http://ant.pearadmin.com" class="layui-btn  layui-btn-primary" target="_blank">演示</a>
+									<a href="https://gitee.com/pear-admin/pear-admin-ant" class="layui-btn  layui-btn-primary">前往</a>
+								</div>
+							</div>
+							<div class="product-body" style="padding: 10px;">
+								<a href='https://gitee.com/pear-admin/pear-admin-ant/stargazers'><img src='https://gitee.com/pear-admin/pear-admin-ant/badge/star.svg?theme=white'
+									 alt='star'></img></a>
+								<a href='https://gitee.com/pear-admin/pear-admin-ant/members'><img src='https://gitee.com/pear-admin/pear-admin-ant/badge/fork.svg?theme=white'
+									 alt='fork'></img></a>
+								<span style="float: right;font-size: 13px;">最近更新：2021-1-27</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="section" nav-id="product">
+			<div class="section-title" style="font-size: 20px;font-weight:500;">
+				全 部 项 目
+			</div>
+			<div class="layui-container" style="padding-bottom: 60px;">
+				<div class="layui-row layui-col-space30">
+					<div class="layui-col-md4 layui-col-sm6">
+						<div class="product-card" style="border-radius: 6px;overflow: hidden;">
+							<div class="product-cover">
+								<div class="product-cover-img" style="background-image: url('assets/images/show.png');"></div>
+								<div class="product-tools">
+									<a href="http://layui.pearadmin.com" class="layui-btn  layui-btn-primary" target="_blank">演示</a>
+									<a href="https://gitee.com/pear-admin/Pear-Admin-Layui" class="layui-btn  layui-btn-primary">详情</a>
+								</div>
+							</div>
+							<div class="product-body">
+								<a href="https://gitee.com/pear-admin/Pear-Admin-Layui" class="product-title">Pear Admin Layui</a>
+								<p class="product-desc">基于 Layui 前端框架</p>
+								<span class="layui-badge-rim">推荐</span>
+							</div>
+						</div>
+					</div>
+					<div class="layui-col-md4 layui-col-sm6">
+						<div class="product-card" style="border-radius: 6px;overflow: hidden;">
+							<div class="product-cover">
+								<div class="product-cover-img" style="background-image: url('assets/images/show.png');"></div>
+								<div class="product-tools">
+									<a href="http://boot.pearadmin.com" class="layui-btn  layui-btn-primary" target="_blank">演示</a>
+									<a href="https://gitee.com/pear-admin/Pear-Admin-Fast" class="layui-btn  layui-btn-primary">详情</a>
+								</div>
+							</div>
+							<div class="product-body">
+								<a href="https://gitee.com/pear-admin/Pear-Admin-Fast" class="product-title">Pear Admin Fast</a>
+								<p class="product-desc">基于 Spring Boot 开发平台</p>
+								<span class="layui-badge-rim">推荐</span>
+							</div>
+						</div>
+					</div>
+					<div class="layui-col-md4 layui-col-sm6">
+						<div class="product-card" style="border-radius: 6px;overflow: hidden;">
+							<div class="product-cover">
+								<div class="product-cover-img" style="background-image: url('assets/images/show.png');"></div>
+								<div class="product-tools">
+									<a href="http://boot.pearadmin.com" class="layui-btn  layui-btn-primary" target="_blank">演示</a>
+									<a href="https://gitee.com/pear-admin/Pear-Admin-Boot" class="layui-btn  layui-btn-primary">详情</a>
+								</div>
+							</div>
+							<div class="product-body">
+								<a href="https://gitee.com/pear-admin/Pear-Admin-Boot" class="product-title">Pear Admin Boot</a>
+								<p class="product-desc">基于 Spring Boot 聚合项目 </p>
+								<span class="layui-badge-rim">推荐</span>
+							</div>
+						</div>
+					</div>
+					<div class="layui-col-md4 layui-col-sm6">
+						<div class="product-card" style="border-radius: 6px;overflow: hidden;">
+							<div class="product-cover">
+								<div class="product-cover-img" style="background-image: url('assets/images/show.png');"></div>
+								<div class="product-tools">
+									<a href="http://net.pearadmin.com" class="layui-btn layui-btn-primary" target="_blank">演示</a>
+									<a href="https://gitee.com/pear-admin/pear-admin-abp" class="layui-btn  layui-btn-primary">详情</a>
+								</div>
+							</div>
+							<div class="product-body">
+								<a href="http://gitee.com/530521314/Partner.Surround" class="product-title">Pear Admin Abp</a>
+								<p class="product-desc">基于 .Net 开发平台的 ABP 实践</p>
+								<span class="layui-badge-rim">推荐</span>
+							</div>
+						</div>
+					</div>
+					<div class="layui-col-md4 layui-col-sm6">
+						<div class="product-card" style="border-radius: 6px;overflow: hidden;">
+							<div class="product-cover">
+								<div class="product-cover-img" style="background-image: url('assets/images/show.png');"></div>
+								<div class="product-tools">
+									<a href="http://furion.pearadmin.com" class="layui-btn  layui-btn-primary" target="_blank">演示</a>
+									<a href="https://gitee.com/pear-admin/pear-admin-furion" class="layui-btn  layui-btn-primary">详情</a>
+								</div>
+							</div>
+							<div class="product-body">
+								<a href="https://gitee.com/pear-admin/pear-admin-furion" class="product-title">Pear Admin Furion</a>
+								<p class="product-desc">基于 .Net 5 平台 Furion 生态的落地实践</p>
+								<span class="layui-badge-rim">推荐</span>
+							</div>
+						</div>
+					</div>
+					<div class="layui-col-md4 layui-col-sm6">
+						<div class="product-card" style="border-radius: 6px;overflow: hidden;">
+							<div class="product-cover">
+								<div class="product-cover-img" style="background-image: url('assets/images/show.png');"></div>
+								<div class="product-tools">
+									<a href="http://pear.jianla.cn/admin.php" class="layui-btn layui-btn-primary" target="_blank">演示</a>
+									<a href="https://gitee.com/pear-admin/Pear-Admin-Think" class="layui-btn  layui-btn-primary">详情</a>
+								</div>
+							</div>
+							<div class="product-body">
+								<a href="https://gitee.com/pear-admin/Pear-Admin-Think" class="product-title">Pear Admin Think</a>
+								<p class="product-desc">基于 Thinkphp 6 开发平台</p>
+								<span class="layui-badge-rim">推荐</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- contact -->
+		<div class="section">
+			<div class="section-title">
+				<h2>敬请期待</h2>
+				<p>Than more</p>
+			</div>
+			<div class="layui-container">
+
+			</div>
+		</div>
+
+		<!-- footer -->
+		<div class="ew-footer">
+		    <div class="layui-container">
+		        <div class="layui-row layui-col-space30">
+		            <div class="layui-col-md6">
+		                <h2 style="font-size: 17px;" class="footer-item-title">技术交流</h2>
+		                <p class="img-group" style="height: 105px;font-size: 15.5px;">
+		                    <img src="assets/images/code2.png" style="border-radius: 2px;height: 100px;width: 100px;"/>
+		                    扫码免费加入前后端分离技术交流QQ群，与各位大佬一起交流技术、讨论问题。
+		                </p>
+		            </div>
+		            <div class="layui-col-md4">
+		                <h2 style="font-size: 17px;" class="footer-item-title">联系我们</h2>
+		                <p>
+		                    <i class="layui-icon layui-icon-dialogue"></i>
+		                     <a href="http://www.pearadmin.com">官网 : www.pearadmin.com</a>
+		                </p>
+		                <p style="margin-top: 2px;">
+		                    <i class="layui-icon layui-icon-website"></i>
+		                    <a href="http://forum.pearadmin.com">社区 : forum.pearadmin.com</a>
+		                </p>
+		            </div>
+		            <div class="layui-col-md2">
+		                <h2 style="font-size: 17px;" class="footer-item-title">友情链接</h2>
+		                <p><i class="layui-icon layui-icon-website"></i><a href="https://monksoul.gitee.io/furion/" target="_blank">Furion</a></p>
+						<p style="margin-top: 10px;"><i class="layui-icon layui-icon-website"></i><a href="http://mrdoc.zmister.com/" target="_blank">MrDoc</a></p>
+					</div>
+		        </div>
+		    </div>
+		</div>
+
+		<!-- js部分 -->
+		<script type="text/javascript" src="assets/layui/layui.js"></script>
+		<script type="text/javascript" src="assets/js/common.js"></script>
+		<script>
+			layui.use(['layer', 'form', 'jquery'], function() {
+				var $ = layui.jquery;
+				var layer = layui.layer;
+				var form = layui.form;
+				var jquery = layui.jquery;
+			});
+		</script>
+		<script>
+			var _hmt = _hmt || [];
+			(function() {
+				var hm = document.createElement("script");
+				hm.src = "https://hm.baidu.com/hm.js?c135516339e1fdab9fbcf956fedb4014";
+				var s = document.getElementsByTagName("script")[0];
+				s.parentNode.insertBefore(hm, s);
+			})();
+		</script>
+	</body>
+</html>

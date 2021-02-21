@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.smdd.cpflgl.mapper.KbsmCategoryMapper">
+    
+    <resultMap type="com.ruoyi.project.smdd.cpflgl.domain.KbsmCategory" id="KbsmCategoryResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="imageId"    column="image_id"    />
+        <result property="sort"    column="sort"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="wxappId"    column="wxapp_id"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+    </resultMap>
+
+    <sql id="selectKbsmCategoryVo">
+        select id, name, parent_id, image_id, sort, shop_id, wxapp_id, gmt_create, gmt_modified from kbsm_category
+    </sql>
+
+    <select id="selectKbsmCategoryList" parameterType="com.ruoyi.project.smdd.cpflgl.domain.KbsmCategory" resultMap="KbsmCategoryResult">
+        <include refid="selectKbsmCategoryVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectKbsmCategoryById" parameterType="Long" resultMap="KbsmCategoryResult">
+        <include refid="selectKbsmCategoryVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertKbsmCategory" parameterType="com.ruoyi.project.smdd.cpflgl.domain.KbsmCategory" useGeneratedKeys="true" keyProperty="id">
+        insert into kbsm_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="imageId != null">image_id,</if>
+            <if test="sort != null">sort,</if>
+            <if test="shopId != null">shop_id,</if>
+            <if test="wxappId != null">wxapp_id,</if>
+            <if test="gmtCreate != null">gmt_create,</if>
+            <if test="gmtModified != null">gmt_modified,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="imageId != null">#{imageId},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="shopId != null">#{shopId},</if>
+            <if test="wxappId != null">#{wxappId},</if>
+            <if test="gmtCreate != null">#{gmtCreate},</if>
+            <if test="gmtModified != null">#{gmtModified},</if>
+         </trim>
+    </insert>
+
+    <update id="updateKbsmCategory" parameterType="com.ruoyi.project.smdd.cpflgl.domain.KbsmCategory">
+        update kbsm_category
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="imageId != null">image_id = #{imageId},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="shopId != null">shop_id = #{shopId},</if>
+            <if test="wxappId != null">wxapp_id = #{wxappId},</if>
+            <if test="gmtCreate != null">gmt_create = #{gmtCreate},</if>
+            <if test="gmtModified != null">gmt_modified = #{gmtModified},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteKbsmCategoryById" parameterType="Long">
+        delete from kbsm_category where id = #{id}
+    </delete>
+
+    <delete id="deleteKbsmCategoryByIds" parameterType="String">
+        delete from kbsm_category where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

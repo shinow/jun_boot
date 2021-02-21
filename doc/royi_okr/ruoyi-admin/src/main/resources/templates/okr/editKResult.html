@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html th:lang="${language}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header(#{okr.updateKResultInfo})" />
+    <th:block th:include="include :: layout-latest-css"/>
+    <th:block th:include="include :: ztree-css"/>
+    <th:block th:include="include :: okr-css"/>
+    <th:block th:include="include :: summernote-css" />
+</head>
+<body class="white-bg">
+
+<form id="form-info-edit" th:object="${okrInfo}">
+
+    <div class="ui-layout-west">
+        <div class="box box-main">
+            <div class="box-header">
+                <div class="box-title">
+                    <i class="fa icon-grid"></i>
+                    <span>[[#{okr.collaboration}]]</span>
+                </div>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool onoffswitch-checkbox" id="btnExpand" th:title="#{okr.open}">
+                        <i class="fa fa-chevron-up"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" id="btnCollapse" th:title="#{okr.close}">
+                        <i class="fa fa-chevron-down"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" id="btnRefresh" th:title="#{okr.refreshDept}">
+                        <i class="fa fa-refresh"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="ui-layout-content">
+                <div id="synergyTrees" class="ztree"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui-layout-center">
+        <div class="container-div form-horizontal m"  style="margin-top: 10px;">
+            <div class="row edit-key-result">
+                <input id="id" name="id" th:field="*{id}" type="hidden">
+                <input id="rowId" name="rowId" th:field="*{rowId}" type="hidden">
+                <input name="synergyUsers" th:field="*{synergyUsers}" class="form-control" type="hidden">
+                <div class="form-group hidden">
+                    <label class="col-sm-3 control-label">[[#{okr.rowId}]]：</label>
+                    <div class="col-sm-8">
+                        <input name="sortId" th:field="*{sortId}" class="form-control" type="number">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">[[#{okr.rowContent}]]：</label>
+                    <div class="content-box col-sm-8">
+                        <textarea name="content" th:field="*{content}" class="form-control" th:rows="${rowLine}"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">[[#{okr.rowProess}]]：</label>
+                    <div class="process-box col-sm-8">
+                        <div class="process-content">
+                            <div id="tiao">
+                                <div id="yuan"></div>
+                                <div id="jindu"></div>
+                            </div>
+                            <div class="process-data">
+                                <span id="process" class="label label-danger"></span>
+                            </div>
+                            <input type="text" id="input" hidden="hidden" th:field="*{process}" placeholder="0"
+                                   autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">[[#{okr.rowStar}]]：</label>
+                    <div class="score-star-box col-sm-8">
+                        <input class="score-star" type="hidden" min=0 max=1 step=0.1 th:field="*{scoreStar}" data-size="xs">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">[[#{okr.rowConfidence}]]：</label>
+                    <div class="confidence-star-box col-sm-8">
+                        <input class="confidence-star" type="hidden" min=1 max=10 step=1 th:field="*{confidenceStar}" data-size="xs">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">[[#{okr.id}]]：</label>
+                    <div class="row-code-box col-sm-8">
+                        <input name="rowCode" th:field="*{rowCode}" class="form-control" type="text"   onkeyup="this.value=this.value.replace(/\D/g,'')"  maxlength="2" >
+                    </div>
+                </div>
+                <div class="form-group hidden">
+                    <label class="col-sm-3 control-label">[[#{okr.rowType}]]：</label>
+                    <div class="row-type-box col-sm-8">
+                        <select name="rowType" class="form-control m-b" readonly=""
+                                th:with="type=${@dict.getType('okr_row_type')}">
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"
+                                    th:field="*{rowType}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group hidden">
+                    <label class="col-sm-3 control-label">[[#{okr.rowUserId}]]：</label>
+                    <div class="col-sm-8">
+                        <input name="userId" th:field="*{userId}" class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="form-group hidden">
+                    <label class="col-sm-3 control-label">[[#{okr.rowParentId}]]：</label>
+                    <div class="col-sm-8">
+                        <input name="parentId" th:field="*{parentId}" class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="form-group hidden">
+                    <label class="col-sm-3 control-label">[[#{okr.rowCycleId}]]：</label>
+                    <div class="col-sm-8">
+                        <input name="cycleId" th:field="*{cycleId}" class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="form-group hidden">
+                    <label class="col-sm-3 control-label">[[#{okr.rowStatus}]]：</label>
+                    <div class="col-sm-8">
+                        <div class="radio-box" th:each="dict : ${@dict.getType('row_status')}">
+                            <input type="radio" th:id="${'status_' + dict.dictCode}" name="status"
+                                   th:value="${dict.dictValue}" th:field="*{status}">
+                            <label th:for="${'status_' + dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">[[#{okr.rowPriority}]]：</label>
+                    <div class="col-sm-8">
+                        <select name="priority" class="form-control m-b" readonly=""
+                                th:with="type=${@dict.getType('okr_level')}">
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"
+                                    th:field="*{priority}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" th:if="not ${#lists.isEmpty(okrInfo.projectList)}">
+                    <label class="col-sm-3 control-label">[[#{okr.projects}]]：</label>
+                    <div class="col-sm-8">
+                        <label class="checkbox-inline check-box" th:each="project : ${okrInfo.projectList}">
+                            <input type="checkbox" name="projects" th:value="${project.projectCode}"
+                                   th:checked="${project.selected}"><span
+                                th:text="${project.projectCode}"></span></label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">[[#{okr.gradeRemark}]]：</label>
+                    <div class="col-sm-8">
+                        <div class="grade-content">
+                            <textarea  class="form-control" th:if="${placeholderGrade} eq 0" th:field="*{gradeTextRemark}" onfocus="editGreatContent()" rows="4"></textarea>
+                            <textarea  class="form-control" th:if="${placeholderGrade} eq 1" name="gradeTextRemark" th:placeholder="*{gradeTextRemark}" onfocus="editGreatContent()" rows="4"></textarea>
+                        </div>
+                        <div class="grade-content-box hidden"  th:utext="*{gradeRemark}" ></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">[[#{okr.progressNotes}]]：</label>
+                    <div class="col-sm-8">
+                        <div class="remark-content">
+                            <textarea  class="form-control" th:if="${placeholder} eq 0" th:field="*{remarkTextContent}" onfocus="editRemarkContent()" rows="4"></textarea>
+                            <textarea  class="form-control" th:if="${placeholder} eq 1" name="remarkTextContent" th:placeholder="*{remarkTextContent}" onfocus="editRemarkContent()" rows="4"></textarea>
+                        </div>
+                        <div class="remark-content-box hidden"  th:utext="*{remarkContent}" ></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</form>
+
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: star-rating-js"/>
+<th:block th:include="include :: layout-latest-js" />
+<th:block th:include="include :: ztree-js"/>
+<th:block th:include="include :: summernote-js" />
+<script type="text/javascript">
+
+    var prefix = ctx + "okr/info";
+    var lang = $("html").attr("lang")?$("html").attr("lang"):"zh_CN";
+    //评分标准
+    function editGreatContent(){
+        $(".grade-content").addClass("hidden");
+        $('.grade-content-box').summernote({
+            lang: lang,
+            fontSize:12,
+            height:"100%",
+            focus: true,
+        });
+    }
+
+    //进度备注
+    function editRemarkContent(){
+        $(".remark-content").addClass("hidden");
+        $('.remark-content-box').summernote({
+            lang: lang,
+            fontSize:12,
+            height:"100%",
+            focus: true,
+        });
+    }
+
+    $(function () {
+        var panehHidden = false;
+        if ($(this).width() < 769) {
+            panehHidden = true;
+        }
+        $('body').layout({ initClosed: panehHidden, west__size: 185 });
+
+        var url = prefix + "/okrSynergyTreeData?id=" + $("#id").val();
+        var options = {
+            id: "synergyTrees",
+            url: url,
+            check: {enable: true},
+            showCheckBox: true,
+            expandLevel: 1,
+        };
+        $.tree.init(options);
+    });
+
+    $("#form-info-edit").validate({
+        focusCleanup: true
+    });
+
+    function submitHandler() {
+        if ($.validate.form()) {
+
+            //评分标准
+            var gradeHtml= "";
+            if(!$('.grade-content-box').summernote('isEmpty')){
+                gradeHtml = $('.grade-content-box').summernote('code');
+            }
+            $(".grade-content textarea").val(gradeHtml);
+
+            //进度备注
+            var remarkHtml = "";
+            if(!$('.remark-content-box').summernote('isEmpty')){
+                remarkHtml = $('.remark-content-box').summernote('code');
+            }
+            $(".remark-content textarea").val(remarkHtml);
+
+            //被选中的结构书
+            $("#synergyUsers").val($.tree.getCheckedNodes("userId"));
+
+            $.operate.save(prefix + "/edit", $('#form-info-edit').serialize());
+        }
+    }
+
+    var input   = document.getElementById("input");
+    var yuan    = document.getElementById("yuan");
+    var jindu   = document.getElementById("jindu");
+    var tiao    = document.getElementById("tiao");
+    var process = document.getElementById("process");
+    var tiaoW   = tiao.offsetWidth;
+    var yuanW   = yuan.offsetWidth;
+
+    function schedule() {
+        var isfalse = false; //控制滑动
+        yuan.onmousedown = function (e) {
+            isfalse = true;
+            var X = e.clientX; //获取当前元素相对于窗口的X左边
+            var offleft = this.offsetLeft; //当前元素相对于父元素的左边距
+            var max = tiao.offsetWidth - this.offsetWidth; //宽度的差值
+            document.body.onmousemove = function (e) {
+                if (isfalse == false) return;
+                var changeX = e.clientX; //在移动的时候获取X坐标
+                var moveX = Math.min(max, Math.max(-2, offleft + (changeX - X))); //超过总宽度取最大宽
+                input.value = Math.round(Math.max(0, moveX / max) * 100);
+                process.innerHTML = Math.round(Math.max(0, moveX / max) * 100) + "%";
+                yuan.style.marginLeft = Math.max(0, moveX) + "px";
+                jindu.style.width = moveX + "px";
+            }
+        }
+        document.body.onmouseup = function () {
+            isfalse = false;
+        }
+        var minValue = 0;
+        var maxValue = 100;
+        input.onblur = function () {
+            var theV = this.value * 1;
+            if (theV > maxValue || theV < minValue) {
+                input.value = "";
+                jindu.style.width = "0px";
+                yuan.style.marginLeft = "0px";
+                return;
+            }
+            var xxx = theV / 100 * tiaoW;
+            yuan.style.marginLeft = xxx + "px";
+            jindu.style.width = xxx + "px";
+        }
+    }
+
+    function initProcess() {
+        var minValue = 0;
+        var maxValue = 100;
+        var value = $("#input").val();
+        var theV = value * 1;
+        if (theV > maxValue || theV < minValue) {
+            input.value = "";
+            jindu.style.width = "0px";
+            yuan.style.marginLeft = "0px";
+            return;
+        }
+        var xxx = (theV) / (100) * (tiaoW - yuanW);
+        yuan.style.marginLeft = xxx + "px";
+        jindu.style.width = xxx + "px";
+        process.innerHTML = value + "%";
+    }
+
+    //初始化 目标评分
+    function score() {
+        $('.score-star').rating({
+            hoverOnClear: false,
+            min:0,
+            max:1,
+            step:0.1,
+            starCaptions: {
+                0: '0',
+                0.1: '0.1',
+                0.2: '0.2',
+                0.3: '0.3',
+                0.4: '0.4',
+                0.5: '0.5',
+                0.6: '0.6',
+                0.7: '0.7',
+                0.8: '0.8',
+                0.9: '0.9',
+                1: '1'
+            },
+            starCaptionClasses:{
+                0:   'label',
+                0.1: 'label',
+                0.2: 'label',
+                0.3: 'label',
+                0.4: 'label',
+                0.5: 'label',
+                0.6: 'label',
+                0.7: 'label badge-success-true',
+                0.8: 'label badge-success-true',
+                0.9: 'label badge-success-true',
+                1  : 'label badge-success-true'
+            },
+            clearValue:0,
+            zeroAsNull:false,
+            clearCaption: "0",
+        });
+    }
+
+    //初始话 信心指数
+    function confidence() {
+        $('.confidence-star').rating({
+            hoverOnClear: false,
+            min:0,
+            max:10,
+            step:1,
+            starCaptions: {
+                0: '0',
+                1: '1',
+                2: '2',
+                3: '3',
+                4: '4',
+                5: '5',
+                6: '6',
+                7: '7',
+                8: '8',
+                9: '9',
+                10: '10'
+            },
+            starCaptionClasses:{
+                0: 'label',
+                1: 'label',
+                2: 'label',
+                3: 'label',
+                4: 'label',
+                5: 'label',
+                6: 'label label-danger',
+                7: 'label badge-success-true',
+                8: 'label badge-success-true',
+                9: 'label badge-success-true',
+                10:'label badge-success-true'
+            },
+            clearValue:0,
+            zeroAsNull:false,
+            clearCaption: "0",
+            filledStar: '<i class="glyphicon glyphicon-heart"></i>',
+            emptyStar: '<i class="glyphicon glyphicon-heart-empty"></i>'
+        });
+    }
+
+    $(document).ready(function () {
+        //目标进度组件，和数据初始化
+        schedule();
+        initProcess();
+        //目标评分
+        score();
+        //信心指数
+        confidence();
+    });
+
+</script>
+</body>
+</html>

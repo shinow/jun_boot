@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.smdd.ddgl.mapper.KbsmOrderMapper">
+    
+    <resultMap type="com.ruoyi.project.smdd.ddgl.domain.KbsmOrder" id="KbsmOrderResult">
+        <result property="id"    column="id"    />
+        <result property="orderNo"    column="order_no"    />
+        <result property="rowNo"    column="row_no"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="tableId"    column="table_id"    />
+        <result property="totalPrice"    column="total_price"    />
+        <result property="activityPrice"    column="activity_price"    />
+        <result property="payPrice"    column="pay_price"    />
+        <result property="payStatus"    column="pay_status"    />
+        <result property="payTime"    column="pay_time"    />
+        <result property="expressPrice"    column="express_price"    />
+        <result property="packPrice"    column="pack_price"    />
+        <result property="warePrice"    column="ware_price"    />
+        <result property="people"    column="people"    />
+        <result property="shopClerkId"    column="shop_clerk_id"    />
+        <result property="flavor"    column="flavor"    />
+        <result property="message"    column="message"    />
+        <result property="arriveTime"    column="arrive_time"    />
+        <result property="deliveryStatus"    column="delivery_status"    />
+        <result property="deliveryTime"    column="delivery_time"    />
+        <result property="receiptStatus"    column="receipt_status"    />
+        <result property="receiptTime"    column="receipt_time"    />
+        <result property="orderStatus"    column="order_status"    />
+        <result property="transactionId"    column="transaction_id"    />
+        <result property="commission"    column="commission"    />
+        <result property="deliverMode"    column="deliver_mode"    />
+        <result property="deliverId"    column="deliver_id"    />
+        <result property="deliveryDistance"    column="delivery_distance"    />
+        <result property="deliverPrice"    column="deliver_price"    />
+        <result property="deliverName"    column="deliver_name"    />
+        <result property="deliverMobile"    column="deliver_mobile"    />
+        <result property="userId"    column="user_id"    />
+        <result property="wxappId"    column="wxapp_id"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+    </resultMap>
+
+    <sql id="selectKbsmOrderVo">
+        select id, order_no, row_no, shop_id, table_id, total_price, activity_price, pay_price, pay_status, pay_time, express_price, pack_price, ware_price, people, shop_clerk_id, flavor, message, arrive_time, delivery_status, delivery_time, receipt_status, receipt_time, order_status, transaction_id, commission, deliver_mode, deliver_id, delivery_distance, deliver_price, deliver_name, deliver_mobile, user_id, wxapp_id, gmt_create, gmt_modified from kbsm_order
+    </sql>
+
+    <select id="selectKbsmOrderList" parameterType="com.ruoyi.project.smdd.ddgl.domain.KbsmOrder" resultMap="KbsmOrderResult">
+        <include refid="selectKbsmOrderVo"/>
+        <where>  
+            <if test="orderNo != null "> and order_no = #{orderNo}</if>
+            <if test="rowNo != null "> and row_no = #{rowNo}</if>
+            <if test="shopId != null "> and shop_id = #{shopId}</if>
+            <if test="tableId != null "> and table_id = #{tableId}</if>
+            <if test="payStatus != null "> and pay_status = #{payStatus}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+        </where>
+    </select>
+    
+    <select id="selectKbsmOrderById" parameterType="Long" resultMap="KbsmOrderResult">
+        <include refid="selectKbsmOrderVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertKbsmOrder" parameterType="com.ruoyi.project.smdd.ddgl.domain.KbsmOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into kbsm_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderNo != null">order_no,</if>
+            <if test="rowNo != null">row_no,</if>
+            <if test="shopId != null">shop_id,</if>
+            <if test="tableId != null">table_id,</if>
+            <if test="totalPrice != null">total_price,</if>
+            <if test="activityPrice != null">activity_price,</if>
+            <if test="payPrice != null">pay_price,</if>
+            <if test="payStatus != null">pay_status,</if>
+            <if test="payTime != null">pay_time,</if>
+            <if test="expressPrice != null">express_price,</if>
+            <if test="packPrice != null">pack_price,</if>
+            <if test="warePrice != null">ware_price,</if>
+            <if test="people != null">people,</if>
+            <if test="shopClerkId != null">shop_clerk_id,</if>
+            <if test="flavor != null">flavor,</if>
+            <if test="message != null">message,</if>
+            <if test="arriveTime != null">arrive_time,</if>
+            <if test="deliveryStatus != null">delivery_status,</if>
+            <if test="deliveryTime != null">delivery_time,</if>
+            <if test="receiptStatus != null">receipt_status,</if>
+            <if test="receiptTime != null">receipt_time,</if>
+            <if test="orderStatus != null">order_status,</if>
+            <if test="transactionId != null and transactionId != ''">transaction_id,</if>
+            <if test="commission != null">commission,</if>
+            <if test="deliverMode != null">deliver_mode,</if>
+            <if test="deliverId != null and deliverId != ''">deliver_id,</if>
+            <if test="deliveryDistance != null">delivery_distance,</if>
+            <if test="deliverPrice != null">deliver_price,</if>
+            <if test="deliverName != null and deliverName != ''">deliver_name,</if>
+            <if test="deliverMobile != null and deliverMobile != ''">deliver_mobile,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="wxappId != null">wxapp_id,</if>
+            <if test="gmtCreate != null">gmt_create,</if>
+            <if test="gmtModified != null">gmt_modified,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderNo != null">#{orderNo},</if>
+            <if test="rowNo != null">#{rowNo},</if>
+            <if test="shopId != null">#{shopId},</if>
+            <if test="tableId != null">#{tableId},</if>
+            <if test="totalPrice != null">#{totalPrice},</if>
+            <if test="activityPrice != null">#{activityPrice},</if>
+            <if test="payPrice != null">#{payPrice},</if>
+            <if test="payStatus != null">#{payStatus},</if>
+            <if test="payTime != null">#{payTime},</if>
+            <if test="expressPrice != null">#{expressPrice},</if>
+            <if test="packPrice != null">#{packPrice},</if>
+            <if test="warePrice != null">#{warePrice},</if>
+            <if test="people != null">#{people},</if>
+            <if test="shopClerkId != null">#{shopClerkId},</if>
+            <if test="flavor != null">#{flavor},</if>
+            <if test="message != null">#{message},</if>
+            <if test="arriveTime != null">#{arriveTime},</if>
+            <if test="deliveryStatus != null">#{deliveryStatus},</if>
+            <if test="deliveryTime != null">#{deliveryTime},</if>
+            <if test="receiptStatus != null">#{receiptStatus},</if>
+            <if test="receiptTime != null">#{receiptTime},</if>
+            <if test="orderStatus != null">#{orderStatus},</if>
+            <if test="transactionId != null and transactionId != ''">#{transactionId},</if>
+            <if test="commission != null">#{commission},</if>
+            <if test="deliverMode != null">#{deliverMode},</if>
+            <if test="deliverId != null and deliverId != ''">#{deliverId},</if>
+            <if test="deliveryDistance != null">#{deliveryDistance},</if>
+            <if test="deliverPrice != null">#{deliverPrice},</if>
+            <if test="deliverName != null and deliverName != ''">#{deliverName},</if>
+            <if test="deliverMobile != null and deliverMobile != ''">#{deliverMobile},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="wxappId != null">#{wxappId},</if>
+            <if test="gmtCreate != null">#{gmtCreate},</if>
+            <if test="gmtModified != null">#{gmtModified},</if>
+         </trim>
+    </insert>
+
+    <update id="updateKbsmOrder" parameterType="com.ruoyi.project.smdd.ddgl.domain.KbsmOrder">
+        update kbsm_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderNo != null">order_no = #{orderNo},</if>
+            <if test="rowNo != null">row_no = #{rowNo},</if>
+            <if test="shopId != null">shop_id = #{shopId},</if>
+            <if test="tableId != null">table_id = #{tableId},</if>
+            <if test="totalPrice != null">total_price = #{totalPrice},</if>
+            <if test="activityPrice != null">activity_price = #{activityPrice},</if>
+            <if test="payPrice != null">pay_price = #{payPrice},</if>
+            <if test="payStatus != null">pay_status = #{payStatus},</if>
+            <if test="payTime != null">pay_time = #{payTime},</if>
+            <if test="expressPrice != null">express_price = #{expressPrice},</if>
+            <if test="packPrice != null">pack_price = #{packPrice},</if>
+            <if test="warePrice != null">ware_price = #{warePrice},</if>
+            <if test="people != null">people = #{people},</if>
+            <if test="shopClerkId != null">shop_clerk_id = #{shopClerkId},</if>
+            <if test="flavor != null">flavor = #{flavor},</if>
+            <if test="message != null">message = #{message},</if>
+            <if test="arriveTime != null">arrive_time = #{arriveTime},</if>
+            <if test="deliveryStatus != null">delivery_status = #{deliveryStatus},</if>
+            <if test="deliveryTime != null">delivery_time = #{deliveryTime},</if>
+            <if test="receiptStatus != null">receipt_status = #{receiptStatus},</if>
+            <if test="receiptTime != null">receipt_time = #{receiptTime},</if>
+            <if test="orderStatus != null">order_status = #{orderStatus},</if>
+            <if test="transactionId != null and transactionId != ''">transaction_id = #{transactionId},</if>
+            <if test="commission != null">commission = #{commission},</if>
+            <if test="deliverMode != null">deliver_mode = #{deliverMode},</if>
+            <if test="deliverId != null and deliverId != ''">deliver_id = #{deliverId},</if>
+            <if test="deliveryDistance != null">delivery_distance = #{deliveryDistance},</if>
+            <if test="deliverPrice != null">deliver_price = #{deliverPrice},</if>
+            <if test="deliverName != null and deliverName != ''">deliver_name = #{deliverName},</if>
+            <if test="deliverMobile != null and deliverMobile != ''">deliver_mobile = #{deliverMobile},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="wxappId != null">wxapp_id = #{wxappId},</if>
+            <if test="gmtCreate != null">gmt_create = #{gmtCreate},</if>
+            <if test="gmtModified != null">gmt_modified = #{gmtModified},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteKbsmOrderById" parameterType="Long">
+        delete from kbsm_order where id = #{id}
+    </delete>
+
+    <delete id="deleteKbsmOrderByIds" parameterType="String">
+        delete from kbsm_order where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

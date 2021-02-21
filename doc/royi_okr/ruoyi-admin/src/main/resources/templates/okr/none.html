@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英雄帖</title>
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/animate.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+</head>
+<body class="gray-bg">
+    <div class="middle-box text-center animated fadeInDown">
+        <div class="jumbotron">
+            <h1>非常抱歉</h1>
+            <p>这位英雄还未找到目标...</p>
+            <div class="alert alert-warning">
+                <ol>
+                    <li></li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+    <script th:inline="javascript">
+      var ctx = [[@{/}]];
+      function index() {
+          window.parent.frames.location.href = ctx + "index";
+      }
+    </script>
+</body>
+</html>

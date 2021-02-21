@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.OkrCommentMapper">
+
+    <resultMap type="OkrComment" id="OkrCommentResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"  />
+        <result property="userName"    column="user_name"  />
+        <result property="avatar"    column="avatar"  />
+        <result property="objectId"    column="object_id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="content"    column="content"    />
+        <result property="userIp"    column="user_ip"    />
+        <result property="thumbNum"    column="thumb_num"    />
+        <result property="type"    column="type"    />
+        <result property="status"    column="status"    />
+        <result property="addShowTime"    column="add_time"    />
+        <result property="addTime"    column="add_time"    />
+    </resultMap>
+
+    <sql id="selectOkrCommentVo">
+        SELECT
+            oc.*,
+            su.avatar,
+            su.user_name,
+            IFNULL(ocm.meta_value,0) AS thumb_num
+        FROM
+            okr_comment AS oc
+            LEFT JOIN sys_user AS su ON oc.user_id = su.user_id
+            LEFT JOIN
+            ( SELECT meta.* FROM okr_comment_meta AS meta WHERE meta.meta_key = 'thumb' )
+            AS ocm ON oc.id = ocm.comment_id
+    </sql>
+
+    <select id="selectOkrCommentById" parameterType="OkrComment" resultMap="OkrCommentResult">
+        <include refid="selectOkrCommentVo"/>
+        where oc.id = #{id}
+    </select>
+
+    <select id="selectOkrCommentByParentId" parameterType="OkrComment" resultMap="OkrCommentResult">
+        <include refid="selectOkrCommentVo"/>
+        <where>
+            <if test="parentId != null "> and oc.parent_id = #{id}</if>
+        </where>
+        <![CDATA[  and oc.status=0 order by oc.add_time desc ]]>
+    </select>
+
+    <select id="selectOkrCommentWholeInfo" parameterType="OkrComment" resultMap="OkrCommentResult">
+        <include refid="selectOkrCommentVo"/>
+        <where>
+            <if test="userId != null "> and oc.user_id = #{userId}</if>
+            <if test="objectId != null "> and oc.object_id = #{objectId}</if>
+            <if test="parentId != null "> and oc.parent_id = #{parentId}</if>
+            <if test="type != null" > and oc.type = #{type}</if>
+        </where>
+        <![CDATA[  and oc.status=0 order by oc.add_time desc ]]>
+    </select>
+
+    <select id="selectOkrCommentByChildId" parameterType="OkrComment" resultMap="OkrCommentResult">
+        <include refid="selectOkrCommentVo"/>
+        <where>
+            <if test="userId != null "> and oc.user_id = #{userId}</if>
+            <if test="objectId != null "> and oc.object_id = #{objectId}</if>
+            <if test="parentId != null "> and oc.parent_id = #{parentId}</if>
+            <if test="content != null  and content != ''"> and oc.content = #{content}</if>
+            <if test="userIp != null  and userIp != ''"> and oc.user_ip = #{userIp}</if>
+            <if test="type != null" > and oc.type = #{type}</if>
+        </where>
+        <![CDATA[  and oc.status=0 order by oc.add_time desc ]]>
+    </select>
+
+    <select id="selectOkrCommentList" parameterType="OkrComment" resultMap="OkrCommentResult">
+        <include refid="selectOkrCommentVo"/>
+        <where>
+            <if test="userId != null "> and oc.user_id = #{userId}</if>
+            <if test="objectId != null "> and oc.object_id = #{objectId}</if>
+            <if test="parentId != null "> and oc.parent_id = #{parentId}</if>
+            <if test="content != null  and content != ''"> and oc.content = #{content}</if>
+            <if test="userIp != null  and userIp != ''"> and oc.user_ip = #{userIp}</if>
+            <if test="type != null" > and oc.type = #{type}</if>
+            <if test="addTime != null "> and oc.add_time = date_format(#{addTime}, '%Y-%m-%d %H:%i:%s')</if>
+        </where>
+        <![CDATA[  and oc.status=0 order by oc.add_time desc ]]>
+    </select>
+
+    <insert id="insertOkrComment" parameterType="OkrComment" useGeneratedKeys="true" keyProperty="id">
+        insert into okr_comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">user_id,</if>
+            <if test="objectId != null ">object_id,</if>
+            <if test="parentId != null ">parent_id,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="userIp != null  and userIp != ''">user_ip,</if>
+            <if test="type != null" >type,</if>
+            <if test="status != null ">status,</if>
+            <if test="addTime != null ">add_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">#{userId},</if>
+            <if test="objectId != null ">#{objectId},</if>
+            <if test="parentId != null ">#{parentId},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="userIp != null  and userIp != ''">#{userIp},</if>
+            <if test="type != null" >#{type},</if>
+            <if test="status != null ">#{status},</if>
+            <if test="addTime != null ">#{addTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateOkrComment" parameterType="OkrComment">
+        update okr_comment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="objectId != null ">object_id = #{objectId},</if>
+            <if test="parentId != null ">parent_id = #{parentId},</if>
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="userIp != null  and userIp != ''">user_ip = #{userIp},</if>
+            <if test="type != null" >type = #{type},</if>
+            <if test="status != null ">status = #{status},</if>
+            <if test="addTime != null ">add_time = #{addTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOkrCommentById" parameterType="Long">
+        delete from okr_comment where id = #{id}
+    </delete>
+
+    <delete id="deleteOkrCommentByIds" parameterType="String">
+        delete from okr_comment where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

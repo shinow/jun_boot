@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.smdd.mdgl.mapper.KbsmShopMapper">
+    
+    <resultMap type="com.ruoyi.project.smdd.mdgl.domain.KbsmShop" id="KbsmShopResult">
+        <result property="id"    column="id"    />
+        <result property="shopName"    column="shop_name"    />
+        <result property="logoImageId"    column="logo_image_id"    />
+        <result property="linkman"    column="linkman"    />
+        <result property="phone"    column="phone"    />
+        <result property="shopHours"    column="shop_hours"    />
+        <result property="province"    column="province"    />
+        <result property="city"    column="city"    />
+        <result property="district"    column="district"    />
+        <result property="address"    column="address"    />
+        <result property="coordinate"    column="coordinate"    />
+        <result property="summary"    column="summary"    />
+        <result property="foodMode"    column="food_mode"    />
+        <result property="tangMode"    column="tang_mode"    />
+        <result property="isCheck"    column="is_check"    />
+        <result property="status"    column="status"    />
+        <result property="sort"    column="sort"    />
+        <result property="wxappId"    column="wxapp_id"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+    </resultMap>
+
+    <sql id="selectKbsmShopVo">
+        select id, shop_name, logo_image_id, linkman, phone, shop_hours, province, city, district, address, coordinate, summary, food_mode, tang_mode, is_check, status, sort, wxapp_id, gmt_create, gmt_modified from kbsm_shop
+    </sql>
+
+    <select id="selectKbsmShopList" parameterType="com.ruoyi.project.smdd.mdgl.domain.KbsmShop" resultMap="KbsmShopResult">
+        <include refid="selectKbsmShopVo"/>
+        <where>  
+            <if test="shopName != null  and shopName != ''"> and shop_name like concat('%', #{shopName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectKbsmShopById" parameterType="Long" resultMap="KbsmShopResult">
+        <include refid="selectKbsmShopVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertKbsmShop" parameterType="com.ruoyi.project.smdd.mdgl.domain.KbsmShop" useGeneratedKeys="true" keyProperty="id">
+        insert into kbsm_shop
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="shopName != null and shopName != ''">shop_name,</if>
+            <if test="logoImageId != null">logo_image_id,</if>
+            <if test="linkman != null and linkman != ''">linkman,</if>
+            <if test="phone != null and phone != ''">phone,</if>
+            <if test="shopHours != null and shopHours != ''">shop_hours,</if>
+            <if test="province != null and province != ''">province,</if>
+            <if test="city != null and city != ''">city,</if>
+            <if test="district != null and district != ''">district,</if>
+            <if test="address != null and address != ''">address,</if>
+            <if test="coordinate != null and coordinate != ''">coordinate,</if>
+            <if test="summary != null and summary != ''">summary,</if>
+            <if test="foodMode != null and foodMode != ''">food_mode,</if>
+            <if test="tangMode != null">tang_mode,</if>
+            <if test="isCheck != null">is_check,</if>
+            <if test="status != null">status,</if>
+            <if test="sort != null">sort,</if>
+            <if test="wxappId != null">wxapp_id,</if>
+            <if test="gmtCreate != null">gmt_create,</if>
+            <if test="gmtModified != null">gmt_modified,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="shopName != null and shopName != ''">#{shopName},</if>
+            <if test="logoImageId != null">#{logoImageId},</if>
+            <if test="linkman != null and linkman != ''">#{linkman},</if>
+            <if test="phone != null and phone != ''">#{phone},</if>
+            <if test="shopHours != null and shopHours != ''">#{shopHours},</if>
+            <if test="province != null and province != ''">#{province},</if>
+            <if test="city != null and city != ''">#{city},</if>
+            <if test="district != null and district != ''">#{district},</if>
+            <if test="address != null and address != ''">#{address},</if>
+            <if test="coordinate != null and coordinate != ''">#{coordinate},</if>
+            <if test="summary != null and summary != ''">#{summary},</if>
+            <if test="foodMode != null and foodMode != ''">#{foodMode},</if>
+            <if test="tangMode != null">#{tangMode},</if>
+            <if test="isCheck != null">#{isCheck},</if>
+            <if test="status != null">#{status},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="wxappId != null">#{wxappId},</if>
+            <if test="gmtCreate != null">#{gmtCreate},</if>
+            <if test="gmtModified != null">#{gmtModified},</if>
+         </trim>
+    </insert>
+
+    <update id="updateKbsmShop" parameterType="com.ruoyi.project.smdd.mdgl.domain.KbsmShop">
+        update kbsm_shop
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="shopName != null and shopName != ''">shop_name = #{shopName},</if>
+            <if test="logoImageId != null">logo_image_id = #{logoImageId},</if>
+            <if test="linkman != null and linkman != ''">linkman = #{linkman},</if>
+            <if test="phone != null and phone != ''">phone = #{phone},</if>
+            <if test="shopHours != null and shopHours != ''">shop_hours = #{shopHours},</if>
+            <if test="province != null and province != ''">province = #{province},</if>
+            <if test="city != null and city != ''">city = #{city},</if>
+            <if test="district != null and district != ''">district = #{district},</if>
+            <if test="address != null and address != ''">address = #{address},</if>
+            <if test="coordinate != null and coordinate != ''">coordinate = #{coordinate},</if>
+            <if test="summary != null and summary != ''">summary = #{summary},</if>
+            <if test="foodMode != null and foodMode != ''">food_mode = #{foodMode},</if>
+            <if test="tangMode != null">tang_mode = #{tangMode},</if>
+            <if test="isCheck != null">is_check = #{isCheck},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="wxappId != null">wxapp_id = #{wxappId},</if>
+            <if test="gmtCreate != null">gmt_create = #{gmtCreate},</if>
+            <if test="gmtModified != null">gmt_modified = #{gmtModified},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteKbsmShopById" parameterType="Long">
+        delete from kbsm_shop where id = #{id}
+    </delete>
+
+    <delete id="deleteKbsmShopByIds" parameterType="String">
+        delete from kbsm_shop where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

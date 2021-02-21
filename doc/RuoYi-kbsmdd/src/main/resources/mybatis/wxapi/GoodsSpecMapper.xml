@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.wxapi.model.mapper.GoodsSpecMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ruoyi.project.wxapi.model.bean.GoodsSpec">
+        <id column="id" property="id" />
+        <result column="spec_name" property="specName" />
+        <result column="goods_id" property="goodsId" />
+        <result column="goods_no" property="goodsNo" />
+        <result column="goods_price" property="goodsPrice" />
+        <result column="out_price" property="outPrice" />
+        <result column="line_price" property="linePrice" />
+        <result column="stock_num" property="stockNum" />
+        <result column="goods_sales" property="goodsSales" />
+        <result column="wxapp_id" property="wxappId" />
+        <result column="spec_sku_id" property="specSkuId" />
+        <result column="group_id" property="groupId" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, spec_name, goods_id, goods_no, goods_price, out_price, line_price, stock_num, goods_sales, wxapp_id, spec_sku_id, group_id, gmt_create, gmt_modified
+    </sql>
+    <update id="reduceStockByGoods">
+        update kbsm_goods_spec
+        set version = #{version} + 1, stock_num=#{stockNum}
+        where goods_id=#{id,jdbcType=INTEGER} and group_id=0 and version=#{version}
+    </update>
+
+    <select id="selectByGoodsId" resultType="com.ruoyi.project.wxapi.model.bean.GoodsSpec">
+
+    </select>
+    <select id="selectByGroupId" resultType="com.ruoyi.project.wxapi.model.bean.GoodsSpec">
+        select <include refid="Base_Column_List"></include>
+        from kbsm_goods_spec
+        where group_id=#{groupId}
+    </select>
+    <select id="getByGoodsId" resultType="com.ruoyi.project.wxapi.model.bean.GoodsSpec">
+        select <include refid="Base_Column_List"></include>
+        from kbsm_goods_spec
+        where goods_id=#{goodsId,jdbcType=INTEGER} and group_id=0
+    </select>
+    <select id="getNotGroupByGoodsId" resultType="com.ruoyi.project.wxapi.model.bean.GoodsSpec">
+        select <include refid="Base_Column_List"></include>
+        from kbsm_goods_spec
+        where goods_id=#{goodsId,jdbcType=INTEGER} and group_id=0
+    </select>
+
+</mapper>

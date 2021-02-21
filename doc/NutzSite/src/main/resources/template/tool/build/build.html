@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link th:href="@{/assets/css/ui.css}" rel="stylesheet"/>
+<link th:href="@{/assets/plugins/datapicker/datepicker3.css}" rel="stylesheet"/>
+<link rel="stylesheet" href="/assets/plugins/jquery-ztree/3.5/css/default/zTreeStyle.css" type="text/css">
+<link th:href="@{/assets/plugins/bootstrap-fileinput/css/fileinput.css}" media="all" rel="stylesheet" type="text/css">
+<link th:href="@{/assets/plugins/bootstrap-fileinput/css/fileinput-rtl.css}">
+
+<style>
+    .droppable-active {
+        background-color: #ffe !important
+    }
+
+    .tools a {
+        cursor: pointer;
+        font-size: 80%
+    }
+
+    .form-body .col-md-6, .form-body .col-md-12 {
+        min-height: 400px
+    }
+
+    .draggable {
+        cursor: move
+    }
+</style>
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>元素</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="#">基本</a>
+                            </li>
+                            <li><a href="#">其他</a>
+                            </li>
+                        </ul>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="alert alert-info">
+                        拖拽左侧的表单元素到右侧区域，即可生成相应的HTML代码，表单代码，轻松搞定！
+                    </div>
+                    <form role="form" class="form-horizontal m-t">
+                        <div class="form-group draggable">
+                            <label class="col-sm-3 control-label">文本框：</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="" class="form-control" placeholder="请输入文本">
+                            </div>
+                        </div>
+
+                        <div class="form-group draggable">
+                            <label class="col-sm-3 control-label">多行文本框：</label>
+                            <div class="col-sm-8">
+                                <textarea type="text" name="" class="form-control" placeholder="请输入文本"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group draggable">
+                            <label class="col-sm-3 control-label">密码框：</label>
+                            <div class="col-sm-8">
+                                <input type="password" class="form-control" name="password" placeholder="请输入密码">
+                            </div>
+                        </div>
+                        <div class="form-group draggable">
+                            <label class="col-sm-3 control-label">下拉框：</label>
+                            <div class="col-sm-8">
+                                <select class="form-control selectpicker" multiple data-max-options="1" data-live-search="true">
+                                    <option>选项 1</option>
+                                    <option>选项 2</option>
+                                    <option>选项 3</option>
+                                    <option>选项 4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group draggable">
+                            <label class="col-sm-3 control-label">纯文本：</label>
+
+                            <div class="col-sm-8">
+                                <p class="form-control-static">这里是纯文字信息</p>
+                            </div>
+                        </div>
+                        <div class="form-group draggable">
+                            <label class="col-sm-3 control-label">单选框：
+                            </label>
+                            <div class="col-sm-8">
+                                <label class="radio-box"> <input type="radio" name="status" value="false" checked/> 选项1
+                                </label>
+                                <label class="radio-box"> <input type="radio" name="status" value="true"/> 选项2 </label>
+                            </div>
+                        </div>
+                        <div class="form-group draggable">
+                            <label class="col-sm-3 control-label">复选框：</label>
+
+                            <div class="col-sm-8">
+                                <label class="check-box">
+                                    <input type="checkbox" value="option1" id="inlineCheckbox1">选项1
+                                </label>
+                                <label class="check-box">
+                                    <input type="checkbox" value="option2" id="inlineCheckbox2">选项2
+                                </label>
+                                <label class="check-box">
+                                    <input type="checkbox" value="option3" id="inlineCheckbox3">选项3
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group draggable">
+                            <label class="col-sm-3 control-label">切换按钮：
+                            </label>
+
+                            <div class="col-sm-8">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" th:checked="true" class="onoffswitch-checkbox" id="status"
+                                           name="status">
+                                    <label class="onoffswitch-label" for="status">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group draggable">
+                            <label class="col-sm-3 control-label">日期选择：</label>
+
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <div class="input-group date">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" class="form-control" value="2018-04-20">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group draggable">
+                            <label class="col-sm-3 control-label">文件上传：
+                            </label>
+                            <div class="col-sm-8">
+
+<!--                                <link th:href="@{/assets/plugins/bootstrap-fileinput/css/fileinput.css}" media="all" rel="stylesheet" type="text/css">
+                                <link th:href="@{/assets/plugins/bootstrap-fileinput/css/fileinput-rtl.css}">
+
+                                <script th:src="@{/assets/plugins/bootstrap-fileinput/js/fileinput.js}"></script>
+                                <script th:src="@{/assets/plugins/bootstrap-fileinput/js/locales/zh.js}"></script>
+                                <script th:src="@{/assets/plugins/bootstrap-fileinput/js/plugins/sortable.js}"></script>-->
+                                <input id="input-b2" name="input-b2" type="file" class="file" data-show-preview="false">
+                                <script >
+                                    //文件上传 文档地址 http://plugins.krajee.com/file-basic-usage-demo
+                                    // with plugin options
+                                    // $("#input-b2").fileinput({'language':'zh','showUpload':false, 'previewFileType':'any'});
+                                </script>
+                            </div>
+                        </div>
+                        <div class="form-group draggable">
+                            <label class="col-sm-3 control-label">文件上传预览：
+                            </label>
+                            <div class="col-sm-8">
+                               <!-- <link th:href="@{/assets/plugins/bootstrap-fileinput/css/fileinput.css}" media="all" rel="stylesheet" type="text/css">
+                                <link th:href="@{/assets/plugins/bootstrap-fileinput/css/fileinput-rtl.css}">
+                                <script th:src="@{/assets/plugins/bootstrap-fileinput/js/fileinput.js}"></script>
+                                <script th:src="@{/assets/plugins/bootstrap-fileinput/js/locales/zh.js}"></script>
+                                <script th:src="@{/assets/plugins/bootstrap-fileinput/js/plugins/sortable.js}"></script>-->
+
+                                <input id="input-id" type="file" class="file"  multiple>
+
+                                <script >
+                                    //文件上传 文档地址 http://plugins.krajee.com/file-basic-usage-demo
+                                    // with plugin options
+                                    // $("#input-id").fileinput({
+                                    //     'language':'zh',
+                                    //     'showUpload':false,
+                                    //     'previewFileType':'any',
+                                    //     'dropZoneEnabled':false,
+                                    //     'maxFileCount': 1, // 最大上传的文件数
+                                    //     'maxFileSize': 1000, // 最大上传文件的大小(KB)(1M = 1000Kb)
+                                    //     'allowedFileExtensions': ["jpg", "png", "gif","jpeg"]
+                                    // });
+                                </script>
+                            </div>
+
+                        </div>
+                        <div class="form-group draggable">
+                            <label class="col-sm-3 control-label">地图选择：</label>
+
+                            <div class="col-sm-8">
+                                <div class="input-group" id="id_address_input">
+                                    <input type="text" class="form-control">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></span>
+                                </div>
+                                <button id="id_get_data" type="button" class="btn btn-default">获取当前位置数据</button>
+                                <p id="id_data_display"></p>
+                            </div>
+                            <!--
+
+                            <script type="text/javascript"
+                                    src="https://webapi.amap.com/maps?v=1.3&key=ed1fafa0307bb4991da41f54d8a88b46"></script>
+                            <script src="/assets/plugins/bootstrap-amap/bootstrap.AMapPositionPicker.js"></script>
+                            <script type="text/javascript">
+                                $(document).ready(function () {
+                                //源码地址 https://gitee.com/kinegratii/Bootstrap-AMapPositionPicker
+                                  var p = $("#id_address_input").AMapPositionPicker();
+                                    $("#id_get_data").on('click', function () {
+                                        $("#id_data_display").html(JSON.stringify(p.AMapPositionPicker('position')));
+                                    });
+
+                                });
+                            </script>
+                            -->
+                        </div>
+                        <div class="form-group draggable">
+                            <label class="col-sm-3 control-label">树：</label>
+
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <ul id="treeDemo" class="ztree"></ul>
+                                </div>
+                            </div>
+                            <!--
+
+                            <link rel="stylesheet" href="/assets/plugins/jquery-ztree/3.5/css/default/zTreeStyle.css" type="text/css">
+                            <script type="text/javascript" src="/assets/plugins/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js"></script>
+                            <SCRIPT type="text/javascript">
+
+                                var setting = {
+                                    data: {
+                                        simpleData: {
+                                            enable: true
+                                        }
+                                    }
+                                };
+
+                                var zNodes =[
+                                    { id:1, pId:0, name:"父节点1 - 展开", open:true},
+                                    { id:11, pId:1, name:"父节点11 - 折叠"},
+                                    { id:111, pId:11, name:"叶子节点111"},
+                                    { id:112, pId:11, name:"叶子节点112"},
+                                    { id:113, pId:11, name:"叶子节点113"},
+                                    { id:114, pId:11, name:"叶子节点114"},
+                                    { id:12, pId:1, name:"父节点12 - 折叠"},
+                                    { id:121, pId:12, name:"叶子节点121"},
+                                    { id:122, pId:12, name:"叶子节点122"},
+                                    { id:123, pId:12, name:"叶子节点123"},
+                                    { id:124, pId:12, name:"叶子节点124"},
+                                    { id:13, pId:1, name:"父节点13 - 没有子节点", isParent:true},
+                                    { id:2, pId:0, name:"父节点2 - 折叠"},
+                                    { id:21, pId:2, name:"父节点21 - 展开", open:true},
+                                    { id:211, pId:21, name:"叶子节点211"},
+                                    { id:212, pId:21, name:"叶子节点212"},
+                                    { id:213, pId:21, name:"叶子节点213"},
+                                    { id:214, pId:21, name:"叶子节点214"},
+                                    { id:22, pId:2, name:"父节点22 - 折叠"},
+                                    { id:221, pId:22, name:"叶子节点221"},
+                                    { id:222, pId:22, name:"叶子节点222"},
+                                    { id:223, pId:22, name:"叶子节点223"},
+                                    { id:224, pId:22, name:"叶子节点224"},
+                                    { id:23, pId:2, name:"父节点23 - 折叠"},
+                                    { id:231, pId:23, name:"叶子节点231"},
+                                    { id:232, pId:23, name:"叶子节点232"},
+                                    { id:233, pId:23, name:"叶子节点233"},
+                                    { id:234, pId:23, name:"叶子节点234"},
+                                    { id:3, pId:0, name:"父节点3 - 没有子节点", isParent:true}
+                                ];
+
+                                $(document).ready(function(){
+                                    $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+                                });
+                            </SCRIPT>
+
+                            -->
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group draggable">
+                            <div class="col-sm-12 col-sm-offset-3">
+                                <button type="submit" class="btn btn-primary">提交</button>
+                                <button onclick="$.modal.close()" class="btn btn-danger" type="button">关闭</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-7">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>拖拽左侧表单元素到此区域</h5>
+                    <div class="ibox-tools">
+                        请选择显示的列数：
+                        <select id="n-columns">
+                            <option value="1">显示1列</option>
+                            <option value="2">显示2列</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="ibox-content">
+                    <div class="row form-body form-horizontal m-t">
+                        <div class="col-md-12 droppable sortable">
+                        </div>
+                        <div class="col-md-6 droppable sortable" style="display: none;">
+                        </div>
+                        <div class="col-md-6 droppable sortable" style="display: none;">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-warning" data-clipboard-text="testing" id="copy-to-clipboard">
+                        复制代码
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include :: footer"></div>
+<script th:src="@{/assets/js/jquery-ui-1.10.4.min.js}"></script>
+<script th:src="@{/assets/plugins/iCheck/icheck.min.js}"></script>
+<script th:src="@{/assets/plugins/datapicker/bootstrap-datepicker.js}"></script>
+<script th:src="@{/assets/plugins/beautifyhtml/beautifyhtml.js}"></script>
+
+<script th:src="@{/assets/plugins/bootstrap-fileinput/js/plugins/piexif.js}"></script>
+<script th:src="@{/assets/plugins/bootstrap-fileinput/js/plugins/purify.js}"></script>
+<script th:src="@{/assets/plugins/bootstrap-fileinput/js/plugins/sortable.js}"></script>
+<script th:src="@{/assets/plugins/bootstrap-fileinput/js/fileinput.js}"></script>
+<script th:src="@{/assets/plugins/bootstrap-fileinput/js/locales/zh.js}"></script>
+
+<script type="text/javascript" src="/assets/plugins/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js"></script>
+<SCRIPT type="text/javascript">
+    <!--
+
+
+    $(document).ready(function () {
+        $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+
+    });
+    //文件上传
+    // with plugin options
+    $("#input-b2").fileinput({'language':'zh','showUpload':false, 'previewFileType':'any'});
+    $("#input-id").fileinput({
+        'language':'zh',
+        'showUpload':false,
+        'previewFileType':'any',
+        'dropZoneEnabled':false,
+        'maxFileCount': 1, // 最大上传的文件数
+        'maxFileSize': 1000, // 最大上传文件的大小(KB)(1M = 1000Kb)
+        'allowedFileExtensions': ["jpg", "png", "gif","jpeg"]
+    });
+    //-->
+</SCRIPT>
+
+<script src="http://webapi.amap.com/maps?v=1.3&key=ed1fafa0307bb4991da41f54d8a88b46&plugin=AMap.CitySearch,AMap.Autocomplete"></script>
+<script src="/assets/plugins/bootstrap-amap/bootstrap.AMapPositionPicker.js"></script>
+<script>
+    //zTree start
+    var setting = {
+        data: {
+            simpleData: {
+                enable: true
+            }
+        }
+    };
+
+    var zNodes = [
+        {id: 1, pId: 0, name: "父节点1 - 展开", open: true},
+        {id: 11, pId: 1, name: "父节点11 - 折叠"},
+        {id: 111, pId: 11, name: "叶子节点111"},
+        {id: 112, pId: 11, name: "叶子节点112"},
+        {id: 113, pId: 11, name: "叶子节点113"},
+        {id: 114, pId: 11, name: "叶子节点114"},
+        {id: 12, pId: 1, name: "父节点12 - 折叠"},
+        {id: 121, pId: 12, name: "叶子节点121"},
+        {id: 122, pId: 12, name: "叶子节点122"},
+        {id: 123, pId: 12, name: "叶子节点123"},
+        {id: 124, pId: 12, name: "叶子节点124"},
+        {id: 13, pId: 1, name: "父节点13 - 没有子节点", isParent: true},
+        {id: 2, pId: 0, name: "父节点2 - 折叠"},
+        {id: 21, pId: 2, name: "父节点21 - 展开", open: true},
+        {id: 211, pId: 21, name: "叶子节点211"},
+        {id: 212, pId: 21, name: "叶子节点212"},
+        {id: 213, pId: 21, name: "叶子节点213"},
+        {id: 214, pId: 21, name: "叶子节点214"},
+        {id: 22, pId: 2, name: "父节点22 - 折叠"},
+        {id: 221, pId: 22, name: "叶子节点221"},
+        {id: 222, pId: 22, name: "叶子节点222"},
+        {id: 223, pId: 22, name: "叶子节点223"},
+        {id: 224, pId: 22, name: "叶子节点224"},
+        {id: 23, pId: 2, name: "父节点23 - 折叠"},
+        {id: 231, pId: 23, name: "叶子节点231"},
+        {id: 232, pId: 23, name: "叶子节点232"},
+        {id: 233, pId: 23, name: "叶子节点233"},
+        {id: 234, pId: 23, name: "叶子节点234"},
+        {id: 3, pId: 0, name: "父节点3 - 没有子节点", isParent: true}
+    ];
+    //ztree end
+
+    $(document).ready(function () {
+        //地图
+        var p = $("#id_address_input").AMapPositionPicker();
+        $("#id_get_data").on('click', function () {
+            $("#id_data_display").html(JSON.stringify(p.AMapPositionPicker('position')));
+        });
+        //zTree
+        $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+
+        setup_draggable();
+        $("#n-columns").on("change", function () {
+            var v = $(this).val();
+            if (v === "1") {
+                var $col = $(".form-body .col-md-12").toggle(true);
+                $(".form-body .col-md-6 .draggable").each(function (i, el) {
+                    $(this).remove().appendTo($col)
+                });
+                $(".form-body .col-md-6").toggle(false)
+            } else {
+                var $col = $(".form-body .col-md-6").toggle(true);
+                $(".form-body .col-md-12 .draggable").each(function (i, el) {
+                    $(this).remove().appendTo(i % 2 ? $col[1] : $col[0])
+                });
+                $(".form-body .col-md-12").toggle(false)
+            }
+        });
+        $("#copy-to-clipboard").on("click", function () {
+            var $copy = $(".form-body").clone().appendTo(document.body);
+            $copy.find(".tools, :hidden").remove();
+            $.each(["draggable", "droppable", "sortable", "dropped", "ui-sortable", "ui-draggable", "ui-droppable", "form-body"], function (i, c) {
+                $copy.find("." + c).removeClass(c).removeAttr("style")
+            });
+            var html = html_beautify($copy.html());
+            $copy.remove();
+            $modal = get_modal(html).modal("show");
+            $modal.find(".btn").remove();
+            $modal.find(".modal-title").html("复制HTML代码");
+            $modal.find(":input:first").select().focus();
+            return false
+        })
+    });
+    var setup_draggable = function () {
+        $(".draggable").draggable({appendTo: "body", helper: "clone"});
+        $(".droppable").droppable({
+            accept: ".draggable",
+            helper: "clone",
+            hoverClass: "droppable-active",
+            drop: function (event, ui) {
+                $(".empty-form").remove();
+                var $orig = $(ui.draggable);
+                if (!$(ui.draggable).hasClass("dropped")) {
+                    var $el = $orig.clone().addClass("dropped").css({
+                        "position": "static",
+                        "left": null,
+                        "right": null
+                    }).appendTo(this);
+                    var id = $orig.find(":input").attr("id");
+                    if (id) {
+                        id = id.split("-").slice(0, -1).join("-") + "-" + (parseInt(id.split("-").slice(-1)[0]) + 1);
+                        $orig.find(":input").attr("id", id);
+                        $orig.find("label").attr("for", id)
+                    }
+                    $('<p class="tools col-sm-12 col-sm-offset-3">						<a class="edit-link">编辑HTML<a> | 						<a class="remove-link">移除</a></p>').appendTo($el)
+                } else {
+                    if ($(this)[0] != $orig.parent()[0]) {
+                        var $el = $orig.clone().css({"position": "static", "left": null, "right": null}).appendTo(this);
+                        $orig.remove()
+                    }
+                }
+            }
+        }).sortable()
+    };
+    var get_modal = function (content) {
+        var modal = $('<div class="modal" style="overflow: auto;" tabindex="-1">	<div class="modal-dialog"><div class="modal-content"><div class="modal-header"><a type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</a><h4 class="modal-title">编辑HTML</h4></div><div class="modal-body ui-front">	<textarea class="form-control" 	style="min-height: 200px; margin-bottom: 10px;font-family: Monaco, Fixed">' + content + '</textarea><button class="btn btn-success">更新HTML</button></div>				</div></div></div>').appendTo(document.body);
+        return modal
+    };
+    $(document).on("click", ".edit-link", function (ev) {
+        var $el = $(this).parent().parent();
+        var $el_copy = $el.clone();
+        var $edit_btn = $el_copy.find(".edit-link").parent().remove();
+        var $modal = get_modal(html_beautify($el_copy.html())).modal("show");
+        $modal.find(":input:first").focus();
+        $modal.find(".btn-success").click(function (ev2) {
+            var html = $modal.find("textarea").val();
+            if (!html) {
+                $el.remove()
+            } else {
+                $el.html(html);
+                $edit_btn.appendTo($el)
+            }
+            $modal.modal("hide");
+            return false
+        })
+    });
+    $(document).on("click", ".remove-link", function (ev) {
+        $(this).parent().parent().remove()
+    });
+    $(".input-group.date").datepicker({
+        todayBtn: "linked",
+        keyboardNavigation: !1,
+        forceParse: !1,
+        calendarWeeks: !0,
+        autoclose: !0
+    });
+</script>
+</body>
+</html>

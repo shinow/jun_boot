@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.smdd.ddjlgl.mapper.KbsmRechargeMapper">
+    
+    <resultMap type="com.ruoyi.project.smdd.ddjlgl.domain.KbsmRecharge" id="KbsmRechargeResult">
+        <result property="id"    column="id"    />
+        <result property="mode"    column="mode"    />
+        <result property="orderNo"    column="order_no"    />
+        <result property="money"    column="money"    />
+        <result property="giftMoney"    column="gift_money"    />
+        <result property="rechargePlanId"    column="recharge_plan_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="payStatus"    column="pay_status"    />
+        <result property="payTime"    column="pay_time"    />
+        <result property="transactionId"    column="transaction_id"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="wxappId"    column="wxapp_id"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+    </resultMap>
+
+    <sql id="selectKbsmRechargeVo">
+        select id, mode, order_no, money, gift_money, recharge_plan_id, user_id, pay_status, pay_time, transaction_id, shop_id, wxapp_id, gmt_create, gmt_modified from kbsm_recharge
+    </sql>
+
+    <select id="selectKbsmRechargeList" parameterType="com.ruoyi.project.smdd.ddjlgl.domain.KbsmRecharge" resultMap="KbsmRechargeResult">
+        <include refid="selectKbsmRechargeVo"/>
+        <where>  
+            <if test="mode != null "> and mode = #{mode}</if>
+            <if test="orderNo != null "> and order_no = #{orderNo}</if>
+            <if test="money != null "> and money = #{money}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="payStatus != null "> and pay_status = #{payStatus}</if>
+            <if test="shopId != null "> and shop_id = #{shopId}</if>
+        </where>
+    </select>
+    
+    <select id="selectKbsmRechargeById" parameterType="Long" resultMap="KbsmRechargeResult">
+        <include refid="selectKbsmRechargeVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertKbsmRecharge" parameterType="com.ruoyi.project.smdd.ddjlgl.domain.KbsmRecharge" useGeneratedKeys="true" keyProperty="id">
+        insert into kbsm_recharge
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mode != null">mode,</if>
+            <if test="orderNo != null">order_no,</if>
+            <if test="money != null">money,</if>
+            <if test="giftMoney != null">gift_money,</if>
+            <if test="rechargePlanId != null">recharge_plan_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="payStatus != null">pay_status,</if>
+            <if test="payTime != null">pay_time,</if>
+            <if test="transactionId != null and transactionId != ''">transaction_id,</if>
+            <if test="shopId != null">shop_id,</if>
+            <if test="wxappId != null">wxapp_id,</if>
+            <if test="gmtCreate != null">gmt_create,</if>
+            <if test="gmtModified != null">gmt_modified,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mode != null">#{mode},</if>
+            <if test="orderNo != null">#{orderNo},</if>
+            <if test="money != null">#{money},</if>
+            <if test="giftMoney != null">#{giftMoney},</if>
+            <if test="rechargePlanId != null">#{rechargePlanId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="payStatus != null">#{payStatus},</if>
+            <if test="payTime != null">#{payTime},</if>
+            <if test="transactionId != null and transactionId != ''">#{transactionId},</if>
+            <if test="shopId != null">#{shopId},</if>
+            <if test="wxappId != null">#{wxappId},</if>
+            <if test="gmtCreate != null">#{gmtCreate},</if>
+            <if test="gmtModified != null">#{gmtModified},</if>
+         </trim>
+    </insert>
+
+    <update id="updateKbsmRecharge" parameterType="com.ruoyi.project.smdd.ddjlgl.domain.KbsmRecharge">
+        update kbsm_recharge
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="mode != null">mode = #{mode},</if>
+            <if test="orderNo != null">order_no = #{orderNo},</if>
+            <if test="money != null">money = #{money},</if>
+            <if test="giftMoney != null">gift_money = #{giftMoney},</if>
+            <if test="rechargePlanId != null">recharge_plan_id = #{rechargePlanId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="payStatus != null">pay_status = #{payStatus},</if>
+            <if test="payTime != null">pay_time = #{payTime},</if>
+            <if test="transactionId != null and transactionId != ''">transaction_id = #{transactionId},</if>
+            <if test="shopId != null">shop_id = #{shopId},</if>
+            <if test="wxappId != null">wxapp_id = #{wxappId},</if>
+            <if test="gmtCreate != null">gmt_create = #{gmtCreate},</if>
+            <if test="gmtModified != null">gmt_modified = #{gmtModified},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteKbsmRechargeById" parameterType="Long">
+        delete from kbsm_recharge where id = #{id}
+    </delete>
+
+    <delete id="deleteKbsmRechargeByIds" parameterType="String">
+        delete from kbsm_recharge where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32px" height="32px" viewBox="0 0 32 32" version="1.1">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>添加作品</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD" transform="translate(-1655.000000, -445.000000)">
+            <g id="添加作品" transform="translate(1655.000000, 445.000000)">
+                <path d="M32,16 C32,24.8 24.8,32 16,32 C7.2,32 0,24.8 0,16 C0,7.2 7.2,0 16,0 C16.6,0 17.2,0 17.8,0.1 C25.7,1 32,7.8 32,16 L32,16 Z" id="XMLID_82_" fill="#FFE300"/>
+                <path d="M10,16 L22.5,16" id="XMLID_81_" stroke="#FFFFFF" fill="#FFFFFF"/>
+                <path d="M16,22.4 L16,10" id="XMLID_80_" stroke="#FFFFFF" fill="#FFFFFF"/>
+            </g>
+        </g>
+    </g>
+</svg>

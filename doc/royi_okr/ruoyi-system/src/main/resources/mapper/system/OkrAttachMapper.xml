@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.OkrAttachMapper">
+    
+    <resultMap type="OkrAttach" id="OkrAttachResult">
+        <result property="id"    column="id"    />
+        <result property="okrId"    column="okr_id"    />
+        <result property="keyName"    column="key_name"    />
+        <result property="keyValue"    column="key_value"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectOkrAttachVo">
+        select id, okr_id, key_name, key_value, create_time from okr_attach
+    </sql>
+
+    <select id="selectOkrAttachList" parameterType="OkrAttach" resultMap="OkrAttachResult">
+        <include refid="selectOkrAttachVo"/>
+        <where>  
+            <if test="okrId != null  and okrId != ''"> and okr_id = #{okrId}</if>
+            <if test="keyName != null  and keyName != ''"> and key_name = #{keyName}</if>
+        </where>
+    </select>
+    
+    <select id="selectOkrAttachById" parameterType="Long" resultMap="OkrAttachResult">
+        <include refid="selectOkrAttachVo"/>
+        where id = #{id}
+    </select>
+
+
+
+    <insert id="insertOkrAttachList" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into okr_attach (okr_id,key_name,key_value) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.okrId},#{item.keyName},#{item.keyValue})
+        </foreach>
+    </insert>
+        
+    <insert id="insertOkrAttach" parameterType="OkrAttach" useGeneratedKeys="true" keyProperty="id">
+        insert into okr_attach
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="okrId != null  and okrId != ''">okr_id,</if>
+            <if test="keyName != null  and keyName != ''">key_name,</if>
+            <if test="keyValue != null  and keyValue != ''">key_value,</if>
+            <if test="createTime != null ">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="okrId != null  and okrId != ''">#{okrId},</if>
+            <if test="keyName != null  and keyName != ''">#{keyName},</if>
+            <if test="keyValue != null  and keyValue != ''">#{keyValue},</if>
+            <if test="createTime != null ">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOkrAttach" parameterType="OkrAttach">
+        update okr_attach
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="okrId != null  and okrId != ''">okr_id = #{okrId},</if>
+            <if test="keyName != null  and keyName != ''">key_name = #{keyName},</if>
+            <if test="keyValue != null  and keyValue != ''">key_value = #{keyValue},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOkrAttachById" parameterType="Long">
+        delete from okr_attach where id = #{id}
+    </delete>
+
+    <delete id="deleteOkrAttachByIds" parameterType="String">
+        delete from okr_attach where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

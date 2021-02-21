@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="52px" height="52px" viewBox="0 0 52 52" version="1.1">
+<!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+<title>二维码</title>
+<desc>Created with Sketch.</desc>
+<defs/>
+<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <path d="M0,0 L20,0 L20,20 L0,0 Z M32,0 L52,0 L52,20 L32,20 L32,0 Z M32,32 L32,28 L28,28 L24,23.9643059 L24,16 L28,16 L28,20 L32,20 L32,24 L40,24 L40,28 L36,28 L36,32 L40,32 L40,28 L44,28 L44,24 L52,24 L52,28 L48,28 L48,32 L52,32 L52,52 L32,32 Z M36,4 L36,16 L48,16 L48,4 L36,4 Z M36,36 L48,48 L48,36 L36,36 Z M4,4 L16,16 L16,4 L4,4 Z M39,7 L45,7 L45,13 L39,13 L39,7 Z M39,39 L45,39 L45,45 L39,39 Z M24,8 L28,8 L28,12 L24,12 L24,8 Z M24,0 L28,0 L28,4 L24,4 L24,0 Z M13,13 L7,7 L13,7 L13,13 Z" id="二维码" fill="#FFD100" fill-rule="nonzero" transform="translate(26.000000, 26.000000) rotate(-360.000000) translate(-26.000000, -26.000000) "/>
+</g>
+</svg>

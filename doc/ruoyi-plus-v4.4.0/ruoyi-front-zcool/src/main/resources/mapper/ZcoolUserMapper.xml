@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.front.zcool.mapper.ZcoolUserMapper">
+
+	<resultMap type="ZcoolUser" id="ZcoolUserResult">
+		<id property="userId"       column="user_id"      />
+		<result property="homeCity"       column="home_city"      />
+		<result property="nowCity"    column="now_city"   />
+		<result property="job"     column="job"    />
+		<result property="highSchool"        column="high_school"        />
+		<result property="qq"  column="qq"  />
+		<result property="qqPrivate"          column="qq_private"          />
+		<result property="wx"          column="wx"          />
+		<result property="wxPrivate"          column="wx_private"          />
+		<result property="weibo"          column="weibo"          />
+		<result property="website"          column="website"          />
+		<result property="facebook"       column="facebook"       />
+		<result property="link1"     column="link1"     />
+		<result property="link2"         column="link2"         />
+		<result property="link3"       column="link3"       />
+		<result property="link4"      column="link4"     />
+		<result property="label"      column="label"     />
+		<result property="birthday"    column="birthday"   />
+		<result property="height"     column="height"    />
+		<result property="weight"   column="weight"  />
+		<result property="education"     column="education"    />
+		<result property="marriage"   column="marriage"  />
+		<result property="minzhu"       column="minzhu"       />
+		<result property="xingzuo"       column="xingzuo"       />
+		<result property="xuexing"       column="xuexing"       />
+		<result property="shuxiang"       column="shuxiang"       />
+		<result property="children"       column="children"       />
+		<result property="salary"       column="salary"       />
+		<result property="interest"       column="interest"       />
+		<result property="interest_others"       column="interest_others"       />
+		<result property="real_name"       column="real_name"       />
+		<result property="id_card"       column="id_card"       />
+		<result property="id_card_file"       column="id_card_file"       />
+		<result property="id_card_file2"       column="id_card_file2"       />
+		<result property="id_card_read"       column="id_card_read"       />
+		<result property="id_card_read_his"       column="id_card_read_his"       />
+	</resultMap>
+
+	<select id="selectByUserId" parameterType="Long" resultMap="ZcoolUserResult">
+		select * from zcool_user
+		where user_id = #{userId}
+	</select>
+	
+	<update id="updateUserInfo" parameterType="ZcoolUser">
+		update zcool_user
+		<set>
+			<if test="homeCity != null">home_city = #{homeCity},</if>
+			<if test="nowCity != null">now_city = #{nowCity},</if>
+			<if test="job != null">job = #{job},</if>
+			<if test="highSchool != null">high_school = #{highSchool},</if>
+			<if test="qq != null and qq != ''">qq = #{qq},</if>
+			<if test="qqPrivate != null">qq_private = #{qqPrivate},</if>
+			<if test="wx != null and wx != ''">wx = #{wx},</if>
+			<if test="wxPrivate != null">wx_private = #{wxPrivate},</if>
+			<if test="weibo != null">weibo = #{weibo},</if>
+			<if test="website != null">website = #{website},</if>
+			<if test="facebook != null">facebook = #{facebook},</if>
+			<if test="link1 != null and link1 != ''">link1 = #{link1},</if>
+			<if test="link2 != null and link2 != ''">link2 = #{link2},</if>
+			<if test="link3 != null and link3 != ''">link3 = #{link3},</if>
+			<if test="link4 != null and link4 != ''">link4 = #{link4},</if>
+			<if test="label != null">label = #{label},</if>
+			<if test="birthday != null and birthday != ''">birthday = #{birthday},</if>
+			<if test="height != null">height = #{height},</if>
+			<if test="weight != null">weight = #{weight},</if>
+			<if test="education != null">education = #{education},</if>
+			<if test="marriage != null">marriage = #{marriage},</if>
+			<if test="minzhu != null">minzhu = #{minzhu},</if>
+			<if test="xingzuo != null">xingzuo = #{xingzuo},</if>
+			<if test="xuexing != null">xuexing = #{xuexing},</if>
+			<if test="shuxiang != null">shuxiang = #{shuxiang},</if>
+			<if test="children != null">children = #{children},</if>
+			<if test="salary != null">salary = #{salary},</if>
+			<if test="interest != null">interest = #{interest},</if>
+			<if test="interest_others != null">interest_others = #{interest_others},</if>
+			<if test="real_name != null">real_name = #{real_name},</if>
+			<if test="id_card != null">id_card = #{id_card},</if>
+			<if test="id_card_file != null">id_card_file = #{id_card_file},</if>
+			<if test="id_card_file2 != null">id_card_file2 = #{id_card_file2},</if>
+			<if test="id_card_read != null">id_card_read = #{id_card_read},</if>
+			<if test="id_card_read_his != null">id_card_read_his = #{id_card_read_his},</if>
+		</set>
+		where user_id = #{userId}
+	</update>
+
+</mapper> 

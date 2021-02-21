@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html th:lang="${language}"  xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('OKR信息列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse hidden">
+                <form id="formId">
+                    <input type="text" name="parentOkrId" id="parentOkrId" th:value="${parentOkrId}" hidden/>
+                    <div class="select-list hidden">
+                        <ul>
+                            <li>
+                                <label>排序编号：</label>
+                                <input type="text" name="sortId"/>
+                            </li>
+                            <li>
+                                <label>编号：</label>
+                                <input type="text" name="rowCode"/>
+                            </li>
+                            <li>
+                                <label>内容描述：</label>
+                                <input type="text" name="content"/>
+                            </li>
+                            <li>
+                                <label>类型：</label>
+                                <select name="rowType" th:with="type=${@dict.getType('okr_row_type')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>信心指数：</label>
+                                <input type="text" name="confidenceStar"/>
+                            </li>
+                            <li>
+                                <label>用户标识：</label>
+                                <input type="text" name="userId"/>
+                            </li>
+                            <li>
+                                <label>目标评分：</label>
+                                <input type="text" name="scoreStar"/>
+                            </li>
+                            <li>
+                                <label>父级ID：</label>
+                                <input type="text" name="parentId"/>
+                            </li>
+                            <li>
+                                <label>周期ID：</label>
+                                <input type="text" name="cycleId"/>
+                            </li>
+                            <li class="hidden">
+                                <label>周期类型：</label>
+                                <input type="text" name="cycleType"  id="cycleType"/>
+                            </li>
+                            <li>
+                                <label>目标进度：</label>
+                                <input type="text" name="process"/>
+                            </li>
+                            <li>
+                                <label>状态：</label>
+                                <select name="status" th:with="type=${@dict.getType('row_status')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>优先级：</label>
+                                <input type="text" name="priority"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+<!--                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="okr:info:add">-->
+<!--                    <i class="fa fa-plus"></i> 新增OKR-->
+<!--                </a>-->
+<!--                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="okr:info:edit">-->
+<!--                    <i class="fa fa-edit"></i> 修改-->
+<!--                </a>-->
+<!--                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="okr:info:remove">-->
+<!--                    <i class="fa fa-remove"></i> 删除-->
+<!--                </a>-->
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="okr:info:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+                <a class="btn btn-info" id="expandAllBtn">
+                    <i class="fa fa-exchange"></i> 展开/折叠
+                </a>
+                <div class="btn-group"  th:each="cycle : ${cycleList}">
+                        <a class=""th:classappend="${cycle.cycleType == 0} ? 'btn btn-primary' : 'btn btn-info' "      th:text="${cycle.cycleName}"    th:value="${cycle.cycleName}"   th:onclick="'changeCycleType('+${cycle.cycleType}+')'"></a>
+                </div>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-tree-table" ></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+     <script th:inline="javascript">
+
+         var cycleFlag = [[${@permission.hasPermi('okr:cycle:useList')}]];
+         var editFlag = [[${@permission.hasPermi('okr:info:edit')}]];
+         var removeFlag = [[${@permission.hasPermi('okr:info:remove')}]];
+         var rowTypeDatas = [[${@dict.getType('okr_row_type')}]];
+         var scoreStarDatas = [[${@dict.getType('ork_fraction')}]];
+         var statusDatas = [[${@dict.getType('row_status')}]];
+         var priorityDatas = [[${@dict.getType('okr_level')}]];
+
+
+
+         var prefix = ctx + "okr/info";
+
+         $(function() {
+             var parentOkrId = $("#parentOkrId").val();
+             var options = {
+                 code: "rowId",
+                 parentCode: "parentId",
+                 ajaxParams:{"parentOkrId":parentOkrId},
+                 uniqueId: "id",
+                 expandAll: true,
+                 expandFirst: false,
+                 singleSelect:true,
+                 clickToSelect:true,
+                 url: prefix + "/alignList",
+                 createUrl: prefix + "/add/{id}",
+                 updateUrl: prefix + "/edit/{id}",
+                 removeUrl: prefix + "/remove/{id}",
+                 queryParams: queryParams,
+                 search:true,
+                 rowStyle:function(row,index){
+                     alert(row+"___"+index);
+                 },
+                 modalName: "OKR信息",
+                 columns: [{
+                     field: 'selectItem',
+                     // checkbox: true,
+                     formatter: function(value, row, index) {
+                         var selectItem = "";
+                         if(value.align)
+                         {
+                             selectItem = $('<input name="select_item" type="checkbox" checked=""+checked+"" value="' + value.rowId + '"></input>');
+                         }
+                         else {
+                             selectItem = $('<input name="select_item" type="checkbox" value="' + value.rowId + '"></input>');
+                         }
+
+                         return selectItem;
+                     }
+                 },
+
+                     {
+                         field: 'rowCode',
+                         width: '15%',
+                         title: '编号',
+                         formatter: function(value, row, index) {
+                             var rowNo = '';
+                             if(row.rowType==0){
+                                 rowNo = '<span>O'+value+'</span>';
+                             }
+                             else {
+                                 rowNo = '<span>KR'+value+'</span>';
+                             }
+                             return rowNo;
+                         }
+                     },
+                     {
+                         title: 'OKR描述',
+                         field: 'content',
+                         width: '85%',
+                         class:true,
+                         cellStyle: function(value, row, index) {
+                             return { css: { "word-break": "break-all","word-wrap": "break-word","white-space":"pre-wrap" } };
+                         }
+                     }
+                    ]
+             };
+             $.treeTable.init(options);
+             // $.treeTable.search();
+             function queryParams(params) {
+                 var search = $.table.queryParams(params);
+                 search.userName = $("#userName").val();
+                 return search;
+             }
+
+
+         });
+
+
+         /* 添加用户-选择用户-提交 */
+         function submitHandler() {
+             var rows = $.treeTable.selectRowData();
+             var data = { "ids": getIdArr(rows).join(","),"parentId":$("#parentOkrId").val() };
+             $.operate.save(prefix + "/saveAlignOkr", data);
+         }
+
+
+         function getIdArr(rows)
+         {
+             var arr = new Array();
+             var len = rows.length;
+             if(len>0)
+             {
+                 for(var i=0;i<len;i++)
+                 {
+                     arr.push(rows[i].id);
+                 }
+             }
+             return arr;
+         }
+
+         function changeCycleType(type){
+             $("#cycleType").val(type);
+             // $.table.search();
+             $.treeTable.search();
+         }
+
+     </script>
+</body>
+</html>

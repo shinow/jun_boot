@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.wxapi.model.mapper.OrderGoodsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ruoyi.project.wxapi.model.bean.OrderGoods">
+        <id column="id" property="id" />
+        <result column="goods_id" property="goodsId" />
+        <result column="goods_name" property="goodsName" />
+        <result column="image_id" property="imageId" />
+        <result column="deduct_stock_type" property="deductStockType" />
+        <result column="spec_type" property="specType" />
+        <result column="spec_sku_id" property="specSkuId" />
+        <result column="goods_spec_id" property="goodsSpecId" />
+        <result column="goods_attr" property="goodsAttr" />
+        <result column="content" property="content" />
+        <result column="goods_no" property="goodsNo" />
+        <result column="goods_price" property="goodsPrice" />
+        <result column="line_price" property="linePrice" />
+        <result column="total_num" property="totalNum" />
+        <result column="total_price" property="totalPrice" />
+        <result column="order_no" property="orderNo" />
+        <result column="user_id" property="userId" />
+        <result column="wxapp_id" property="wxappId" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, goods_id, goods_name, image_id, deduct_stock_type, spec_type, spec_sku_id, goods_spec_id, goods_attr, content, goods_no, goods_price, line_price, total_num, total_price, order_no, user_id, wxapp_id, gmt_create, gmt_modified
+    </sql>
+
+    <insert id="insertOrderGoods" parameterType="com.ruoyi.project.wxapi.model.bean.OrderGoods" >
+        insert into kbsm_order_goods
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="goodsId != null" >
+                goods_id,
+            </if>
+            <if test="goodsName != null" >
+                goods_name,
+            </if>
+            <if test="imageId != null" >
+                image_id,
+            </if>
+            <if test="deductStockType != null" >
+                deduct_stock_type,
+            </if>
+            <if test="specType != null" >
+                spec_type,
+            </if>
+            <if test="specSkuId != null" >
+                spec_sku_id,
+            </if>
+            <if test="goodsSpecId != null" >
+                goods_spec_id,
+            </if>
+            <if test="goodsAttr != null" >
+                goods_attr,
+            </if>
+            <if test="content != null" >
+                content,
+            </if>
+            <if test="goodsNo != null" >
+                goods_no,
+            </if>
+            <if test="goodsPrice != null" >
+                goods_price,
+            </if>
+            <if test="linePrice != null" >
+                line_price,
+            </if>
+            <if test="totalNum != null" >
+                total_num,
+            </if>
+            <if test="totalPrice != null" >
+                total_price,
+            </if>
+            <if test="orderNo != null" >
+                order_no,
+            </if>
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="wxappId != null" >
+                wxapp_id,
+            </if>
+            <if test="gmtCreate != null" >
+                gmt_create,
+            </if>
+            <if test="gmtModified != null" >
+                gmt_modified,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="goodsId != null" >
+                #{goodsId,jdbcType=INTEGER},
+            </if>
+            <if test="goodsName != null" >
+                #{goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="imageId != null" >
+                #{imageId,jdbcType=INTEGER},
+            </if>
+            <if test="deductStockType != null" >
+                #{deductStockType,jdbcType=TINYINT},
+            </if>
+            <if test="specType != null" >
+                #{specType,jdbcType=TINYINT},
+            </if>
+            <if test="specSkuId != null" >
+                #{specSkuId,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsSpecId != null" >
+                #{goodsSpecId,jdbcType=INTEGER},
+            </if>
+            <if test="goodsAttr != null" >
+                #{goodsAttr,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null" >
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsNo != null" >
+                #{goodsNo,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsPrice != null" >
+                #{goodsPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="linePrice != null" >
+                #{linePrice,jdbcType=DECIMAL},
+            </if>
+            <if test="totalNum != null" >
+                #{totalNum,jdbcType=INTEGER},
+            </if>
+            <if test="totalPrice != null" >
+                #{totalPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="orderNo != null" >
+                #{orderNo,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="wxappId != null" >
+                #{wxappId,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null" >
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null" >
+                #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="selectByOrderNo" resultType="com.ruoyi.project.wxapi.model.bean.OrderGoods">
+        SELECT a.*,b.file_url,b.file_name
+        FROM kbsm_order_goods a
+        LEFT JOIN kbsm_upload_file b ON a.image_id=b.id
+        where order_no=#{orderNo}
+    </select>
+
+</mapper>

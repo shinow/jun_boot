@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_ruoyi-quartz" default="compile.module.ruoyi-quartz">
+  <dirname property="module.ruoyi-quartz.basedir" file="${ant.file.module_ruoyi-quartz}"/>
+  
+  <property name="module.jdk.home.ruoyi-quartz" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.ruoyi-quartz" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.ruoyi-quartz" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.ruoyi-quartz" value="-encoding UTF-8 -source 8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="ruoyi-quartz.output.dir" value="${module.ruoyi-quartz.basedir}/target/classes"/>
+  <property name="ruoyi-quartz.testoutput.dir" value="${module.ruoyi-quartz.basedir}/target/test-classes"/>
+  
+  <path id="ruoyi-quartz.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="ruoyi-quartz.module.production.classpath">
+    <path refid="${module.jdk.classpath.ruoyi-quartz}"/>
+    <path refid="library.maven:_org.quartz-scheduler:quartz:2.3.0.classpath"/>
+    <path refid="library.maven:_com.mchange:mchange-commons-java:0.2.11.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <pathelement location="${ruoyi-common.output.dir}"/>
+    <path refid="library.maven:_org.springframework:spring-context-support:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-beans:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-context:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aop:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-expression:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-core:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-jcl:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-web:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-core:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-lang:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-cache:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-crypto-hash:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-crypto-core:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-crypto-cipher:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-config-core:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-config-ogdl:1.4.2.classpath"/>
+    <path refid="library.maven:_commons-beanutils:commons-beanutils:1.9.3.classpath"/>
+    <path refid="library.maven:_commons-collections:commons-collections:3.2.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-event:1.4.2.classpath"/>
+    <path refid="library.maven:_com.github.pagehelper:pagehelper-spring-boot-starter:1.2.5.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter:2.1.1.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot:2.1.1.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-autoconfigure:2.1.1.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-logging:2.1.1.release.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-classic:1.2.3.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-core:1.2.3.classpath"/>
+    <path refid="library.maven:_org.apache.logging.log4j:log4j-to-slf4j:2.11.1.classpath"/>
+    <path refid="library.maven:_org.apache.logging.log4j:log4j-api:2.11.1.classpath"/>
+    <path refid="library.maven:_org.slf4j:jul-to-slf4j:1.7.25.classpath"/>
+    <path refid="library.maven:_javax.annotation:javax.annotation-api:1.3.2.classpath"/>
+    <path refid="library.maven:_org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-jdbc:2.1.1.release.classpath"/>
+    <path refid="library.maven:_com.zaxxer:hikaricp:3.2.0.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-jdbc:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-tx:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.mybatis.spring.boot:mybatis-spring-boot-autoconfigure:1.3.2.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis:3.4.6.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis-spring:1.3.2.classpath"/>
+    <path refid="library.maven:_com.github.pagehelper:pagehelper-spring-boot-autoconfigure:1.2.5.classpath"/>
+    <path refid="library.maven:_com.github.pagehelper:pagehelper:5.1.4.classpath"/>
+    <path refid="library.maven:_com.github.jsqlparser:jsqlparser:1.0.classpath"/>
+    <path refid="library.maven:_javax.validation:validation-api:2.0.1.final.classpath"/>
+    <path refid="library.maven:_org.apache.commons:commons-lang3:3.8.1.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-databind:2.9.7.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-annotations:2.9.0.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-core:2.9.7.classpath"/>
+    <path refid="library.maven:_com.alibaba:fastjson:1.2.68.classpath"/>
+    <path refid="library.maven:_commons-io:commons-io:2.5.classpath"/>
+    <path refid="library.maven:_commons-fileupload:commons-fileupload:1.3.3.classpath"/>
+    <path refid="library.maven:_org.apache.poi:poi-ooxml:3.17.classpath"/>
+    <path refid="library.maven:_org.apache.poi:poi:3.17.classpath"/>
+    <path refid="library.maven:_commons-codec:commons-codec:1.11.classpath"/>
+    <path refid="library.maven:_org.apache.commons:commons-collections4:4.1.classpath"/>
+    <path refid="library.maven:_org.apache.poi:poi-ooxml-schemas:3.17.classpath"/>
+    <path refid="library.maven:_org.apache.xmlbeans:xmlbeans:2.6.0.classpath"/>
+    <path refid="library.maven:_stax:stax-api:1.0.1.classpath"/>
+    <path refid="library.maven:_com.github.virtuald:curvesapi:1.04.classpath"/>
+    <path refid="library.maven:_org.yaml:snakeyaml:1.23.classpath"/>
+    <path refid="library.maven:_javax.servlet:javax.servlet-api:4.0.1.classpath"/>
+  </path>
+  
+  <path id="ruoyi-quartz.runtime.production.module.classpath">
+    <pathelement location="${ruoyi-quartz.output.dir}"/>
+    <path refid="library.maven:_org.quartz-scheduler:quartz:2.3.0.classpath"/>
+    <path refid="library.maven:_com.mchange:mchange-commons-java:0.2.11.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="ruoyi-common.runtime.production.module.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-context-support:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-beans:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-context:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aop:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-expression:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-core:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-jcl:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-web:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-core:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-lang:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-cache:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-crypto-hash:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-crypto-core:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-crypto-cipher:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-config-core:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-config-ogdl:1.4.2.classpath"/>
+    <path refid="library.maven:_commons-beanutils:commons-beanutils:1.9.3.classpath"/>
+    <path refid="library.maven:_commons-collections:commons-collections:3.2.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-event:1.4.2.classpath"/>
+    <path refid="library.maven:_com.github.pagehelper:pagehelper-spring-boot-starter:1.2.5.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter:2.1.1.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot:2.1.1.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-autoconfigure:2.1.1.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-logging:2.1.1.release.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-classic:1.2.3.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-core:1.2.3.classpath"/>
+    <path refid="library.maven:_org.apache.logging.log4j:log4j-to-slf4j:2.11.1.classpath"/>
+    <path refid="library.maven:_org.apache.logging.log4j:log4j-api:2.11.1.classpath"/>
+    <path refid="library.maven:_org.slf4j:jul-to-slf4j:1.7.25.classpath"/>
+    <path refid="library.maven:_javax.annotation:javax.annotation-api:1.3.2.classpath"/>
+    <path refid="library.maven:_org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-jdbc:2.1.1.release.classpath"/>
+    <path refid="library.maven:_com.zaxxer:hikaricp:3.2.0.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-jdbc:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-tx:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.mybatis.spring.boot:mybatis-spring-boot-autoconfigure:1.3.2.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis:3.4.6.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis-spring:1.3.2.classpath"/>
+    <path refid="library.maven:_com.github.pagehelper:pagehelper-spring-boot-autoconfigure:1.2.5.classpath"/>
+    <path refid="library.maven:_com.github.pagehelper:pagehelper:5.1.4.classpath"/>
+    <path refid="library.maven:_com.github.jsqlparser:jsqlparser:1.0.classpath"/>
+    <path refid="library.maven:_javax.validation:validation-api:2.0.1.final.classpath"/>
+    <path refid="library.maven:_org.apache.commons:commons-lang3:3.8.1.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-databind:2.9.7.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-annotations:2.9.0.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-core:2.9.7.classpath"/>
+    <path refid="library.maven:_com.alibaba:fastjson:1.2.68.classpath"/>
+    <path refid="library.maven:_commons-io:commons-io:2.5.classpath"/>
+    <path refid="library.maven:_commons-fileupload:commons-fileupload:1.3.3.classpath"/>
+    <path refid="library.maven:_org.apache.poi:poi-ooxml:3.17.classpath"/>
+    <path refid="library.maven:_org.apache.poi:poi:3.17.classpath"/>
+    <path refid="library.maven:_commons-codec:commons-codec:1.11.classpath"/>
+    <path refid="library.maven:_org.apache.commons:commons-collections4:4.1.classpath"/>
+    <path refid="library.maven:_org.apache.poi:poi-ooxml-schemas:3.17.classpath"/>
+    <path refid="library.maven:_org.apache.xmlbeans:xmlbeans:2.6.0.classpath"/>
+    <path refid="library.maven:_stax:stax-api:1.0.1.classpath"/>
+    <path refid="library.maven:_com.github.virtuald:curvesapi:1.04.classpath"/>
+    <path refid="library.maven:_org.yaml:snakeyaml:1.23.classpath"/>
+    <path refid="library.maven:_javax.servlet:javax.servlet-api:4.0.1.classpath"/>
+  </path>
+  
+  <path id="ruoyi-quartz.module.classpath">
+    <path refid="${module.jdk.classpath.ruoyi-quartz}"/>
+    <pathelement location="${ruoyi-quartz.output.dir}"/>
+    <path refid="library.maven:_org.quartz-scheduler:quartz:2.3.0.classpath"/>
+    <path refid="library.maven:_com.mchange:mchange-commons-java:0.2.11.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <pathelement location="${ruoyi-common.testoutput.dir}"/>
+    <pathelement location="${ruoyi-common.output.dir}"/>
+    <path refid="library.maven:_org.springframework:spring-context-support:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-beans:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-context:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aop:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-expression:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-core:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-jcl:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-web:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-core:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-lang:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-cache:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-crypto-hash:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-crypto-core:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-crypto-cipher:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-config-core:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-config-ogdl:1.4.2.classpath"/>
+    <path refid="library.maven:_commons-beanutils:commons-beanutils:1.9.3.classpath"/>
+    <path refid="library.maven:_commons-collections:commons-collections:3.2.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-event:1.4.2.classpath"/>
+    <path refid="library.maven:_com.github.pagehelper:pagehelper-spring-boot-starter:1.2.5.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter:2.1.1.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot:2.1.1.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-autoconfigure:2.1.1.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-logging:2.1.1.release.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-classic:1.2.3.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-core:1.2.3.classpath"/>
+    <path refid="library.maven:_org.apache.logging.log4j:log4j-to-slf4j:2.11.1.classpath"/>
+    <path refid="library.maven:_org.apache.logging.log4j:log4j-api:2.11.1.classpath"/>
+    <path refid="library.maven:_org.slf4j:jul-to-slf4j:1.7.25.classpath"/>
+    <path refid="library.maven:_javax.annotation:javax.annotation-api:1.3.2.classpath"/>
+    <path refid="library.maven:_org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-jdbc:2.1.1.release.classpath"/>
+    <path refid="library.maven:_com.zaxxer:hikaricp:3.2.0.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-jdbc:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-tx:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.mybatis.spring.boot:mybatis-spring-boot-autoconfigure:1.3.2.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis:3.4.6.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis-spring:1.3.2.classpath"/>
+    <path refid="library.maven:_com.github.pagehelper:pagehelper-spring-boot-autoconfigure:1.2.5.classpath"/>
+    <path refid="library.maven:_com.github.pagehelper:pagehelper:5.1.4.classpath"/>
+    <path refid="library.maven:_com.github.jsqlparser:jsqlparser:1.0.classpath"/>
+    <path refid="library.maven:_javax.validation:validation-api:2.0.1.final.classpath"/>
+    <path refid="library.maven:_org.apache.commons:commons-lang3:3.8.1.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-databind:2.9.7.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-annotations:2.9.0.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-core:2.9.7.classpath"/>
+    <path refid="library.maven:_com.alibaba:fastjson:1.2.68.classpath"/>
+    <path refid="library.maven:_commons-io:commons-io:2.5.classpath"/>
+    <path refid="library.maven:_commons-fileupload:commons-fileupload:1.3.3.classpath"/>
+    <path refid="library.maven:_org.apache.poi:poi-ooxml:3.17.classpath"/>
+    <path refid="library.maven:_org.apache.poi:poi:3.17.classpath"/>
+    <path refid="library.maven:_commons-codec:commons-codec:1.11.classpath"/>
+    <path refid="library.maven:_org.apache.commons:commons-collections4:4.1.classpath"/>
+    <path refid="library.maven:_org.apache.poi:poi-ooxml-schemas:3.17.classpath"/>
+    <path refid="library.maven:_org.apache.xmlbeans:xmlbeans:2.6.0.classpath"/>
+    <path refid="library.maven:_stax:stax-api:1.0.1.classpath"/>
+    <path refid="library.maven:_com.github.virtuald:curvesapi:1.04.classpath"/>
+    <path refid="library.maven:_org.yaml:snakeyaml:1.23.classpath"/>
+    <path refid="library.maven:_javax.servlet:javax.servlet-api:4.0.1.classpath"/>
+  </path>
+  
+  <path id="ruoyi-quartz.runtime.module.classpath">
+    <pathelement location="${ruoyi-quartz.testoutput.dir}"/>
+    <pathelement location="${ruoyi-quartz.output.dir}"/>
+    <path refid="library.maven:_org.quartz-scheduler:quartz:2.3.0.classpath"/>
+    <path refid="library.maven:_com.mchange:mchange-commons-java:0.2.11.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="ruoyi-common.runtime.module.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-context-support:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-beans:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-context:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aop:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-expression:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-core:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-jcl:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-web:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-core:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-lang:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-cache:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-crypto-hash:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-crypto-core:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-crypto-cipher:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-config-core:1.4.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-config-ogdl:1.4.2.classpath"/>
+    <path refid="library.maven:_commons-beanutils:commons-beanutils:1.9.3.classpath"/>
+    <path refid="library.maven:_commons-collections:commons-collections:3.2.2.classpath"/>
+    <path refid="library.maven:_org.apache.shiro:shiro-event:1.4.2.classpath"/>
+    <path refid="library.maven:_com.github.pagehelper:pagehelper-spring-boot-starter:1.2.5.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter:2.1.1.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot:2.1.1.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-autoconfigure:2.1.1.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-logging:2.1.1.release.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-classic:1.2.3.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-core:1.2.3.classpath"/>
+    <path refid="library.maven:_org.apache.logging.log4j:log4j-to-slf4j:2.11.1.classpath"/>
+    <path refid="library.maven:_org.apache.logging.log4j:log4j-api:2.11.1.classpath"/>
+    <path refid="library.maven:_org.slf4j:jul-to-slf4j:1.7.25.classpath"/>
+    <path refid="library.maven:_javax.annotation:javax.annotation-api:1.3.2.classpath"/>
+    <path refid="library.maven:_org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-jdbc:2.1.1.release.classpath"/>
+    <path refid="library.maven:_com.zaxxer:hikaricp:3.2.0.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-jdbc:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-tx:5.1.3.release.classpath"/>
+    <path refid="library.maven:_org.mybatis.spring.boot:mybatis-spring-boot-autoconfigure:1.3.2.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis:3.4.6.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis-spring:1.3.2.classpath"/>
+    <path refid="library.maven:_com.github.pagehelper:pagehelper-spring-boot-autoconfigure:1.2.5.classpath"/>
+    <path refid="library.maven:_com.github.pagehelper:pagehelper:5.1.4.classpath"/>
+    <path refid="library.maven:_com.github.jsqlparser:jsqlparser:1.0.classpath"/>
+    <path refid="library.maven:_javax.validation:validation-api:2.0.1.final.classpath"/>
+    <path refid="library.maven:_org.apache.commons:commons-lang3:3.8.1.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-databind:2.9.7.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-annotations:2.9.0.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-core:2.9.7.classpath"/>
+    <path refid="library.maven:_com.alibaba:fastjson:1.2.68.classpath"/>
+    <path refid="library.maven:_commons-io:commons-io:2.5.classpath"/>
+    <path refid="library.maven:_commons-fileupload:commons-fileupload:1.3.3.classpath"/>
+    <path refid="library.maven:_org.apache.poi:poi-ooxml:3.17.classpath"/>
+    <path refid="library.maven:_org.apache.poi:poi:3.17.classpath"/>
+    <path refid="library.maven:_commons-codec:commons-codec:1.11.classpath"/>
+    <path refid="library.maven:_org.apache.commons:commons-collections4:4.1.classpath"/>
+    <path refid="library.maven:_org.apache.poi:poi-ooxml-schemas:3.17.classpath"/>
+    <path refid="library.maven:_org.apache.xmlbeans:xmlbeans:2.6.0.classpath"/>
+    <path refid="library.maven:_stax:stax-api:1.0.1.classpath"/>
+    <path refid="library.maven:_com.github.virtuald:curvesapi:1.04.classpath"/>
+    <path refid="library.maven:_org.yaml:snakeyaml:1.23.classpath"/>
+    <path refid="library.maven:_javax.servlet:javax.servlet-api:4.0.1.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.ruoyi-quartz">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.ruoyi-quartz">
+    <patternset refid="excluded.from.module.ruoyi-quartz"/>
+  </patternset>
+  
+  <path id="ruoyi-quartz.module.sourcepath">
+    <dirset dir="${module.ruoyi-quartz.basedir}">
+      <include name="src/main/java"/>
+      <include name="src/main/resources"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.ruoyi-quartz" depends="compile.module.ruoyi-quartz.production,compile.module.ruoyi-quartz.tests" description="Compile module ruoyi-quartz"/>
+  
+  <target name="compile.module.ruoyi-quartz.production" depends="register.custom.compilers,compile.module.ruoyi-common" description="Compile module ruoyi-quartz; production classes">
+    <mkdir dir="${ruoyi-quartz.output.dir}"/>
+    <javac2 destdir="${ruoyi-quartz.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.ruoyi-quartz}/javac">
+      <compilerarg line="${compiler.args.ruoyi-quartz}"/>
+      <bootclasspath refid="ruoyi-quartz.module.bootclasspath"/>
+      <classpath refid="ruoyi-quartz.module.production.classpath"/>
+      <src refid="ruoyi-quartz.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.ruoyi-quartz"/>
+    </javac2>
+    
+    <copy todir="${ruoyi-quartz.output.dir}">
+      <fileset dir="${module.ruoyi-quartz.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.ruoyi-quartz.basedir}/src/main/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.ruoyi-quartz.tests" depends="register.custom.compilers,compile.module.ruoyi-quartz.production" description="compile module ruoyi-quartz; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.ruoyi-quartz" description="cleanup module">
+    <delete dir="${ruoyi-quartz.output.dir}"/>
+    <delete dir="${ruoyi-quartz.testoutput.dir}"/>
+  </target>
+</project>

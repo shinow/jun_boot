@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.OkrCommentMetaMapper">
+    
+    <resultMap type="OkrCommentMeta" id="OkrCommentMetaResult">
+        <result property="id"    column="id"    />
+        <result property="commentId"    column="comment_id"    />
+        <result property="metaKey"    column="meta_key"    />
+        <result property="metaValue"    column="meta_value"    />
+    </resultMap>
+
+    <sql id="selectOkrCommentMetaVo">
+        select id, comment_id, meta_key, meta_value from okr_comment_meta
+    </sql>
+
+    <select id="selectOkrCommentMetaList" parameterType="OkrCommentMeta" resultMap="OkrCommentMetaResult">
+        <include refid="selectOkrCommentMetaVo"/>
+        <where>  
+            <if test="commentId != null "> and comment_id = #{commentId}</if>
+            <if test="metaKey != null  and metaKey != ''"> and meta_key = #{metaKey}</if>
+            <if test="metaValue != null  and metaValue != ''"> and meta_value = #{metaValue}</if>
+        </where>
+    </select>
+
+    <select id="selectOkrCommentMetaFiles" parameterType="OkrComment" resultMap="OkrCommentMetaResult">
+        <include refid="selectOkrCommentMetaVo"/>
+        where comment_id = #{id} and meta_key in ("image","file")
+    </select>
+
+    <select id="selectOkrCommentMetaById" parameterType="Long" resultMap="OkrCommentMetaResult">
+        <include refid="selectOkrCommentMetaVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectOkrCommentMetaByMetaKey" resultMap="OkrCommentMetaResult">
+        <include refid="selectOkrCommentMetaVo"/>
+        where comment_id = #{commentId} and meta_key =  #{metaKey}
+    </select>
+
+    <insert id="insertOkrCommentMeta" parameterType="OkrCommentMeta" useGeneratedKeys="true" keyProperty="id">
+        insert into okr_comment_meta
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="commentId != null ">comment_id,</if>
+            <if test="metaKey != null  and metaKey != ''">meta_key,</if>
+            <if test="metaValue != null  and metaValue != ''">meta_value,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="commentId != null ">#{commentId},</if>
+            <if test="metaKey != null  and metaKey != ''">#{metaKey},</if>
+            <if test="metaValue != null  and metaValue != ''">#{metaValue},</if>
+        </trim>
+    </insert>
+
+    <insert id="insertOkrCommentMetaForeach" parameterType="java.util.List" useGeneratedKeys="false" keyProperty="id">
+        insert into okr_comment_meta (comment_id,meta_key,meta_value)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.commentId},#{item.metaKey},#{item.metaValue})
+        </foreach>
+    </insert>
+
+    <update id="updateOkrCommentMeta" parameterType="OkrCommentMeta">
+        update okr_comment_meta
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="commentId != null ">comment_id = #{commentId},</if>
+            <if test="metaKey != null  and metaKey != ''">meta_key = #{metaKey},</if>
+            <if test="metaValue != null  and metaValue != ''">meta_value = #{metaValue},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOkrCommentMetaById" parameterType="Long">
+        delete from okr_comment_meta where id = #{id}
+    </delete>
+
+    <delete id="deleteOkrCommentMetaByIds" parameterType="String">
+        delete from okr_comment_meta where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

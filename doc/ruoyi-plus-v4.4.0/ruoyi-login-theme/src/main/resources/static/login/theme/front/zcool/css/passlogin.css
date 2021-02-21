@@ -1,0 +1,181 @@
+@charset "UTF-8";
+/*-- 页面辅助文字 --*/
+/*-- 页面辅助文字 --*/
+/* -- 按钮 -- */
+/*-- 文本截取，超出一行行加省略号 --*/
+/*-- 文本截取，超出两行加省略号 --*/
+/*-- 圆角 --*/
+/*-- inline-block --*/
+/*-- 透明度 --*/
+/*-- 一级下拉菜单样式 --*/
+/*-- 导航下拉菜单原始样式 --*/
+/*-- 导航下拉菜单hover样式 --*/
+/*-- new标记 --*/
+/*-- 分隔符 --*/
+/*-- 按钮通用 --*/
+/*-- 卡片透明度 --*/
+/*-- 小三角朝下投影效果 --*/
+.pass-toast-div { width: 328px; padding: 0 30px; height: 142px; font-size: 16px; color: #666666; text-align: center; background: #FFFFFF; box-shadow: 0 0 10px 0 rgba(49, 48, 44, 0.18); border-radius: 4px; display: flex; align-items: center; justify-content: center; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; position: absolute; top: 50%; margin-top: -72px; left: 50%; margin-left: -164px; z-index: 16; display: none; }
+
+.pop-up-confirm { margin-top: -82px; }
+
+.login-box { width: 336px; min-height: 440px; background: #ffffff; position: relative; margin: 0 auto; padding: 30px 32px; -webkit-box-shadow: 0px 1px 12px 0px rgba(0, 0, 0, 0.2); box-shadow: 0px 1px 12px 0px rgba(0, 0, 0, 0.2); }
+
+.member-login { text-align: center; font-size: 16px; margin-bottom: 25px; }
+
+.forget-password { text-align: right; margin-bottom: 20px; line-height: 14px; color: #444444; }
+
+.forget-password:hover { color: #d36f16; }
+
+.login { margin-bottom: 20px; }
+
+.auto-login { line-height: 14px; *zoom: 1; }
+
+.auto-login:after { content: ""; display: table; }
+
+.auto-login:after { clear: both; }
+
+.auto-login input { vertical-align: middle; opacity: 0; margin-right: 8px; }
+
+.auto-login .new-user-register { float: right; color: #d36f16; }
+
+.auto-login .auto-login-c { margin-right: 10px; background: url("../images/checkbox.svg") no-repeat 0 2px; }
+
+.auto-login .auto-login-cd { background: url("../images/checkboxed.svg") no-repeat 0 2px; }
+
+.third-login-box { position: absolute; bottom: 30px; left: 0; right: 0; }
+
+.third-account { text-align: center; margin-bottom: 15px; color: #999999; }
+
+.account-login { text-align: center; }
+
+.account-login a { display: inline-block; }
+
+.account-login .weibo-login, .account-login .wechat-login, .account-login .qq-login { width: 42px; height: 42px; background-color: #dddddd; background-repeat: no-repeat; background-position: center; border-radius: 50%; cursor: pointer; }
+
+.account-login .wechat-login { background-image: url("../images/wechat.png"); }
+
+.account-login .wechat-login:hover { background-color: #58bc46; }
+
+.account-login .weibo-login { background-image: url("../images/weibo.png"); margin: 0 20px; }
+
+.account-login .weibo-login:hover { background-color: #e90e24; }
+
+.account-login .qq-login { background-image: url("../images/qq.png"); }
+
+.account-login .qq-login:hover { background-color: #3caae3; }
+
+.code { margin-bottom: 20px; position: relative; }
+
+.code .ipt-code { width: 90px; height: 42px; margin-right: 10px; padding-right: 20px; }
+
+.code img { vertical-align: middle; margin-top: -5px; }
+
+.code .code-wrong, .code .code-right { width: 24px; height: 24px; display: inline-block; vertical-align: middle; *vertical-align: auto; zoom: 1; *display: inline; background-repeat: no-repeat; background-position: center; border-radius: 50%; position: absolute; right: 0; top: 50%; margin-top: -12px; }
+
+.code .code-wrong { background-color: #f4523b; background-image: url(../images/wrong.png); }
+
+.code .code-right { background-color: #53bb4c; background-image: url(../images/right.png); }
+
+.ipt-default { background: #ffe300; border: 1px solid #eaeaea; border-radius: 4px; padding-left: 20px; }
+
+.ipt-default-current { width: 336px; }
+
+.l-phone-div { margin-bottom: 20px; position: relative; }
+footer-mobile
+.country-phone-covers { border: 1px solid #dddddd; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; *zoom: 1; }
+
+.country-phone-covers:after { content: ""; display: table; }
+
+.country-phone-covers:after { clear: both; }
+
+.phone-area-code-ipt { width: 70px; height: 42px; line-height: 42px; padding-left: 8px; border-radius: 4px 0 0 4px; color: #666666; font-size: 14px; background: #f4f4f4 url(../images/shixinjiantou.svg) no-repeat 50px center; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; display: inline-block; float: left; cursor: pointer; border-right: 1px solid #ddd; }
+
+.ipt-area-current { width: 264px; border-radius: 0 4px 4px 0; float: left; border: 0; }
+
+.ipt-tips-default, .email, .password { margin-bottom: 20px; }
+
+.ipt-tips-default { width: 336px; padding: 0 20px 0 45px; border: 1px solid #d46f16; border-radius: 4px; background: #ffe6e5 url("../images/error-tips.png") no-repeat 20px 12px; display: flex; align-items: center; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+
+.ipt-tips-default a { color: #d36f16; }
+
+.btn-current-big { width: 336px; }
+
+.loadding-btn { cursor: default; }
+
+.error-tips .ipt-default-current { height: 42px; }
+
+.l-tab-covers { font-size: 16px; border-bottom: 1px solid #eeeeee; }
+
+.l-tab-covers .l-tab-list { color: #999999; display: inline-block; margin-right: 30px; border-bottom: 2px solid transparent; padding-bottom: 20px; margin-bottom: -1px; cursor: pointer; }
+
+.l-tab-covers .l-tab-list:hover, .l-tab-covers .l-tab-list.current { color: #282828; border-bottom: 2px solid #282828; font-weight: 500; }
+
+.l-title-covers { padding-bottom: 20px; border-bottom: 1px solid #eeeeee; }
+
+.l-title-covers .l-title-h2 { font-size: 16px; color: #282828; font-weight: 500; }
+
+.module-l-static .l-static, .module-l-static .static-l { display: block; }
+
+.module-l-static .l-quick, .module-l-static .quick-l { display: none; }
+
+.module-l-quick .l-static, .module-l-quick .static-l { display: none; }
+
+.module-l-quick .l-quick, .module-l-quick .quick-l { display: block; }
+
+.l-sms-code { margin-bottom: 20px; *zoom: 1; }
+
+.l-sms-code:after { content: ""; display: table; }
+
+.l-sms-code:after { clear: both; }
+
+.ipt-short-current { width: 116px; }
+
+.sms-cd-btn { height: 42px; padding: 0 14px; margin-left: 5px; }
+
+.n-receive-cd { color: #282828; float: right; line-height: 42px; cursor: pointer; font-size: 12px; display: none; }
+
+.sms-login-links { color: #999999; float: right; }
+
+.sms-login-links:hover { color: #282828; }
+
+.login-links { color: #999999; float: right; }
+
+.login-links a:hover { color: #282828; }
+
+.wx_login_links { color: #999999; text-align: center; margin-top: 56px; }
+
+.wx_login_links a:hover { color: #282828; }
+
+.login-switch { width: 53px; height: 53px; position: absolute; right: 10px; top: 10px; cursor: pointer; }
+
+.icon-l { width: 53px; height: 53px; }
+
+.icon-l:hover { opacity: 0.8; }
+
+.er-cd-covers { text-align: center; color: #999999; font-size: 12px; }
+
+.quick-code { width: 190px; height: 190px; margin: 0 auto 14px; }
+
+.quick-code img { width: 190px; height: 190px; }
+
+.js-ipt-h { display: none; }
+
+.impowerBox .qrcode { width: 90px !important; }
+
+div#login_container { height: 290px; overflow: hidden; }
+
+.static-module-covers { background: #ffffff; position: relative; z-index: 2; margin-top: 45px; padding-bottom: 8px; }
+
+.pass-login-covers { position: relative; }
+
+.error-tips { position: absolute; top: -54px; }
+
+/*错误提示的样式 js  */
+.js-pass-covers-style, .js-sms-covers-style { margin-top: 66px; }
+
+.third-login-box .account-login a {
+    display: inline-block;
+    width: 42px;
+    height: 42px;
+}

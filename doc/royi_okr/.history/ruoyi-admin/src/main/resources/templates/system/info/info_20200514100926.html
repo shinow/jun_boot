@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('OKR信息列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>排序编号：</label>
+                                <input type="text" name="sortId"/>
+                            </li>
+                            <li>
+                                <label>编号：</label>
+                                <input type="text" name="rowCode"/>
+                            </li>
+                            <li>
+                                <label>内容描述：</label>
+                                <input type="text" name="content"/>
+                            </li>
+                            <li>
+                                <label>类型：</label>
+                                <select name="rowType" th:with="type=${@dict.getType('okr_row_type')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>信心指数：</label>
+                                <input type="text" name="confidenceStar"/>
+                            </li>
+                            <li>
+                                <label>用户标识：</label>
+                                <input type="text" name="userId"/>
+                            </li>
+                            <li>
+                                <label>目标评分：</label>
+                                <input type="text" name="scoreStar"/>
+                            </li>
+                            <li>
+                                <label>父级ID：</label>
+                                <input type="text" name="parentId"/>
+                            </li>
+                            <li>
+                                <label>周期ID：</label>
+                                <input type="text" name="cycleId"/>
+                            </li>
+                            <li class="hidden">
+                                <label>周期类型：</label>
+                                <input type="text" name="cycleType"  id="cycleType"/>
+                            </li>
+                            <li>
+                                <label>目标进度：</label>
+                                <input type="text" name="process"/>
+                            </li>
+                            <li>
+                                <label>状态：</label>
+                                <select name="status" th:with="type=${@dict.getType('row_status')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>优先级：</label>
+                                <input type="text" name="priority"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:info:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:info:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:info:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:info:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-info" id="expandAllBtn">
+                    <i class="fa fa-exchange"></i> 展开/折叠
+                </a>
+                <div class="btn-group"  th:each="cycle : ${cycleList}">
+                    <a class=""th:classappend="${cycle.cycleType == 0} ? 'btn btn-primary' : 'btn btn-info' "      th:text="${cycle.cycleName}"    th:value="${cycle.cycleName}"   th:onclick="'changeCycleType('+${cycle.cycleType}+')'"></a>
+                </div>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-tree-table" ></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:info:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:info:remove')}]];
+        var rowTypeDatas = [[${@dict.getType('okr_row_type')}]];
+        var scoreStarDatas = [[${@dict.getType('ork_fraction')}]];
+        var statusDatas = [[${@dict.getType('row_status')}]];
+        var priorityDatas = [[${@dict.getType('okr_level')}]];
+        var prefix = ctx + "system/info";
+
+
+        $(function() {
+            var options = {
+                code: "rowId",
+                parentCode: "parentId",
+                uniqueId: "id",
+                expandAll: true,
+                expandFirst: false,
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "OKR信息",
+                striped:true,
+                columns: [{
+                    field: 'selectItem',
+                    checkbox: true
+                },
+                {
+                    field: 'id', 
+                    title: '主键',
+                    visible: false
+                },
+                {
+                    field: 'sortId',
+                    title: '排序编号',
+                    visible: false
+                },
+                {
+                    field: 'rowCode', 
+                    title: '编号',
+                    formatter: function(value, row, index) {
+                        var rowNo = '';
+                        if(row.rowType==0){
+                            rowNo = '<span>O'+value+'</span>';
+                        }
+                        else {
+                            rowNo = '<span>KR'+value+'</span>';
+                        }
+                        return rowNo;
+                    }
+                },
+                {
+                    field: 'content', 
+                    title: '内容描述'
+                },
+                {
+                    field: 'rowType', 
+                    title: '类型',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(rowTypeDatas, value);
+                    }
+                },
+                {
+                    field: 'confidenceStar',
+                    title: '信心指数',
+                    formatter: function(value, row, index) {
+                        return  '<span class="badge badge-success">'+value+'</span>';
+                    }
+                },
+                {
+                    field: 'userId', 
+                    title: '用户标识',
+                    visible: false
+                },
+                {
+                    field: 'scoreStar',
+                    title: '目标评分',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(scoreStarDatas, value);
+                    }
+                },
+                {
+                    field: 'parentId', 
+                    title: '父级ID',
+                    visible: false
+                },
+                {
+                    field: 'cycleId', 
+                    title: '周期ID',
+                    visible: false
+                },
+                {
+                    field: 'process',
+                    title: '目标进度',
+                    formatter: function(value, row, index) {
+                        return  '<span class="badge badge-success">'+value+'</span>';
+                    }
+                },
+                {
+                    field: 'status', 
+                    title: '状态',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(statusDatas, value);
+                    }
+                },
+                {
+                    field: 'priority', 
+                    title: '优先级',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(priorityDatas, value);
+                    }
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.treeTable.init(options);
+        });
+    </script>
+</body>
+</html>

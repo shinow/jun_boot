@@ -1,0 +1,84 @@
+# 数据源配置
+spring:
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        druid:
+            # 主库数据源
+            master:
+                url: jdbc:mysql://localhost:3306/ry?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+                username: root
+                password:
+            # 从库数据源
+            slave:
+                # 从数据源开关/默认关闭
+                enabled: false
+                url: 
+                username: 
+                password: 
+            # 初始连接数
+            initialSize: 5
+            # 最小连接池数量
+            minIdle: 10
+            # 最大连接池数量
+            maxActive: 20
+            # 配置获取连接等待超时的时间
+            maxWait: 60000
+            # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+            timeBetweenEvictionRunsMillis: 60000
+            # 配置一个连接在池中最小生存的时间，单位是毫秒
+            minEvictableIdleTimeMillis: 300000
+            # 配置一个连接在池中最大生存的时间，单位是毫秒
+            maxEvictableIdleTimeMillis: 900000
+            # 配置检测连接是否有效
+            validationQuery: SELECT 1 FROM DUAL
+            testWhileIdle: true
+            testOnBorrow: false
+            testOnReturn: false      
+            statViewServlet:
+                enabled: true
+                url-pattern: /monitor/druid/*
+            filter:
+                stat:
+                    # 慢SQL记录
+                    log-slow-sql: true
+                    slow-sql-millis: 1000
+                    merge-sql: true
+                wall:
+                    config:
+                        multi-statement-allow: true
+# MyBatis
+mybatis-plus:
+    # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
+    # 如果是放在resource目录 classpath:/mapper/*Mapper.xml
+    mapper-locations: classpath*:mapper/**/*Mapper.xml
+    #实体扫描，多个package用逗号或者分号分隔
+    typeAliasesPackage: com.ruoyi
+    global-config:
+        worker-id: 1 #机器id
+        datacenter-id: 1 #数据标识id
+        #自定义SQL注入器
+        #sql-injector: com.baomidou.mybatisplus.mapper.LogicSqlInjector
+        #自定义填充策略接口实现
+        #meta-object-handler: com.baomidou.springboot.MyMetaObjectHandler
+        db-config:
+            db-type: mysql
+            id-type: id_worker_str
+            #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+            field-strategy: 2
+#            logic-delete-value: 1
+#            logic-not-delete-value: 0
+            table-underline: true
+    configuration:
+        #配置返回数据库(column下划线命名&&返回java实体是驼峰命名)，自动匹配无需as（没开启这个，SQL需要写as： select user_id as userId）
+        map-underscore-to-camel-case: true
+        cache-enabled: false
+        #配置JdbcTypeForNull, oracle数据库必须配置
+        jdbc-type-for-null: 'null'
+# PageHelper分页插件
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+

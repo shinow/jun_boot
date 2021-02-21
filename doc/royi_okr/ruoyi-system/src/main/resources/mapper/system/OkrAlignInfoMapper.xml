@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.OkrAlignInfoMapper">
+    
+    <resultMap type="OkrAlignInfo" id="OkrAlignInfoResult">
+        <result property="id"    column="id"    />
+        <result property="okrId"    column="okr_id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="okrKeys"    column="okr_keys"    />
+    </resultMap>
+
+    <sql id="selectOkrAlignInfoVo">
+        select id, okr_id, parent_id, okr_keys from okr_align_info
+    </sql>
+
+    <select id="selectOkrAlignInfoList" parameterType="OkrAlignInfo" resultMap="OkrAlignInfoResult">
+        <include refid="selectOkrAlignInfoVo"/>
+        <where>
+            <if test="okrId != null "> and okr_id = #{okrId}</if>
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+        </where>
+    </select>
+
+
+
+    <select id="selectOkrAlignInfoListForIds" parameterType="java.util.List" resultMap="OkrAlignInfoResult">
+        <include refid="selectOkrAlignInfoVo"/>
+            where parent_id in
+            (
+                <foreach collection="list" item="id" index="index" separator="," >
+                    #{id}
+                </foreach>
+            )
+    </select>
+    
+    <select id="selectOkrAlignInfoById" parameterType="Long" resultMap="OkrAlignInfoResult">
+        <include refid="selectOkrAlignInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertOkrAlignInfo" parameterType="OkrAlignInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into okr_align_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="okrId != null ">okr_id,</if>
+            <if test="parentId != null ">parent_id,</if>
+            <if test="okrKeys != null  and okrKeys != ''">okr_keys,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="okrId != null ">#{okrId},</if>
+            <if test="parentId != null ">#{parentId},</if>
+            <if test="okrKeys != null  and okrKeys != ''">#{okrKeys},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOkrAlignInfo" parameterType="OkrAlignInfo">
+        update okr_align_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="okrId != null ">okr_id = #{okrId},</if>
+            <if test="parentId != null ">parent_id = #{parentId},</if>
+            <if test="okrKeys != null ">okr_keys = #{okrKeys},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOkrAlignInfoById" parameterType="Long">
+        delete from okr_align_info where id = #{id}
+    </delete>
+
+    <delete id="deleteOkrAlignInfoByIds" parameterType="String">
+        delete from okr_align_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

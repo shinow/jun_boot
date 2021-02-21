@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.wxapi.model.mapper.WxappMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ruoyi.project.wxapi.model.bean.Wxapp">
+        <id column="id" property="id" />
+        <result column="app_type" property="appType" />
+        <result column="shop_mode" property="shopMode" />
+        <result column="source" property="source" />
+        <result column="is_empower" property="isEmpower" />
+        <result column="app_name" property="appName" />
+        <result column="head_img" property="headImg" />
+        <result column="user_name" property="userName" />
+        <result column="app_id" property="appId" />
+        <result column="principal_name" property="principalName" />
+        <result column="api_domain" property="apiDomain" />
+        <result column="signature" property="signature" />
+        <result column="mchid" property="mchid" />
+        <result column="apikey" property="apikey" />
+        <result column="cert_pem" property="certPem" />
+        <result column="key_pem" property="keyPem" />
+        <result column="is_collection" property="isCollection" />
+        <result column="is_wechat" property="isWechat" />
+        <result column="phone" property="phone" />
+        <result column="access_token" property="accessToken" />
+        <result column="expires_in" property="expiresIn" />
+        <result column="authorizer_refresh_token" property="authorizerRefreshToken" />
+        <result column="template" property="template" />
+        <result column="is_copyright" property="isCopyright" />
+        <result column="copyright" property="copyright" />
+        <result column="store_user_id" property="storeUserId" />
+        <result column="expire_time" property="expireTime" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, app_type, shop_mode, source, is_empower, app_name, head_img, user_name, app_id, principal_name, api_domain, signature, mchid, apikey, cert_pem, key_pem, is_collection, is_wechat, phone, access_token, expires_in, authorizer_refresh_token, template, is_copyright, copyright, store_user_id, expire_time, gmt_create, gmt_modified
+    </sql>
+    <select id="selectByWxAppId" resultType="com.ruoyi.project.wxapi.model.bean.Wxapp">
+        select
+        <include refid="Base_Column_List"></include>
+        from kbsm_wxapp
+        where id=#{wxapp_id}
+    </select>
+
+</mapper>

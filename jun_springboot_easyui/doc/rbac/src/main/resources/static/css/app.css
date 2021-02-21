@@ -1,0 +1,106 @@
+.header {
+  height: 70px;
+  overflow: hidden;
+  padding-left: 20px;
+}
+
+.header .title {
+  float: left;
+}
+
+.header .info {
+  float: right;
+  height: 70px;
+  line-height: 70px;
+  margin-right: 20px;
+}
+
+.header .info a:after {
+  content: '|';
+  margin: 0 5px;
+}
+
+.header .info a:last-child:after {
+  content: '';
+  margin: 0;
+}
+
+.footer {
+  height: 30px;
+  overflow: hidden;
+  text-align: center;
+  line-height: 30px;
+}
+
+/**替换tree的图标**/
+.tree-icon {
+  font: normal normal normal 12px/1 FontAwesome;
+  font-size: 15px !important;
+  background: none;
+}
+
+.tree-folder:BEFORE {
+  content: "\f114";
+}
+
+.tree-folder-open:BEFORE {
+  content: "\f115";
+}
+
+.tree-file:BEFORE {
+  content: "\f0f6";
+}
+
+.tree-node {
+  margin: 3px 0;
+}
+
+.form .form-line {
+  margin: 10px;
+}
+
+.l-btn-icon.fa {
+  font-size: 16px;
+}
+
+.form .form-line label {
+  width: 80px;
+  display: inline-block;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.form .form-line label:after {
+  content: ":";
+}
+
+.form .form-line input[type=text], .form .form-line input[type=password], .form .form-line select {
+  min-width: 200px;
+}
+
+.form .form-line.required label:before {
+  content: "*";
+  color: red;
+}
+
+a.actions {
+  cursor: pointer;
+}
+
+a.actions:before {
+  padding-right: 2px;
+}
+
+a.actions:after {
+  content: "|";
+  margin: 0 5px;
+}
+
+a.actions:last-child:after {
+  content: "";
+  margin: 0;
+}
+
+a.actions:hover {
+  color: #ff6600;
+}

@@ -1,0 +1,15 @@
+.fileinput-button {
+    width: 120px;
+    height: 120px;
+    -ms-filter: 'alpha(opacity=0)';
+}
+
+
+.fileinput-button .file-upload{
+    opacity: 0;
+    -ms-filter: 'alpha(opacity=0)';
+    width: 120px;
+    height: 120px;
+    position: absolute;
+    z-index: 8;
+}

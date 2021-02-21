@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改OKR信息')" />
+    <th:block th:include="include :: ztree-css" />
+<style>
+    #tiao{
+        display: inline-block;
+        width: 300px;
+        height: 20px;
+        background: #ddd;
+        border-radius: 3px;
+        position: relative;
+        margin-top: 6px;
+    }
+    #yuan{
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        border-radius: 50% 50%;
+        background: #177ad8;
+        position: absolute;
+        margin-top: -2px;
+        cursor: pointer;
+        box-shadow: 0px 0px 3px #177ad8;
+    }
+    #jindu{
+        width: 0px;
+        height: 20px;
+        background-color: #177ad8;
+        border-radius: 3px;
+    }
+</style>
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-info-edit" th:object="${okrInfo}">
+            <input name="id"  id="id" th:field="*{id}" type="hidden">
+            <div class="form-group hidden">
+                <label class="col-sm-3 control-label">排序编号：</label>
+                <div class="col-sm-8">
+                    <input name="sortId" th:field="*{sortId}" class="form-control" type="number">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">目标进度：</label>
+                <div class="col-sm-8">
+                    <div>
+
+                        <div id="tiao">
+                            <div id="yuan"></div>
+                            <div id="jindu"></div>
+                        </div>
+                        <span style="font-size: 24px;font-weight: bold;color:#177ad8;margin-left: 20px; " id="processView" ></span>
+                        <input type="text" id="input" hidden="hidden" th:field="*{process}"  placeholder="0" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">目标评分：</label>
+                <div class="col-sm-8">
+                    <input type="number" class="rating" min=0 max=1 step=0.1  th:field="*{scoreStar}"   data-size="sm" dir="ltr">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">信心指数：</label>
+                <div class="col-sm-8">
+                    <input  name="input-name" type="number" class="kv-ltr-theme-default-alt" min=1 max=10 step=1  th:field="*{confidenceStar}"   data-size="sm" dir="ltr">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">编号：</label>
+                <div class="col-sm-8">
+                    <input name="rowCode" th:field="*{rowCode}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">内容描述：</label>
+                <div class="col-sm-8">
+                    <textarea name="content" th:field="*{content}" class="form-control"  rows="4" ></textarea>
+                </div>
+            </div>
+            <div class="form-group hidden">
+                <label class="col-sm-3 control-label">类型：</label>
+                <div class="col-sm-8">
+                    <select name="rowType" class="form-control m-b" readonly="" th:with="type=${@dict.getType('okr_row_type')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{rowType}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group hidden">
+                <label class="col-sm-3 control-label">用户标识：</label>
+                <div class="col-sm-8">
+                    <input name="userId" th:field="*{userId}"   class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group hidden">
+                <label class="col-sm-3 control-label">父级ID：</label>
+                <div class="col-sm-8">
+                    <input name="parentId" th:field="*{parentId}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group hidden">
+                <label class="col-sm-3 control-label">周期ID：</label>
+                <div class="col-sm-8">
+                    <input name="cycleId" th:field="*{cycleId}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group hidden">
+                <label class="col-sm-3 control-label">状态：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box" th:each="dict : ${@dict.getType('row_status')}">
+                        <input type="radio" th:id="${'status_' + dict.dictCode}" name="status" th:value="${dict.dictValue}" th:field="*{status}">
+                        <label th:for="${'status_' + dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">优先级：</label>
+                <div class="col-sm-8">
+                    <select name="priority" class="form-control m-b" readonly="" th:with="type=${@dict.getType('okr_level')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{priority}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">协同对齐</label>
+                <div class="col-sm-8">
+                    <div id="synergyTrees" class="ztree"></div>
+                </div>
+            </div>
+            <input name="synergyUsers" th:field="*{synergyUsers}" class="form-control" type="text">
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: star-rating-js" />
+    <th:block th:include="include :: ztree-js" />
+    <script type="text/javascript">
+
+        var prefix = ctx + "okr/info";
+        $(function() {
+            var url = prefix + "/okrSynergyTreeData?id="+ $("#id").val();
+            var options = {
+                id: "synergyTrees",
+                url: url,
+                check: { enable: true },
+                expandLevel: 0
+            };
+            $.tree.init(options);
+        });
+
+
+
+
+        $("#form-info-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $("#synergyUsers").val($.tree.getCheckedNodes("userId"));
+                $.operate.save(prefix + "/edit", $('#form-info-edit').serialize());
+            }
+        }
+
+        var input =document.getElementById("input");
+        var yuan =document.getElementById("yuan");
+        var jindu =document.getElementById("jindu");
+        var tiao =document.getElementById("tiao");
+        var processView = document.getElementById("processView");
+        var tiaoW =tiao.offsetWidth;
+
+        function schedule(){
+
+            var isfalse =false; //控制滑动
+
+            yuan.onmousedown =function(e){
+                isfalse =true;
+
+                var X =e.clientX; //获取当前元素相对于窗口的X左边
+
+                var offleft =this.offsetLeft; //当前元素相对于父元素的左边距
+
+                var max = tiao.offsetWidth - this.offsetWidth; //宽度的差值
+
+                document.body.onmousemove=function(e){
+                    if (isfalse == false){
+                        return;
+                    }
+                    var changeX= e.clientX; //在移动的时候获取X坐标
+
+                    var moveX =Math.min(max,Math.max(-2,offleft+(changeX-X))); //超过总宽度取最大宽
+                    input.value =Math.round(Math.max(0,moveX / max) * 100);
+                    processView.innerHTML = Math.round(Math.max(0,moveX / max) * 100)+"%";
+                    yuan.style.marginLeft =Math.max(0, moveX) +"px";
+                    jindu.style.width =moveX +"px";
+                }
+            }
+            document.body.onmouseup =function(){
+                isfalse =false;
+            }
+
+            var minValue =0;
+            var maxValue =100;
+            input.onblur =function(){
+                var theV =this.value*1;
+                if(theV >maxValue || theV <minValue){
+                    alert("输入的数值不正确");
+                    input.value ="";
+                    jindu.style.width ="0px";
+                    yuan.style.marginLeft ="0px";
+                    return;
+                }
+                var xxx =theV/100*tiaoW;
+                yuan.style.marginLeft =xxx +"px";
+                jindu.style.width =xxx +"px";
+            }
+        }
+
+        function initProcess(){
+            var minValue =0;
+            var maxValue =100;
+            var value = $("#input").val();
+            var theV =value*1;
+            if(theV >maxValue || theV <minValue){
+                alert("输入的数值不正确");
+                input.value ="";
+                jindu.style.width ="0px";
+                yuan.style.marginLeft ="0px";
+                return;
+            }
+            var xxx =theV/100*tiaoW;
+            yuan.style.marginLeft =xxx +"px";
+            jindu.style.width =xxx +"px";
+            processView.innerHTML = value+"%";
+        }
+
+        $(document).ready(function(){
+            $('.kv-ltr-theme-default-alt').rating({
+                hoverOnClear: false,
+                containerClass: 'is-heart',
+                filledStar: '<i class="glyphicon glyphicon-heart"></i>',
+                emptyStar: '<i class="glyphicon glyphicon-heart-empty"></i>'
+            });
+
+            schedule();
+
+
+            initProcess();
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.smdd.cpgl.mapper.KbsmGoodsMapper">
+    
+    <resultMap type="com.ruoyi.project.smdd.cpgl.domain.KbsmGoods" id="KbsmGoodsResult">
+        <result property="id"    column="id"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="categoryId"    column="category_id"    />
+        <result property="specType"    column="spec_type"    />
+        <result property="deductStockType"    column="deduct_stock_type"    />
+        <result property="content"    column="content"    />
+        <result property="salesInitial"    column="sales_initial"    />
+        <result property="salesActual"    column="sales_actual"    />
+        <result property="goodsSort"    column="goods_sort"    />
+        <result property="goodsStatus"    column="goods_status"    />
+        <result property="packPrice"    column="pack_price"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="wxappId"    column="wxapp_id"    />
+        <result property="gmtCreate"    column="gmt_create"    />
+        <result property="gmtModified"    column="gmt_modified"    />
+    </resultMap>
+
+    <sql id="selectKbsmGoodsVo">
+        select id, goods_name, category_id, spec_type, deduct_stock_type, content, sales_initial, sales_actual, goods_sort, goods_status, pack_price, is_delete, shop_id, wxapp_id, gmt_create, gmt_modified from kbsm_goods
+    </sql>
+
+    <select id="selectKbsmGoodsList" parameterType="com.ruoyi.project.smdd.cpgl.domain.KbsmGoods" resultMap="KbsmGoodsResult">
+        <include refid="selectKbsmGoodsVo"/>
+        <where>  
+            <if test="goodsName != null  and goodsName != ''"> and goods_name like concat('%', #{goodsName}, '%')</if>
+            <if test="categoryId != null "> and category_id = #{categoryId}</if>
+            <if test="specType != null "> and spec_type = #{specType}</if>
+            <if test="shopId != null "> and shop_id = #{shopId}</if>
+        </where>
+    </select>
+    
+    <select id="selectKbsmGoodsById" parameterType="Long" resultMap="KbsmGoodsResult">
+        <include refid="selectKbsmGoodsVo"/>
+        where id = #{id}
+    </select>
+    <select id="getByGoodsNameAndWxappId" resultType="com.ruoyi.project.smdd.cpgl.domain.KbsmGoods">
+        <include refid="selectKbsmGoodsVo"></include>
+        where goods_name=#{goodsName}
+        and wxapp_id=#{wxappId}
+    </select>
+
+    <insert id="insertKbsmGoods" parameterType="com.ruoyi.project.smdd.cpgl.domain.KbsmGoods" useGeneratedKeys="true" keyProperty="id">
+        insert into kbsm_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsName != null and goodsName != ''">goods_name,</if>
+            <if test="categoryId != null">category_id,</if>
+            <if test="specType != null">spec_type,</if>
+            <if test="deductStockType != null">deduct_stock_type,</if>
+            <if test="content != null">content,</if>
+            <if test="salesInitial != null">sales_initial,</if>
+            <if test="salesActual != null">sales_actual,</if>
+            <if test="goodsSort != null">goods_sort,</if>
+            <if test="goodsStatus != null">goods_status,</if>
+            <if test="packPrice != null">pack_price,</if>
+            <if test="isDelete != null">is_delete,</if>
+            <if test="shopId != null">shop_id,</if>
+            <if test="wxappId != null">wxapp_id,</if>
+            <if test="gmtCreate != null">gmt_create,</if>
+            <if test="gmtModified != null">gmt_modified,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodsName != null and goodsName != ''">#{goodsName},</if>
+            <if test="categoryId != null">#{categoryId},</if>
+            <if test="specType != null">#{specType},</if>
+            <if test="deductStockType != null">#{deductStockType},</if>
+            <if test="content != null">#{content},</if>
+            <if test="salesInitial != null">#{salesInitial},</if>
+            <if test="salesActual != null">#{salesActual},</if>
+            <if test="goodsSort != null">#{goodsSort},</if>
+            <if test="goodsStatus != null">#{goodsStatus},</if>
+            <if test="packPrice != null">#{packPrice},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+            <if test="shopId != null">#{shopId},</if>
+            <if test="wxappId != null">#{wxappId},</if>
+            <if test="gmtCreate != null">#{gmtCreate},</if>
+            <if test="gmtModified != null">#{gmtModified},</if>
+         </trim>
+    </insert>
+
+    <update id="updateKbsmGoods" parameterType="com.ruoyi.project.smdd.cpgl.domain.KbsmGoods">
+        update kbsm_goods
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="goodsName != null and goodsName != ''">goods_name = #{goodsName},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="specType != null">spec_type = #{specType},</if>
+            <if test="deductStockType != null">deduct_stock_type = #{deductStockType},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="salesInitial != null">sales_initial = #{salesInitial},</if>
+            <if test="salesActual != null">sales_actual = #{salesActual},</if>
+            <if test="goodsSort != null">goods_sort = #{goodsSort},</if>
+            <if test="goodsStatus != null">goods_status = #{goodsStatus},</if>
+            <if test="packPrice != null">pack_price = #{packPrice},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+            <if test="shopId != null">shop_id = #{shopId},</if>
+            <if test="wxappId != null">wxapp_id = #{wxappId},</if>
+            <if test="gmtCreate != null">gmt_create = #{gmtCreate},</if>
+            <if test="gmtModified != null">gmt_modified = #{gmtModified},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteKbsmGoodsById" parameterType="Long">
+        delete from kbsm_goods where id = #{id}
+    </delete>
+
+    <delete id="deleteKbsmGoodsByIds" parameterType="String">
+        delete from kbsm_goods where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

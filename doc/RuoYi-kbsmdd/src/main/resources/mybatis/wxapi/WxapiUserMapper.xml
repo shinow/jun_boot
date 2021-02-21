@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.wxapi.model.mapper.WxapiUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ruoyi.project.wxapi.model.bean.User">
+        <id column="id" property="id" />
+        <result column="scene" property="scene" />
+        <result column="union_id" property="unionId" />
+        <result column="open_id" property="openId" />
+        <result column="type" property="type" />
+        <result column="nickName" property="nickName" />
+        <result column="avatarUrl" property="avatarUrl" />
+        <result column="gender" property="gender" />
+        <result column="country" property="country" />
+        <result column="province" property="province" />
+        <result column="city" property="city" />
+        <result column="subscribe" property="subscribe" />
+        <result column="address_id" property="addressId" />
+        <result column="user_grade_id" property="userGradeId" />
+        <result column="wallet" property="wallet" />
+        <result column="pay" property="pay" />
+        <result column="score" property="score" />
+        <result column="mobile" property="mobile" />
+        <result column="commission" property="commission" />
+        <result column="recommender" property="recommender" />
+        <result column="is_dealer" property="isDealer" />
+        <result column="login_count" property="loginCount" />
+        <result column="wxapp_id" property="wxappId" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, scene, union_id, open_id, type, nickName, avatarUrl, gender, country, province, city, subscribe, address_id, user_grade_id, wallet, pay, score, mobile, commission, recommender, is_dealer, login_count, wxapp_id, gmt_create, gmt_modified
+    </sql>
+    <insert id="insertUser">
+        insert into kbsm_user
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="scene != null" >
+                scene,
+            </if>
+            <if test="unionId != null" >
+                union_id,
+            </if>
+            <if test="openId != null" >
+                open_id,
+            </if>
+            <if test="type != null" >
+                type,
+            </if>
+            <if test="nickName != null" >
+                nickName,
+            </if>
+            <if test="avatarUrl != null" >
+                avatarUrl,
+            </if>
+            <if test="gender != null" >
+                gender,
+            </if>
+            <if test="country != null" >
+                country,
+            </if>
+            <if test="province != null" >
+                province,
+            </if>
+            <if test="city != null" >
+                city,
+            </if>
+            <if test="subscribe != null" >
+                subscribe,
+            </if>
+            <if test="addressId != null" >
+                address_id,
+            </if>
+            <if test="userGradeId != null" >
+                user_grade_id,
+            </if>
+            <if test="wallet != null" >
+                wallet,
+            </if>
+            <if test="pay != null" >
+                pay,
+            </if>
+            <if test="score != null" >
+                score,
+            </if>
+            <if test="mobile != null" >
+                mobile,
+            </if>
+            <if test="commission != null" >
+                commission,
+            </if>
+            <if test="recommender != null" >
+                recommender,
+            </if>
+            <if test="isDealer != null" >
+                is_dealer,
+            </if>
+            <if test="loginCount != null" >
+                login_count,
+            </if>
+            <if test="wxappId != null" >
+                wxapp_id,
+            </if>
+            <if test="gmtCreate != null" >
+                gmt_create,
+            </if>
+            <if test="gmtModified != null" >
+                gmt_modified,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="scene != null" >
+                #{scene,jdbcType=INTEGER},
+            </if>
+            <if test="unionId != null" >
+                #{unionId,jdbcType=VARCHAR},
+            </if>
+            <if test="openId != null" >
+                #{openId,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null" >
+                #{type,jdbcType=TINYINT},
+            </if>
+            <if test="nickName != null" >
+                #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="avatarUrl != null" >
+                #{avatarurl,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null" >
+                #{gender,jdbcType=TINYINT},
+            </if>
+            <if test="country != null" >
+                #{country,jdbcType=VARCHAR},
+            </if>
+            <if test="province != null" >
+                #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null" >
+                #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="subscribe != null" >
+                #{subscribe,jdbcType=TINYINT},
+            </if>
+            <if test="addressId != null" >
+                #{addressId,jdbcType=INTEGER},
+            </if>
+            <if test="userGradeId != null" >
+                #{userGradeId,jdbcType=INTEGER},
+            </if>
+            <if test="wallet != null" >
+                #{wallet,jdbcType=DECIMAL},
+            </if>
+            <if test="pay != null" >
+                #{pay,jdbcType=DECIMAL},
+            </if>
+            <if test="score != null" >
+                #{score,jdbcType=INTEGER},
+            </if>
+            <if test="mobile != null" >
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="commission != null" >
+                #{commission,jdbcType=DECIMAL},
+            </if>
+            <if test="recommender != null" >
+                #{recommender,jdbcType=INTEGER},
+            </if>
+            <if test="isDealer != null" >
+                #{isDealer,jdbcType=TINYINT},
+            </if>
+            <if test="loginCount != null" >
+                #{loginCount,jdbcType=INTEGER},
+            </if>
+            <if test="wxappId != null" >
+                #{wxappId,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null" >
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null" >
+                #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="selectByOpenId" resultType="com.ruoyi.project.wxapi.model.bean.User">
+        select <include refid="Base_Column_List"></include>
+        from kbsm_user
+        where open_id=#{openid}
+    </select>
+    <select id="selectByUserId" resultType="com.ruoyi.project.wxapi.model.bean.User">
+        select <include refid="Base_Column_List"></include>
+        from kbsm_user
+        where id=#{userId}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html th:lang="${language}"  xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="include :: header(#{okr.add})"/>
+	<th:block th:include="include :: summernote-css"/>
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+
+</div>
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: summernote-js"/>
+<script type="text/javascript">
+	var prefix = ctx + "okr/info";
+	function submitHandler() {
+		$.operate.save(prefix + "/saveKeyResult",$('#form-info-add').serialize());
+	}
+</script>
+</body>
+</html>

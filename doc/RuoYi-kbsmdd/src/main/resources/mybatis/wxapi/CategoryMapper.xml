@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.wxapi.model.mapper.CategoryMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ruoyi.project.wxapi.model.bean.Category">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="parent_id" property="parentId" />
+        <result column="image_id" property="imageId" />
+        <result column="sort" property="sort" />
+        <result column="shop_id" property="shopId" />
+        <result column="wxapp_id" property="wxappId" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, parent_id, image_id, sort, shop_id, wxapp_id, gmt_create, gmt_modified
+    </sql>
+    <select id="listByShopId" resultType="com.ruoyi.project.wxapi.model.bean.Category">
+        select <include refid="Base_Column_List"></include>
+        from kbsm_category
+        where shop_id=#{shop_id,jdbcType=INTEGER}
+    </select>
+
+</mapper>

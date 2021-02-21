@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_ruoyi" default="compile.module.ruoyi">
+  <dirname property="module.ruoyi.basedir" file="${ant.file.module_ruoyi}"/>
+  
+  <property name="module.jdk.home.ruoyi" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.ruoyi" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.ruoyi" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.ruoyi" value="-encoding UTF-8 -source 8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="ruoyi.output.dir" value="${module.ruoyi.basedir}/target/classes"/>
+  <property name="ruoyi.testoutput.dir" value="${module.ruoyi.basedir}/target/test-classes"/>
+  
+  <path id="ruoyi.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="ruoyi.module.production.classpath">
+    <path refid="${module.jdk.classpath.ruoyi}"/>
+  </path>
+  
+  <path id="ruoyi.runtime.production.module.classpath">
+    <pathelement location="${ruoyi.output.dir}"/>
+  </path>
+  
+  <path id="ruoyi.module.classpath">
+    <path refid="${module.jdk.classpath.ruoyi}"/>
+    <pathelement location="${ruoyi.output.dir}"/>
+  </path>
+  
+  <path id="ruoyi.runtime.module.classpath">
+    <pathelement location="${ruoyi.testoutput.dir}"/>
+    <pathelement location="${ruoyi.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.ruoyi">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.ruoyi">
+    <patternset refid="excluded.from.module.ruoyi"/>
+  </patternset>
+  
+  
+  <target name="compile.module.ruoyi" depends="compile.module.ruoyi.production,compile.module.ruoyi.tests" description="Compile module ruoyi"/>
+  
+  <target name="compile.module.ruoyi.production" depends="register.custom.compilers" description="Compile module ruoyi; production classes"/>
+  
+  <target name="compile.module.ruoyi.tests" depends="register.custom.compilers,compile.module.ruoyi.production" description="compile module ruoyi; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.ruoyi" description="cleanup module">
+    <delete dir="${ruoyi.output.dir}"/>
+    <delete dir="${ruoyi.testoutput.dir}"/>
+  </target>
+</project>

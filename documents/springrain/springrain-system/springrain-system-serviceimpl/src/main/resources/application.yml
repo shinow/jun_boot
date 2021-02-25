@@ -1,0 +1,88 @@
+###使用默认配置就可以了,不需要修改###
+#server:
+#    port: 8080
+#    sevlet: 
+#        context-path: /
+
+
+springrain:
+  ###基本的包路径,因为事务xml需要配置路径,程序中也需要使用,抽出来了,记得和包名一块修改###
+  basepackagepath: org.springrain
+  ###RSA的公钥私钥pem字符串,生产环境一定要配置正确!!!###
+  rsa:
+    privatekey: ''
+    publickey: ''
+
+  ###jwt 的默认配置,secret 在生产环境一定要配置正确!!!!!!###
+  jwt:
+    secret: dev
+    timeout: 3600000
+    tokenkey: springraintoken
+
+  #openoffice:
+  #  home: D:/Program Files (x86)/OpenOffice 4/program/soffice.exe
+  #  host: 127.0.0.1
+  #  port: 8100
+
+
+
+  #redis:
+  #  hostport: redis://127.0.0.1:6379    ###如果是redis集群,使用逗号隔开,例如 redis://127.0.0.1:6379,redis://127.0.0.1:6378 ###
+  #  password:   ###密码,可以不设置####
+  #  timeout: 7200000
+  #  pool:
+  #    max-active: 1024
+  #    min-idle: 200
+
+
+
+
+#logging:
+#  level:
+#    org: INFO ### 配置spring web日志级别###
+
+spring:
+
+  ###代码实现:org.springrain.config.SpringMVCConfig.addResourceHandlers(ResourceHandlerRegistry)###
+  #resources:
+  #  static-locations: /images/,/img/,/js/,/css/,/layui/,/upload/,/u/
+
+  mvc:
+    ignore-default-model-on-redirect: false #在重定向时是否忽略默认model的内容，默认为true###
+
+  aop:
+    proxy-target-class: false  #强制使用接口代理,不使用cglib,RPC一般是基于接口代理的###
+
+
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 0
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/springrain?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=Hongkong
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+    #driver-class-name: com.mysql.cj.jdbc.Driver
+    #default-transaction-isolation: ISOLATION_READ_UNCOMMITTED
+
+
+
+
+
+###actuator的默认路径/actuator/ 开头,已经在shiro配置,只有system有权限###        
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

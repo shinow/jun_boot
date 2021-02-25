@@ -1,0 +1,20 @@
+spring:
+  redis:
+    host: 192.168.2.141
+    database: 1
+    port: 6379
+
+    idempotent:
+      timeout: 5000
+      module: testmodule
+server:
+  port: 80
+  servlet:
+    context-path: /
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 800
+    min-spare-threads: 30
+logging:
+  level:
+    com.baomidou: debug

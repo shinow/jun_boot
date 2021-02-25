@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.hulk.sequence.config.SequenceAutoConfiguration,\
+  com.hulk.sequence.config.SequenceAutoConfiguration.DbSequenceConfig,\
+  com.hulk.sequence.config.SequenceAutoConfiguration.RedisSequenceConfig,\
+  com.hulk.sequence.config.SequenceAutoConfiguration.SnowflakeSequence

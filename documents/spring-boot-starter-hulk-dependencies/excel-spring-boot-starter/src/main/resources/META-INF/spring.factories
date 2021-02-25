@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.hulk.excel.config.RespExcelAutoConfiguration
+
+

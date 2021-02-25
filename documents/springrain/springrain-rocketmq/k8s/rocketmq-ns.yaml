@@ -1,0 +1,102 @@
+###声明 StatefulSet####
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rocketmqns
+spec:
+  replicas: 2
+  serviceName: rocketmqns
+  selector:
+    matchLabels:
+      app: rocketmqns
+  template:
+    metadata:
+      ####禁用istio自动注入sidecar###
+      annotations:
+        sidecar.istio.io/inject: "false"
+      
+      labels:
+        app: rocketmqns
+        version: v1
+    spec:
+      #terminationGracePeriodSeconds: 10
+      containers:
+        - name: rocketmqns
+          image: rocketmqinc/rocketmq:4.4.0
+          ###
+          imagePullPolicy: IfNotPresent
+          env:
+            ###设置时区###
+            - name: TZ
+              value: Asia/Shanghai
+            ###设置编码###
+            - name: LANG
+              value: C.UTF-8
+            - name: ROCKETMQ_HEAP_OPTS
+              value: "-Xms1g -Xmx1g -Xmn512m"
+            
+            #### Downward API  https://www.qikqiak.com/post/use-downward-api-get-pod-info/###
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            
+            - name: DATA_PATH
+              value: "basesoft/rocketmq/pvc"
+          
+          resources:
+            limits:
+              cpu: "1"
+              memory: 2Gi
+            requests:
+              cpu: "1"
+              memory: 2Gi
+          command: ["sh","mqnamesrv"]
+          
+          ports:
+            - containerPort: 9876
+              name: rocketmqns
+          
+          
+          
+          volumeMounts:
+            ###挂载点###
+            - mountPath: /home/rocketmq
+              ###对应下面卷 cephfs-pvc-pod 的名称###
+              name: rocketmqns-pvc
+              ###指定子目录,会在cephfs里创建子文件夹####
+              subPathExpr: $(DATA_PATH)/$(POD_NAME)
+      
+      volumes:
+        ###卷名称,对应上面的挂载名称###
+        - name: rocketmqns-pvc
+          persistentVolumeClaim:
+            ###对应cephfs-pvc.yaml的metadata.name###
+            claimName: k8s-pvc
+
+
+
+
+---
+###创建 redis 服务####
+apiVersion: v1
+kind: Service
+metadata:
+  name: rocketmqns
+  labels:
+    app: rocketmqns
+spec:
+  ports:
+    - port: 9876
+      targetPort: 9876
+      nodePort: 31876 ###node的端口,用于开发人员直连###
+  
+  ###固定虚拟IP###
+  clusterIP: 10.96.95.201
+  selector:
+    app: rocketmqns
+  ###节点类型是NodePort###
+  type: NodePort        
+          
+    
+

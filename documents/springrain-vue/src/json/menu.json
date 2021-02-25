@@ -1,0 +1,96 @@
+[
+	{
+		"name": "System",
+		"path": "/system",
+		"hidden": false,
+		"alwaysShow": true,
+		"redirect": "noRedirect",
+		"component": "Layout",
+		"meta": {
+			"title": "系统管理",
+			"icon": "system",
+			"noCache": false
+		},
+		"children": [{
+			"name": "User",
+			"path": "user",
+			"hidden": false,
+			"alwaysShow": false,
+			"component": "system/user/index",
+			"meta": {
+				"title": "用户管理",
+				"icon": "user",
+				"noCache": false
+			}
+		}, {
+			"name": "Role",
+			"path": "role",
+			"hidden": false,
+			"alwaysShow": false,
+			"component": "system/role/index",
+			"meta": {
+				"title": "角色管理",
+				"icon": "peoples",
+				"noCache": false
+			}
+		}, {
+			"name": "Menu",
+			"path": "menu",
+			"hidden": false,
+			"alwaysShow": false,
+			"component": "system/menu/index",
+			"meta": {
+				"title": "菜单管理",
+				"icon": "tree-table",
+				"noCache": false
+			}
+		}, {
+			"name": "Dept",
+			"path": "dept",
+			"hidden": false,
+			"alwaysShow": false,
+			"component": "system/dept/index",
+			"meta": {
+				"title": "部门管理",
+				"icon": "tree",
+				"noCache": false
+			}
+		}, {
+		  "name": "Dict",
+		  "path": "dict",
+		  "hidden": false,
+		  "alwaysShow": false,
+		  "component": "system/dict/index",
+		  "meta": {
+		    "title": "字典管理",
+		    "icon": "tree",
+		    "noCache": false
+		  }
+		}]
+	},
+	{
+		"name": "Monitor",
+		"path": "/monitor",
+		"hidden": false,
+		"alwaysShow": true,
+		"redirect": "noRedirect",
+		"component": "Layout",
+		"meta": {
+			"title": "系统监控",
+			"icon": "monitor",
+			"noCache": false
+		},
+		"children": [{
+			"name": "Online",
+			"path": "online",
+			"hidden": false,
+			"alwaysShow": false,
+			"component": "monitor/online/index",
+			"meta": {
+				"title": "在线用户",
+				"icon": "online",
+				"noCache": false
+			}
+		}]
+	}
+]

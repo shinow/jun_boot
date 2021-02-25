@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<project
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+        xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springrain</groupId>
+        <artifactId>springrain</artifactId>
+        <version>6.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>springrain-frame-cache-redis</artifactId>
+    <packaging>jar</packaging>
+    <url>http://www.weicms.net</url>
+    <description>redis类型的缓存,和memory内存缓存互斥,只能使用一个</description>
+
+
+    <dependencies>
+
+
+        <dependency>
+            <groupId>org.springrain</groupId>
+            <artifactId>springrain-frame-util</artifactId>
+            <version>6.0.0-SNAPSHOT</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>de.ruedigermoeller</groupId>
+            <artifactId>fst</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+
+    </dependencies>
+
+
+</project>

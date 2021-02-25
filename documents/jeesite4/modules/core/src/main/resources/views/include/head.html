@@ -1,0 +1,16 @@
+<%/* Copyright (c) 2013-Now http://jeesite.com All rights reserved. */%>
+<meta charset="utf-8"><meta content="webkit" name="renderer"/><meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="keywords" content="PoweredByJeeSiteV4.0"/><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+<meta name="description" content="PoweredByJeeSiteV4.0"/><meta content="no-cache" http-equiv="Pragma"/><meta http-equiv="Expires" content="0"/>
+<meta content="width=device-width, initial-scale=1, user-scalable=1" name="viewport"/>
+<title>${(isNotBlank(title!) ? title! + ' - ' : '') + @Global.getConfig('productName')}</title>
+<link rel="shortcut icon" href="${ctxStatic}/favicon.png" type="image/png">
+<script src="${ctxPath}/global.min.js?ctx=${ctx}"></script>
+<script src="${ctxStatic}/jquery/jquery-3.5.0.min.js"></script>
+<script src="${ctxStatic}/jquery/jquery-migrate-3.2.0.min.js"></script>
+<!--[if lt IE 9]><script src="${ctxStatic}/common/h5fix.min.js"></script><![endif]-->
+<% if(parameter.__layer! == 'true'){ if(parameter.__layer_title! == 'false'){ %>
+<style>.main-content>.box-main>.box-header{padding-right:45px;}</style>
+<% }else{ %>
+<style>.main-content>.box-main>.box-header{display:none;}</style>
+<% } } %>

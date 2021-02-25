@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<project
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+        xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+
+
+    <parent>
+        <groupId>org.springrain</groupId>
+        <artifactId>springrain</artifactId>
+        <version>6.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>springrain-alipay-sdk</artifactId>
+    <packaging>jar</packaging>
+    <url>http://www.weicms.net</url>
+    <description>支付宝支付SDK</description>
+    <properties>
+        <alipay.sdk.java.version>4.8.10.ALL</alipay.sdk.java.version>
+    </properties>
+    <dependencies>
+
+
+        <dependency>
+            <groupId>org.springrain</groupId>
+            <artifactId>springrain-grpc-client</artifactId>
+            <version>6.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springrain</groupId>
+            <artifactId>springrain-frame-util</artifactId>
+            <version>6.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springrain</groupId>
+            <artifactId>springrain-frame-dao</artifactId>
+            <version>6.0.0-SNAPSHOT</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>${alipay.sdk.java.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>fastjson</artifactId>
+                    <groupId>com.alibaba</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+        </dependency>
+
+
+    </dependencies>
+
+
+</project>

@@ -1,0 +1,138 @@
+###定义ConfigMap,把脚本和配置文件放到ConfigMap###
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rocketmqbroker-configmap
+data:
+  ###broker的配置文件,添加基本的配置###
+  broker.conf: |+
+    brokerClusterName = DefaultCluster
+    namesrvAddr = rocketmqns-0.rocketmqns:9876;rocketmqns-1.rocketmqns:9876
+    ##brokerName = ${POD_NAME}.rocketmqbroker
+    brokerId = 0
+    deleteWhen = 04
+    fileReservedTime = 48
+    brokerRole = ASYNC_MASTER
+    flushDiskType = ASYNC_FLUSH
+    ##brokerIP1=${POD_NAME}.rocketmqbroker
+    ##brokerIP2=${POD_NAME}.rocketmqbroker
+    # listenPort=10911
+
+---
+
+
+###声明 Deployment####
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rocketmqbroker
+spec:
+  replicas: 2
+  serviceName: rocketmqbroker
+  selector:
+    matchLabels:
+      app: rocketmqbroker
+  template:
+    metadata:
+      ####禁用istio自动注入sidecar###
+      annotations:
+        sidecar.istio.io/inject: "false"
+      
+      labels:
+        app: rocketmqbroker
+        version: v1
+    spec:
+      containers:
+        - name: rocketmqbroker
+          image: rocketmqinc/rocketmq:4.4.0
+          ###
+          imagePullPolicy: IfNotPresent
+          env:
+            ###设置时区###
+            - name: TZ
+              value: Asia/Shanghai
+            ###设置编码###
+            - name: LANG
+              value: C.UTF-8
+            
+            - name: ROCKETMQ_HEAP_OPTS
+              value: "-Xms1g -Xmx1g -Xmn512m"
+            
+            
+            
+            #### Downward API  https://www.qikqiak.com/post/use-downward-api-get-pod-info/###
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            
+            - name: DATA_PATH
+              value: "basesoft/rocketmq/pvc"
+          
+          resources:
+            limits:
+              cpu: "1"
+              memory: 2Gi
+            requests:
+              cpu: "1"
+              memory: 2Gi
+          command: ["sh","mqbroker","-c /opt/rocketmq-4.4.0/conf/broker.conf"]
+          #command: ["/bin/sh","-c","sleep 3600"]
+          
+          ports:
+            - containerPort: 10909
+            - containerPort: 10911
+            - containerPort: 10912
+          
+          
+          
+          volumeMounts:
+            
+            
+            ###挂载点###
+            - mountPath: /home/rocketmq
+              ###对应下面卷 cephfs-pvc-pod 的名称###
+              name: broker-pvc
+              ###指定子目录,会在cephfs里创建子文件夹####
+              subPathExpr: $(DATA_PATH)/$(POD_NAME)
+            
+            ###使用configMap挂载server.xml,只挂载一个文件,需要使用subPath###
+            - mountPath: /opt/rocketmq-4.4.0/conf/broker.conf
+              name: broker-pvc
+              ###和下面的volumes.tomcat-configmap的path要对应要对应###
+              subPathExpr: $(DATA_PATH)/$(POD_NAME).conf
+      
+      
+      
+      
+      
+      volumes:
+        
+        ###卷名称,对应上面的挂载名称###
+        - name: broker-pvc
+          persistentVolumeClaim:
+            ###对应cephfs-pvc.yaml的metadata.name###
+            claimName: k8s-pvc
+
+
+
+---
+###创建 rocketmqbroker 服务####
+apiVersion: v1
+kind: Service
+metadata:
+  name: rocketmqbroker
+  labels:
+    app: rocketmqbroker
+spec:
+  ports:
+    - port: 10911
+      targetPort: 10911
+      nodePort: 31911 ###node的端口,用于开发人员直连###
+  
+  ###固定虚拟IP###
+  clusterIP: 10.96.95.202
+  selector:
+    app: rocketmqbroker
+  ###节点类型是NodePort###
+  type: NodePort 

@@ -1,11 +1,11 @@
 
-### adminlte-shiro 轻量级权限管理脚手架
+### jun_boot 通用信息管理系统-权限管理脚手架
 
 ### 项目说明
 -------------
-1. adminlte-shiro是以Springboot+Shiro+Mybatis为核心，以shiro-redis、redis为辅开发的精简后台基础系统。
+1. jun_boot是以Springboot+Shiro+Mybatis为核心，以shiro、redis、redis为辅开发的精简后台基础系统。
 2. 包含用户管理,角色管理,菜单管理,定时任务,文件管理,图标工具等常用业务模块。
-3. 使用AdminLTE作为前端UI框架，添加菜单Tab页签完成内嵌iframe多页面功能(前端项目地址：https://gitee.com/liyucc/adminlte-tab)。
+3. 使用AdminLTE作为前端UI框架，添加菜单Tab页签完成内嵌iframe多页面功能。
 4. 使用Mybatis集成通用Mapper作为ORM框架。
 5. 使用redis、Ehcache实现权限缓存。
 6. 使用thymeleaf模板,实现页面拆分,封装公共部分。
@@ -34,6 +34,3 @@ AdminLTE、Springboot、Shiro、Mybatis、通用Mapper、shiro-redis、Ehcache�
 
 ### 实例截图
 -------------
-![](https://images.gitee.com/uploads/images/2020/0924/150412_b6690d42_947463.png "1.png")
-![](https://images.gitee.com/uploads/images/2020/0924/150432_89c61fb4_947463.png "2.png")
-![](https://images.gitee.com/uploads/images/2020/0924/150516_dc9de3bc_947463.png "3.png")

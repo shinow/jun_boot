@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.nbclass.modules.sys.mapper.ConfigMapper">
+<mapper namespace="com.jun.plugin.modules.sys.mapper.ConfigMapper">
 
-	<resultMap id="BaseResultMap" type="com.nbclass.modules.sys.model.SysConfig">
+	<resultMap id="BaseResultMap" type="com.jun.plugin.modules.sys.model.SysConfig">
 		<result column="id" property="id" />
 		<result column="sys_key" property="sysKey" />
 		<result column="sys_value" property="sysValue" />

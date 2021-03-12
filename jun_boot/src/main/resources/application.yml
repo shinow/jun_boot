@@ -1,5 +1,5 @@
 server:
-   port: 8000
+   port: 8100
    servlet:
       context-path: /
       session:
@@ -10,7 +10,7 @@ server:
       min-spare-threads: 30
 logging:
    level:
-      com.nbclass: DEBUG
+      com.jun.plugin: DEBUG
       tk.mybatis: DEBUG
       org.springframework: WARN
 spring:
@@ -51,12 +51,12 @@ shiro:
       maxAge: 30
       cipherKey: DiFWf0w+lIg3gLhL8iWm/g== # 设置密钥，务必保持唯一性（生成方式，直接拷贝到main运行即可）KeyGenerator keygen = KeyGenerator.getInstance("AES"); SecretKey deskey = keygen.generateKey(); System.out.println(Base64.encodeToString(deskey.getEncoded()));
 mybatis:
-   type-aliases-package: com.nbclass.modules.*.model
+   type-aliases-package: com.jun.plugin.modules.*.model
    mapper-locations: classpath*:/mapper/**/*.xml
    configuration:
       map-underscore-to-camel-case: true
 mapper:
-   mappers: com.nbclass.common.mapper.MyMapper
+   mappers: com.jun.plugin.common.mapper.MyMapper
    not-empty: false
    identity: MYSQL
 pagehelper:

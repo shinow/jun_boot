@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.nbclass.modules.oss.mapper.SysFileMapper">
-	<resultMap id="BaseResultMap" type="com.nbclass.modules.oss.model.SysFile">
+<mapper namespace="com.jun.plugin.modules.oss.mapper.SysFileMapper">
+	<resultMap id="BaseResultMap" type="com.jun.plugin.modules.oss.model.SysFile">
 		<id column="file_id" jdbcType="BIGINT" property="fileId" />
 		<result column="original_name" jdbcType="VARCHAR" property="originalName" />
 		<result column="file_name" jdbcType="VARCHAR" property="fileName" />

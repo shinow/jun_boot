@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.nbclass.modules.job.mapper.SysJobMapper">
-	<resultMap id="BaseResultMap" type="com.nbclass.modules.job.model.SysJob">
+<mapper namespace="com.jun.plugin.modules.job.mapper.SysJobMapper">
+	<resultMap id="BaseResultMap" type="com.jun.plugin.modules.job.model.SysJob">
 		<id column="job_id" jdbcType="BIGINT" property="jobId" />
 		<id column="job_name" jdbcType="VARCHAR" property="jobName" />
 		<id column="job_group" jdbcType="VARCHAR" property="jobGroup" />

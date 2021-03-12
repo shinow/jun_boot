@@ -13,7 +13,7 @@
 
 		<!-- 通用Mapper公共接口 -->
 		<plugin type="tk.mybatis.mapper.generator.MapperPlugin">
-			<property name="mappers" value="com.nbclass.common.mapper.MyMapper" />
+			<property name="mappers" value="com.jun.plugin.common.mapper.MyMapper" />
 			<!-- 是否区分大小写，默认值 false -->
 			<property name="caseSensitive" value="true" />
 		</plugin>

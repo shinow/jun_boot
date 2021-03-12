@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.nbclass.modules.sys.mapper.RoleMapper">
-	<resultMap id="BaseResultMap" type="com.nbclass.modules.sys.model.SysRole">
+<mapper namespace="com.jun.plugin.modules.sys.mapper.RoleMapper">
+	<resultMap id="BaseResultMap" type="com.jun.plugin.modules.sys.model.SysRole">
 		<id column="role_id" property="roleId" jdbcType="INTEGER" />
 		<result column="name" property="name" jdbcType="VARCHAR" />
 		<result column="description" property="description" jdbcType="VARCHAR" />

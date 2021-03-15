@@ -1,0 +1,52 @@
+banner:
+  location: config/banner.txt
+server:
+  context-path: /
+  tomcat:
+    max-threads: 1000
+    min-spare-threads: 30
+    uri-encoding: utf-8
+    remote_ip_header: x-forwarded-for
+    protocol_header: x-forwarded-proto
+    port-header: X-Forwarded-Port
+  port: 8888
+  session:
+    timeout: 1800
+security:
+  basic:
+    enabled: false
+spring:
+  thymeleaf:
+    mode: LEGACYHTML5
+    cache: false
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    generator:
+      WRITE_NUMBERS_AS_STRINGS: true    
+  profiles:
+    active: dev
+  http:
+    multipart:
+      max-file-size: 30Mb
+      max-request-size: 30Mb
+#  redis:
+#    host: 127.0.0.1
+  devtools:
+    restart:
+      enabled: false
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*Mapper.xml
+  typeAliasesPackage: com.ifast.**.domain
+  global-config:
+    id-type: 2
+    field-strategy: 1
+    db-column-underline: false
+    capital-mode: false
+    sql-injector: com.baomidou.mybatisplus.mapper.LogicSqlInjector
+    logic-not-delete-value: 0
+    logic-delete-value: 1
+    meta-object-handler: com.ifast.common.mp.MpMetaObjectHandler
+  configuration:
+    map-underscore-to-camel-case: false
+    cache-enabled: false

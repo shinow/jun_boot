@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
+<head>
+    <title>eboot后台</title>
+    <link rel="stylesheet" th:href="@{/js/layui/css/layui.css}"/>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">eboot 后台布局</div>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <!--<img src="http://t.cn/RCzsdCq"  class="layui-nav-img" />-->
+                    <shiro:principal property="nickname" />
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="">安全设置</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="/logout">退了</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree layui-nav-side" lay-filter="navSide" style="position: absolute">
+                <li class="layui-nav-item " th:each="menu,menuStat:${menus}" th:class="${menuStat.index == 0}?'layui-nav-itemed layui-nav-item':'layui-nav-item'">
+                    <a href="javascript:;" th:text="${menu.name}">内容管理</a>
+                    <dl class="layui-nav-child" th:each="child,childStat:${menu.children}">
+                        <dd><a href="javascript:;" th:lay-id="${'memu_' + childStat.index}"  th:text="${child.name}" th:data-url="${child.url}">索引生成</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="border: 1px solid #eeeeee">
+            <div class="layui-tab layui-tab-card" lay-allowClose="true" lay-filter="mainTab" style="margin-top: 5px;">
+                <ul id="tabTitle" class="layui-tab-title">
+                    <li class="layui-this">首页</li>
+                </ul>
+                <div id="tabContainers" class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <iframe th:src="@{/welcome}" src="welcome" name="mainFrame"
+                                style="width: 100%;height: 768px;overflow-y: scroll;border: none"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="layui-footer text-center">
+
+        2018-2020© chemors.com
+    </div>
+</div>
+<script th:src="@{/js/layui/layui.all.js}"></script>
+<script>
+    layui.use('element', function () {
+        var element = layui.element, $ = layui.jquery; //导航的hover效果、二级菜单等功能，需要依赖element模块
+
+        //监听导航点击
+        element.on('nav(navSide)', function (elem) {
+            var height = window.screen.height - 280;
+            var url = (elem.context.firstChild.dataset)["url"];
+            var id = $(elem.context.firstChild).attr("lay-id");
+            element.tabDelete('mainTab', id);
+            element.tabAdd('mainTab', {
+                title: elem.text(),
+                content: '<iframe src="' + url + '" width="100%" height="' + height + 'px" style="border: none" name="mainFrame" id="'+id+'"></iframe>', //支持传入html
+                id: id
+            });
+            element.tabChange('mainTab', id);
+        });
+    });
+</script>
+</body>
+</html>

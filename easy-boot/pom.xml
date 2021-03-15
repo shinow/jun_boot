@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.mos</groupId>
+    <artifactId>eboot</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.7.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+<!--        <spring-boot-devtools.version>1.3.0.RELEASE</spring-boot-devtools.version>-->
+        <fastjson.version>1.2.39</fastjson.version>
+        <commons-lang3.version>3.4</commons-lang3.version>
+        <mysql-connector-java.version>5.1.23</mysql-connector-java.version>
+        <druid.version>1.1.18</druid.version>
+        <spring-boot.version>2.1.7.RELEASE</spring-boot.version>
+        <shiro.version>1.4.0</shiro.version>
+        <shiro-freemarker.version>1.0.1</shiro-freemarker.version>
+        <mybatisplus.version>2.1.4</mybatisplus.version>
+        <spring.boot.mybatisplus.version>1.0.5</spring.boot.mybatisplus.version>
+        <velhocity.version>2.0</velhocity.version>
+        <fasterxml.jackson.version>2.9.2</fasterxml.jackson.version>
+        <spring.cloud.version>2.1.3.RELEASE</spring.cloud.version>
+        <spring-boot-starter-redis.version>1.4.7.RELEASE</spring-boot-starter-redis.version>
+        <spring-session-data-redis.version>2.0.2.RELEASE</spring-session-data-redis.version>
+        <nekohtml.version>1.9.22</nekohtml.version>
+        <lombok.version>1.16.20</lombok.version>
+<!--        <spring-cloud-dependencies.version>Finchley.M8</spring-cloud-dependencies.version>-->
+        <thymeleaf-extras-shiro.version>2.0.0</thymeleaf-extras-shiro.version>
+        <easypoi.version>3.0.3</easypoi.version>
+        <httpclient.version>4.5.3</httpclient.version>
+        <httpcore.version>4.4.8</httpcore.version>
+        <commons-collections4.version>4.1</commons-collections4.version>
+        <commons-compress.version>1.15</commons-compress.version>
+        <commons-net.version>3.6</commons-net.version>
+        <commons-vfs2.version>2.2</commons-vfs2.version>
+        <kaptcha.version>2.3.2</kaptcha.version>
+        <velocity-engine-core.version>2.0</velocity-engine-core.version>
+        <java-jwt.version>3.3.0</java-jwt.version>
+        <spring-security.version>4.2.3.RELEASE</spring-security.version>
+        <project.version>1.0-SNAPSHOT</project.version>
+        <springfox-swagger.version>2.8.0</springfox-swagger.version>
+        <spring.boot.admin.version>2.1.6</spring.boot.admin.version>
+    </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-processor</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-thymeleaf</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-cache</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <!-- 整合Redis缓存支持 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <!--redis配置开始-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-redis</artifactId>
+                <version>${spring-boot-starter-redis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.session</groupId>
+                <artifactId>spring-session-data-redis</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <!--redis配置结束-->
+
+            <!-- 模板引擎 -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+                <version>${spring.cloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+                <version>${spring.cloud.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector-java.version}</version>
+            </dependency>
+            <!--JPA配置结束-->
+
+            <!--工具类开始-->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${fasterxml.jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${fasterxml.jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${fasterxml.jackson.version}</version>
+            </dependency>
+            <!--工具类结束-->
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+          <!--  <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-feign</artifactId>
+                <version>1.4.7.RELEASE</version>
+            </dependency>-->
+
+            <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-openfeign</artifactId>
+                <version>2.1.3.RELEASE</version>
+            </dependency>
+
+
+            <!-- shiro -->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-core</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+
+            <dependency>
+
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-web</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-spring</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.github.theborakompanioni/thymeleaf-extras-shiro -->
+            <dependency>
+                <groupId>com.github.theborakompanioni</groupId>
+                <artifactId>thymeleaf-extras-shiro</artifactId>
+                <version>${thymeleaf-extras-shiro.version}</version>
+            </dependency>
+
+       <!--     <dependency>
+                <groupId>net.mingsoft</groupId>
+                <artifactId>shiro-freemarker-tags</artifactId>
+                <version>${shiro-freemarker.version}</version>
+            </dependency>-->
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus</artifactId>
+                <version>${mybatisplus.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.velocity/velocity-engine-core -->
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>${velocity-engine-core.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatisplus-spring-boot-starter</artifactId>
+                <version>${spring.boot.mybatisplus.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/net.sourceforge.nekohtml/nekohtml -->
+            <dependency>
+                <groupId>net.sourceforge.nekohtml</groupId>
+                <artifactId>nekohtml</artifactId>
+                <version>${nekohtml.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+         <!--   <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>-->
+
+            <dependency>
+                <groupId>cn.afterturn</groupId>
+                <artifactId>easypoi-base</artifactId>
+                <version>${easypoi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.afterturn</groupId>
+                <artifactId>easypoi-web</artifactId>
+                <version>${easypoi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.afterturn</groupId>
+                <artifactId>easypoi-annotation</artifactId>
+                <version>${easypoi.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpmime</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpcore</artifactId>
+                <version>${httpcore.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons-collections4.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-compress</artifactId>
+                <version>${commons-compress.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-net</groupId>
+                <artifactId>commons-net</artifactId>
+                <version>${commons-net.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-vfs2</artifactId>
+                <version>${commons-vfs2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.penggle</groupId>
+                <artifactId>kaptcha</artifactId>
+                <version>${kaptcha.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-web</artifactId>
+                <version>${spring-security.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-config</artifactId>
+                <version>${spring-security.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>0.9.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-amqp</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mos</groupId>
+                <artifactId>eboot-entity</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mos</groupId>
+                <artifactId>eboot-tools</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${springfox-swagger.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${springfox-swagger.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/de.codecentric/spring-boot-admin-server -->
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-server</artifactId>
+                <version>${spring.boot.admin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-server-ui</artifactId>
+                <version>${spring.boot.admin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-client</artifactId>
+                <version>${spring.boot.admin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-mail</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-gateway</artifactId>
+                <version>${spring.cloud.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <modules>
+        <module>eboot-web</module>
+        <module>eboot-admin</module>
+        <module>eboot-entity</module>
+        <module>eboot-service</module>
+        <module>eboot-tools</module>
+        <module>eboot-provider</module>
+        <module>eboot-file</module>
+        <module>eboot-api</module>
+        <module>eboot-consumer</module>
+        <module>eboot-actuator</module>
+        <module>eboot-es</module>
+        <module>eboot-gateway</module>
+    </modules>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.0.0</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>

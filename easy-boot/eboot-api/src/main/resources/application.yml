@@ -1,0 +1,11 @@
+server:
+  port: 8706
+spring:
+  boot:
+    admin:
+      client:
+        url: http://localhost:8888
+  application:
+    name: eboot-api
+
+

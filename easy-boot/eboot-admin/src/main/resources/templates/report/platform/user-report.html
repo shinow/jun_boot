@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <div th:replace="common/links::header"></div>
+    <script th:src="@{/js/echart/echarts.min.js}"></script>
+    <div th:replace="common/script::js_footer"></div>
+</head>
+<body class="form-body">
+<div id="main" style="width: 800px;height:400px;"></div>
+<div id="main2" style="width: 800px;height:400px;"></div>
+<div id="main3" style="width: 800px;height:400px;"></div>
+</body>
+</html>
+<script type="text/javascript">
+    $(function () {
+        var myChart = Common.initChart('main','bar');
+        var myChart2 = Common.initChart('main2','pie');
+        var myChart3 = Common.initChart('main3','line');
+        loadData(myChart);
+        loadData(myChart2);
+        loadData(myChart3);
+
+    })
+    function loadData(charObj) {
+        charObj.showLoading({text: '正在努力的读取数据中...'  });
+        Common.ajaxFormSubmit(basePath + '/report/platform/login-count',null,function (data) {
+            charObj.setOption({
+                title:{
+                    text:'登录次数统计'
+                },
+                xAxis: {
+                    name:'登录时间'
+                },
+                yAxis: {
+                    name:'登录次数'
+                },
+                legend: {
+                },
+                series: [{
+                    // 根据名字对应到相应的系列
+                    name: '登录次数',
+                    data: data.data
+                }]
+            });
+            charObj.hideLoading();
+        })
+    }
+
+</script>

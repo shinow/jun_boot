@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Title</title>
+    <div th:replace="common/links::header"></div>
+    <div th:replace="common/script::js_footer"></div>
+    <script th:src="@{/js/common/verify.js}"></script>
+</head>
+<body class="form-body">
+<form class="layui-form ">
+    <input type="hidden" name="id" th:value="${role.id}">
+    <div class="layui-form-item layui-col-md6 layui-col-md-offset2">
+        <label class="layui-form-label">角色名</label>
+        <div class="layui-input-inline form-length350">
+            <input type="text" name="name" th:value="${role.name}" lay-verify="required|rolename"
+                   placeholder="请输入角色名" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">*任意字符</div>
+    </div>
+    <div class="layui-form-item layui-col-md-offset5">
+        <div class="layui-input-block">
+            <button class="layui-btn" shiro:hasPermission="sys:role:basic:op" lay-submit="" lay-filter="add">立即提交</button>
+            <button id="closeBtn" type="button" class="layui-btn layui-btn-primary">取消</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" th:inline="javascript">
+    layui.use('form', function () {
+        var form = layui.form, $ = layui.jquery;
+        form.render();
+        //监听提交
+        form.on('submit(add)', function (data) {
+            Common.ajaxFormSubmit('/sys/role/save-or-update', data.field, function (data) {
+                layer.msg(data.msg, {icon: 6}, function () {
+                    Common.closeFrame();
+                });
+            });
+            return false;
+        });
+
+        $("#closeBtn").on('click', function () {
+            Common.closeFrame();
+        });
+    });
+</script>
+</body>
+</html>

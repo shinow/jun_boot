@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <div th:replace="common/links::header"></div>
+    <div th:replace="common/script::js_footer"></div>
+    <link rel="stylesheet" th:href="@{/js/zTree_v3/css/metroStyle/metroStyle.css}" type="text/css">
+    <script type="text/javascript" th:src="@{/js/jquery/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/zTree_v3/js/jquery.ztree.all.js}"></script>
+</head>
+<body>
+<div style="text-align: center;padding-bottom: 10%;">
+    <ul id="menuTree" class="ztree"></ul>
+    <hr class="layui-bg-gray">
+    <button id="chooseBtn" type="button" class="layui-btn  layui-btn-sm" >确定</button>
+    <button id="closeBtn" type="button" class="layui-btn layui-btn-primary  layui-btn-sm">取消</button>
+</div>
+<script th:inline="javascript">
+    var setting = {
+        check: {
+            enable: true,
+            chkStyle: "radio",
+            radioType: "all"
+        },
+        view: {
+            selectedMulti: false
+        },
+        data: {
+            simpleData: {
+                enable: true
+            }
+        }
+    };
+    var nodes = [[${menus}]];
+    $(document).ready(function(){
+        var zTreeObj = $.fn.zTree.init($("#menuTree"), setting, nodes);
+        zTreeObj.expandAll(true);
+        $("#chooseBtn").on('click',function(){
+            var nodes = zTreeObj.getCheckedNodes(true);
+            if (nodes.length === 1){
+                parent.chooseParent(nodes[0]);
+                Common.closeFrame();
+            }
+        })
+        $("#closeBtn").on('click',function () {
+            Common.closeFrame();
+        })
+    });
+</script>
+</body>
+</html>

@@ -105,7 +105,7 @@ public class ShiroConfig {
 	 */
 	@Bean
 	public EhCacheManager getEhCacheManager() {
-		net.sf.ehcache.CacheManager cacheManager = net.sf.ehcache.CacheManager.getCacheManager("hplus-ehcache-shiro");
+		net.sf.ehcache.CacheManager cacheManager = net.sf.ehcache.CacheManager.getCacheManager("jun-ehcache-shiro");
 		EhCacheManager em = new EhCacheManager();
 		if (StringUtils.isNull(cacheManager)) {
 			em.setCacheManager(new net.sf.ehcache.CacheManager(getCacheManagerConfigFileInputStream("classpath:ehcache/ehcache-shiro.xml")));
@@ -233,6 +233,8 @@ public class ShiroConfig {
 		LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
 		filterChainDefinitionMap.put("/adminlte/**", "anon");
 		filterChainDefinitionMap.put("/common/**", "anon");
+		filterChainDefinitionMap.put("/publicservice/**", "anon");
+		filterChainDefinitionMap.put("/public/**", "anon");
 		filterChainDefinitionMap.put("/img/**", "anon");
 		filterChainDefinitionMap.put("/plugins/**", "anon");
 		filterChainDefinitionMap.put("/file/**", "anon");

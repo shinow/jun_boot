@@ -1,0 +1,78 @@
+server:
+  port: 9005
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    appname: eboot-gateway
+    leaseRenewalIntervalInSeconds: 1
+    lease-expiration-duration-in-seconds: 2
+    prefer-ip-address: true
+    instance-id: 127.0.0.1:9005
+
+spring:
+  # Redis配置
+  redis:
+    host: 192.144.176.99
+    password: 123456
+    port: 6379
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          # gateway开启服务注册和发现的功能，
+          # 并且spring cloud gateway自动根据服务发现为每一个服务创建了一个router，
+          # 这个router将以服务名开头的请求路径转发到对应的服务
+          # 设置为false：若不改的话，http://localhost:9005/boot-service/api/gateway/demo这样的请求地址也能正常访问，
+          # 因为这时为每个服务创建了2个router
+          enabled: false
+          # 将请求路径上的服务名配置为小写（因为服务注册的时候，向注册中心注册时将服务名转成大写的了）
+          lowerCaseServiceId: true
+      routes:
+        - id: boot-service
+          uri: lb://BOOT-SERVICE
+          predicates:
+            - Path=/user/**
+          filters:
+            # 匹配所有以/开头的路径，然后在前面加上/api
+            # 在yml文档中 $ 要写成 $\
+            # $\ 会被替换回 $
+            #   源代码
+            #   RewritePathGatewayFilterFactory类中
+            #   @Override
+            #	public GatewayFilter apply(Config config) {
+            #		String replacement = config.replacement.replace("$\\", "$");
+            #		return (exchange, chain) -> {
+            #			ServerHttpRequest req = exchange.getRequest();
+            #			addOriginalRequestUrl(exchange, req.getURI());
+            #			String path = req.getURI().getRawPath();
+            #			String newPath = path.replaceAll(config.regexp, replacement);
+            #
+            #			ServerHttpRequest request = req.mutate()
+            #					.path(newPath)
+            #					.build();
+            #
+            #			exchange.getAttributes().put(GATEWAY_REQUEST_URL_ATTR, request.getURI());
+            #
+            #			return chain.filter(exchange.mutate().request(request).build());
+            #		};
+            #	}
+            - RewritePath=(?<oldPath>^/), /api$\{oldPath}
+        - id: boot-service
+          uri: lb://BOOT-SERVICE
+          predicates:
+            - Path=/admin/**
+          filters:
+            - RewritePath=(?<oldPath>^/), /api$\{oldPath}
+            # 限流过滤器
+            - name: RequestRateLimiter
+              args:
+                # 使用 SpEL 按名称引用 bean
+                key-resolver: '#{@hostAddressKeyResolver}'
+                # 每秒处理多少个请求
+                redis-rate-limiter.replenishRate: 1
+                # 允许在一秒钟内完成的最大请求数
+                redis-rate-limiter.burstCapacity: 1
+
+# 可以使用Jmeter进行压力测试

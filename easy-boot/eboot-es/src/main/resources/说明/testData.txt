@@ -1,0 +1,6 @@
+http://localhost:6325/entityController/save?id=1&name=南京中山陵
+http://localhost:6325/entityController/save?id=2&name=中国南京师范大学
+http://localhost:6325/entityController/save?id=3&name=南京夫子庙
+http://localhost:6325/entityController/save?id=4&name=郑州也非常不错
+http://localhost:6325/entityController/save?id=5&name=中国南边好像没有叫带京字的城市了
+

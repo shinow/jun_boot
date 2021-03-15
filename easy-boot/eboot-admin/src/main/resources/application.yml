@@ -1,0 +1,45 @@
+server:
+  port: 8882
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    appname: eboot-admin
+    leaseRenewalIntervalInSeconds: 1
+    lease-expiration-duration-in-seconds: 2
+    prefer-ip-address: true
+#    instance-id: 127.0.0.1:8882
+
+# THYMELEAF (ThymeleafAutoConfiguration)
+spring:
+  thymeleaf:
+    cache: false
+    check-template: true
+    check-template-location: true
+    enabled: true
+    encoding: utf-8
+    #去掉thymeleaf的严格的模板校验
+    mode: LEGACYHTML5
+    prefix: classpath:/templates/
+    suffix: .html
+    excluded-view-names:
+  groovy:
+    template:
+      cache: false
+  boot:
+    admin:
+      client:
+        url: http://localhost:8888
+  application:
+    name: eboot-admin
+  main:
+    allow-bean-definition-overriding: true
+custom:
+  uploadPath: http://localhost:9091/accessory/upload
+  imageViewPath: http://localhost:9091/accessory/open?id=
+
+
+
+
+

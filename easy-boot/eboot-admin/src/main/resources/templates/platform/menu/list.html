@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Title</title>
+    <div th:replace="common/links::header"></div>
+    <div th:replace="common/script::js_footer"></div>
+</head>
+<body>
+<fieldset class="layui-elem-field">
+    <legend>条件搜索</legend>
+<form class="layui-form" style="text-align: center" id="searchForm">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">名称</label>
+            <div class="layui-input-inline">
+                <input type="text" name="name"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">资源类型</label>
+            <div class="layui-input-block">
+                <input type="radio" name="menu_type" value="" title="全部">
+                <input type="radio" name="menu_type" value="1" title="菜单">
+                <input type="radio" name="menu_type" value="2" title="权限">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" shiro:hasPermission="sys:menu:basic:op" class="layui-btn layui-btn-primary" id="addBtn"><i class="layui-icon">&#xe654;</i>新增</button>
+            <button type="button" class="layui-btn layui-btn-primary" id="searchBtn" ><i class="layui-icon"> &#xe615;</i>搜索</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+</fieldset>
+<hr class="layui-bg-green">
+<table class="layui-hide" id="dataTable" lay-filter="dataFilter"></table>
+<script type="text/html" id="toolBars">
+    {{#  if(d.id != '1'){ }}
+    <button shiro:hasPermission="sys:menu:basic:op"  class="layui-btn layui-btn-sm" lay-event="edit" th:title="修改">
+        <i class="layui-icon">&#xe642;</i>
+    </button>
+    <button class="layui-btn layui-btn-sm" shiro:hasPermission="sys:menu:basic:del" lay-event="del" th:title="删除">
+        <i class="layui-icon">&#xe640;</i>
+    </button>
+    {{#  } }}
+</script>
+<script th:inline="javascript">
+    layui.use(['table','form'], function(){
+        var cols=[[
+             {field:'checkBox',checkbox: true, fixed: true}
+            ,{field:'name', title: '名称'} //width 支持：数字、百分比和不填写。你还可以通过 minWidth 参数局部定义当前单元格的最小宽度，layui 2.2.1 新增
+            ,{field:'menuTypeText', title: '类型', sort: true}
+            ,{field:'sortNo', title: '排序号'}
+            ,{field:'path', title: 'url'}
+            ,{field:'code', title: 'code'}
+            ,{field:'op',title: '操作', align:'center', toolbar: '#toolBars'} //这里的toolbar值是模板元素的选择器
+        ]];
+        var table = layui.table,$ = layui.jquery ,form = layui.form;
+
+        form.render();
+        table.on('tool(dataFilter)', function(obj){
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            if(layEvent === 'detail'){ //查看
+                Common.openFrame('/sys/user/detail?id=' + data.id,'用户信息','800px','500px');
+            } else if(layEvent === 'del'){ //删除
+                layer.confirm('真的删除行么', function(index){
+                    Common.ajaxFormSubmit('/sys/menu/del', {id:data.id}, function (data) {
+                        layer.close(index);
+                        layer.msg(data.msg,{icon:6},function () {
+                            $('#searchBtn').click();
+                        });
+                    });
+                });
+            } else if(layEvent === 'edit'){ //编辑
+                Common.openFrame('/sys/menu/to-edit?id=' + data.id,'修改菜单信息','800px','700px',function () {
+                    $('#searchBtn').click();
+                });
+            }
+        });
+        var initTable = Common.initTable('#dataTable','/sys/menu/query-page',cols,table);
+        $('#searchBtn').on('click',function () {
+            Common.searchTable('searchForm',initTable);
+        });
+        $("#addBtn").on('click',function () {
+            Common.openFrame('/sys/menu/to-edit','修改菜单信息','800px','700px',function () {
+                $('#searchBtn').click();
+            });
+        });
+    });
+    
+
+</script>
+</body>
+</html>

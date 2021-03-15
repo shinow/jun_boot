@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <div th:replace="common/links::header"></div>
+    <div th:replace="common/script::js_footer"></div>
+    <script th:src="@{/js/common/verify.js}"></script>
+</head>
+<body class="form-body">
+    <div class="layui-form-item layui-col-md6 layui-col-md-offset2">
+        <label class="layui-form-label">角色名</label>
+        <div class="layui-input-inline form-length350">
+            <input type="text" name="name" th:value="${role.name}" disabled class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-col-md-offset4">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn layui-btn-primary" id="closeBtn" th:text="关闭">关闭</button>
+        </div>
+    </div>
+<script type="text/javascript" th:inline="javascript">
+    layui.use('element', function () {
+        var $ = layui.jquery;
+        $("#closeBtn").on("click",function () {
+            Common.closeFrame();
+        })
+    });
+</script>
+</body>
+</html>

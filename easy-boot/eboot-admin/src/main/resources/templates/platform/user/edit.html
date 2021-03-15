@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Title</title>
+    <div th:replace="common/links::header"></div>
+    <div th:replace="common/script::js_footer"></div>
+    <script th:src="@{/js/common/verify.js}"></script>
+</head>
+<body class="form-body">
+<form class="layui-form ">
+    <input type="hidden" name="id" th:value="${user.id}">
+    <div class="layui-form-item layui-col-md6 layui-col-md-offset2">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-inline form-length350">
+            <input type="text" name="username" th:value="${user.username}" lay-verify="required|username"
+                   placeholder="请输入用户名" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">*6-12个字符</div>
+    </div>
+    <!-- <div class="layui-form-item layui-col-md4 layui-col-md-offset2">
+         <label class="layui-form-label">密码框</label>
+         <div class="layui-input-inline">
+             <input type="password" name="password"  lay-verify="required|password" placeholder="请输入密码" autocomplete="off" class="layui-input">
+         </div>
+         <div class="layui-form-mid layui-word-aux">*包含a_z、A_Z、1-9中的两种，且长度6-20</div>
+     </div>-->
+    <div class="layui-form-item layui-col-md4 layui-col-md-offset2">
+        <label class="layui-form-label">手机号</label>
+        <div class="layui-input-inline">
+            <input type="text" name="mobile" th:value="${user.mobile}" lay-verify="required|phone" lay-verType="tips"
+                   placeholder="请输入手机号" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">*手机号</div>
+    </div>
+    <div class="layui-form-item layui-col-md4 layui-col-md-offset2">
+        <label class="layui-form-label">昵称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="nickname" th:value="${user.nickname}" lay-verify="required" placeholder="请输入昵称"
+                   autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">*不多于30个字符</div>
+    </div>
+    <div class="layui-form-item layui-col-md4 layui-col-md-offset2">
+        <label class="layui-form-label">角色</label>
+        <div class="layui-input-inline" >
+            <text th:each="role,roleStat : ${roles}">
+                <input type="checkbox" name="roleIds" th:name="${'roleIds['+roleStat.index+']'}"  title="复选框"
+                       th:title="${role.name}" th:value="${role.id}" th:checked="${user.roleIds==null}?'false' : (${#lists.contains(user.roleIds,role.id)})">
+            </text>
+        </div>
+        <div class="layui-form-mid layui-word-aux">请选择角色</div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-col-md4 layui-col-md-offset2">
+            <label class="layui-form-label">头像</label>
+            <div class="layui-input-inline">
+                <button type="button" class="layui-btn" id="test1">
+                    <i class="layui-icon">&#xe67c;</i>上传图片
+                </button>
+                <input type="hidden" id="photo" name="photo" value="">
+                <div id="previewPhoto"><img src="/images/default-mem.png" th:src="${defaultImageViewPath+user.photo}"
+                                            alt="" style="width: 80px;height: 80px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item layui-col-md-offset5">
+        <div class="layui-input-block">
+            <button class="layui-btn" shiro:hasPermission="sys:user:edit" lay-submit="" lay-filter="add">立即提交</button>
+            <button id="closeBtn" type="button" class="layui-btn layui-btn-primary">取消</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" th:inline="javascript">
+    layui.use('form', function () {
+        var form = layui.form, upload = layui.upload, $ = layui.jquery;
+        form.render();
+        Common.uploadFile('#test1', upload, function (data) {
+            $("#photo").val(data);
+            $("#previewPhoto img").attr("src", defaultImageViewPath + data);
+        }, {category: 'photo'});
+        //监听提交
+        form.on('submit(add)', function (data) {
+            Common.ajaxFormSubmit('/sys/user/save-or-update', data.field, function (data) {
+                layer.msg(data.msg,{icon:6},function () {
+                    Common.closeFrame();
+                });
+            });
+            return false;
+        });
+
+        $("#closeBtn").on('click',function () {
+            Common.closeFrame();
+        });
+    });
+</script>
+</body>
+</html>

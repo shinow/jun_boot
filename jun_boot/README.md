@@ -21,7 +21,7 @@ AdminLTE、Springboot、Shiro、Mybatis、通用Mapper、shiro-redis、Ehcache�
 1. 根据application-dev.yml内配置,设置mysql相关配置（sql文件在resource/sql目录下）
 2. 根据application-dev.yml内配置,设置redis相关配置 (安装好redis并启动redis服务)
 3. 项目导入eclipse或idea
-4. 运行HplusApplication.java启动类
+4. 运行Application.java启动类
 5. 浏览器输入http://localhost:8081,账号/密码:admin/1
 
 ### 参考项目

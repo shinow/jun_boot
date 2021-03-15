@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mos.eboot.service.platform.mapper.SysMenuMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.mos.eboot.platform.entity.SysMenu">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="path" property="path" />
+		<result column="icon" property="icon" />
+		<result column="parent_id" property="parentId" />
+		<result column="menu_type" property="menuType" />
+		<result column="create_time" property="createTime" />
+		<result column="create_user" property="createUser" />
+		<result column="modify_time" property="modifyTime" />
+		<result column="modify_user" property="modifyUser" />
+		<result column="code" property="code" />
+	</resultMap>
+    <select id="selectResource" resultType="com.mos.eboot.vo.TreeNode">
+        SELECT sm.id,sm.name,sm.parent_id as pId,sm.icon,IF(srm.id IS NULL,'false','true') AS checked FROM sys_menu sm
+            LEFT JOIN sys_role_menu srm ON sm.id=srm.menu_id AND srm.role_id=#{roleId}
+        ORDER BY sm.sort_no
+    </select>
+    <select id="selectByUser" resultType="com.mos.eboot.platform.entity.SysMenu">
+        SELECT DISTINCT sm.* FROM sys_menu sm, sys_user_role sur,sys_role_menu srm
+        WHERE sur.role_id = srm.role_id AND sm.id=srm.menu_id
+        AND sur.user_id=#{userId}
+        <if test="menuType != null and menuType != ''">
+            and sm.menu_type = #{menuType}
+        </if>
+        order by sm.sort_no asc
+    </select>
+    <select id="selectPermit" resultType="string">
+        SELECT DISTINCT sm.code
+        FROM sys_menu sm,sys_role_menu srm,sys_user_role sur
+        WHERE sm.id = srm.menu_id AND srm.role_id = sur.role_id
+        <if test="userId!=null and userId != ''">
+          AND sur.user_id=#{userId}
+        </if>
+        AND sm.menu_type='2'
+    </select>
+
+    <select id="selectAllPermit" resultType="java.lang.String">
+        select code from sys_menu where menu_type=#{menuType}
+    </select>
+    <select id="selectAllMenu" resultType="com.mos.eboot.platform.entity.SysMenu">
+        select * from sys_menu where menu_type=#{menuType}
+    </select>
+</mapper>

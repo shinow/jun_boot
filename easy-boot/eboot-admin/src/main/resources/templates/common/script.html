@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="js_footer">
+    <script th:src="@{/js/layui/layui.all.js}"></script>
+    <script th:src="@{/js/jquery/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/common/common.js}"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var basePath=[[${#httpServletRequest.getContextPath()}]];
+        var uploadPath=[[${uploadPath}]];
+        var defaultImageViewPath=[[${defaultImageViewPath}]];
+        /*]]>*/
+    </script>
+</div>
+</html>

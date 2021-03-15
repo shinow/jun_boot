@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mos.eboot.service.platform.mapper.SysUserMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.mos.eboot.platform.entity.SysUser">
+		<id column="id" property="id" />
+		<result column="username" property="username" />
+		<result column="password" property="password" />
+		<result column="is_del" property="isDel" />
+		<result column="nickname" property="nickname" />
+		<result column="mobile" property="mobile" />
+		<result column="photo" property="photo" />
+		<result column="create_time" property="createTime" />
+		<result column="create_user" property="createUser" />
+		<result column="last_login_time" property="lastLoginTime" />
+		<result column="ip" property="ip" />
+		<result column="disabled" property="disabled" />
+		<result column="locked" property="locked" />
+	</resultMap>
+    <select id="loginCount" resultType="com.mos.eboot.vo.ChartVO">
+        SELECT COUNT(*) AS value,DATE_FORMAT(last_login_time,'%Y-%m-%d') AS name FROM sys_user GROUP BY name ORDER BY name ASC
+    </select>
+
+</mapper>

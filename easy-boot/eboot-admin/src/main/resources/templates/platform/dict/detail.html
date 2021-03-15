@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <div th:replace="common/links::header"></div>
+    <div th:replace="common/script::js_footer"></div>
+</head>
+<body class="form-body">
+<form class="layui-form ">
+<div class="layui-form-item layui-col-md6 layui-col-md-offset2">
+    <label class="layui-form-label">名称</label>
+    <div class="layui-input-inline form-length350">
+        <input type="text" name="name" th:value="${dict.name}" th:disabled="true"
+               placeholder="请输入名称" autocomplete="off" class="layui-input">
+    </div>
+    <div class="layui-form-mid layui-word-aux">*6-12个字符</div>
+</div>
+<div class="layui-form-item layui-col-md4 layui-col-md-offset2">
+    <label class="layui-form-label">类别</label>
+    <div class="layui-input-inline">
+        <input type="text" name="typeCode" th:value="${dict.typeCode}" lay-verify="required" lay-verType="tips" th:disabled="true"
+               placeholder="请输入类别" autocomplete="off" class="layui-input">
+    </div>
+    <div class="layui-form-mid layui-word-aux">*类别</div>
+</div>
+<div class="layui-form-item">
+    <div class="layui-col-md4 layui-col-md-offset2">
+        <label class="layui-form-label">是否可编辑</label>
+        <div class="layui-input-inline">
+            <input type="radio" name="isEdit" value="1" title="是"  th:checked="${dict.isEdit == '1'}" th:disabled="true">
+            <input type="radio" name="isEdit" value="0" title="否"  th:checked="${dict.isEdit == '0'}" th:disabled="true">
+        </div>
+    </div>
+</div>
+<div class="layui-form-item layui-col-md4 layui-col-md-offset2">
+    <label class="layui-form-label">排序号</label>
+    <div class="layui-input-inline">
+        <input type="number" name="sortNo" th:value="${dict.sortNo}" lay-verify="required" placeholder="请输入排序号" readonly
+               autocomplete="off" class="layui-input">
+    </div>
+    <div class="layui-form-mid layui-word-aux">*排序号</div>
+</div>
+    <div class="layui-form-item layui-col-md-offset4">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn layui-btn-primary" id="closeBtn" th:text="关闭">关闭</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" th:inline="javascript">
+    layui.use('form', function () {
+        var form = layui.form, $ = layui.jquery;
+        form.render();
+
+        $("#closeBtn").on('click',function () {
+            Common.closeFrame();
+        });
+    });
+</script>
+</body>
+</html>

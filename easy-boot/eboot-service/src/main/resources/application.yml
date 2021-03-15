@@ -1,0 +1,64 @@
+server:
+  port: 9090
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8761/eureka/
+  instance:
+    appname: boot-service
+    leaseRenewalIntervalInSeconds: 1
+    lease-expiration-duration-in-seconds: 2
+    prefer-ip-address: true
+    instance-id: 127.0.0.1:9090
+
+spring:
+  datasource:
+    druid:
+      url: jdbc:mysql://localhost:3306/eboot?characterEncoding=utf8
+      username: root
+      password: root
+      driver-class-name: com.mysql.jdbc.Driver
+      initial-size: 5
+      max-active: 10
+      min-evictable-idle-time-millis: 100000
+  application:
+      name: boot-service
+  boot:
+    admin:
+      client:
+        url: http://localhost:8888
+  # Redis数据库索引（默认为0）
+  redis:
+    #数据库索引
+    database: 2
+    host: 你的ip
+    port: 6379
+    password: 你的密码
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 0
+    timeout: 300s
+
+mybatis-plus:
+  mapper-locations: classpath:/com/mos/eboot/service/**/mapper/*Mapper.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.mos.eboot.entity
+  #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+  global-config.id-type: 3
+  #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+  global-config.field-strategy: 2
+  #驼峰下划线转换
+  global-config.db-column-underline: true
+  #刷新mapper 调试神器
+  global-config.refresh-mapper: true
+  #逻辑删除配置
+  global-config.sql-injector: com.baomidou.mybatisplus.mapper.LogicSqlInjector
+  global-config.logic-delete-value: 1
+  global-config.logic-not-delete-value: 0
+  configuration.map-underscore-to-camel-case: true
+  configuration.jdbcTypeForNull: NULL
+  configuration.cache-enabled: false
+  configuration.call-setters-on-nulls: true

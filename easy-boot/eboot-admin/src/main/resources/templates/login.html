@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>login</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/normalize.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}" />
+    <!--必要样式-->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/component.css}" />
+    <!--[if IE]>
+    <script th:src="@{/js/common/login/html5.js}"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="container demo-1">
+    <div class="content">
+        <div id="large-header" class="large-header">
+            <canvas id="demo-canvas"></canvas>
+            <div class="logo_box">
+                <h3>欢迎你</h3>
+                    <div class="input_outer">
+                        <span class="u_user"></span>
+                        <input name="username" class="text" style="color: #FFFFFF !important" type="text" placeholder="请输入账户" th:value="superadmin">
+                    </div>
+                    <div class="input_outer">
+                        <span class="us_uer"></span>
+                        <input name="password" class="text" style="color: #FFFFFF !important; position:absolute; z-index:100;" value="123456" type="password" placeholder="请输入密码">
+                    </div>
+                    <div style="display: flex">
+                        <div class="input_outer" style="width: 200px;">
+                            <span class="us_verify"></span>
+                            <input name="kaptcha" class="text" style="color: #FFFFFF !important; position:absolute; z-index:100;width: 200px;"value="" type="text" placeholder="验证码" >
+                        </div>
+                        <img align="absmiddle" id="kaptchaImg" src="/kaptcha.jpg"
+                             style="height: 46px;padding: 0 5px"/>
+                    </div>
+                    <div style="color: white;font-size: 14px;display: none;text-align: center" id="errorMsg">*这是错误信息</div>
+                    <div class="mb2" ><a class="act-but submit" href="javascript:;" style="color: #FFFFFF">登录</a></div>
+            </div>
+        </div>
+    </div>
+</div><!-- /container -->
+<script th:src="@{/js/common/login/TweenLite.min.js}"></script>
+<script th:src="@{/js/common/login/EasePack.min.js}"></script>
+<script th:src="@{/js/common/login/rAF.js}"></script>
+<script th:src="@{/js/common/login/login.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery/jquery-3.3.1.min.js}"></script>
+<script>
+    $(function () {
+        $(".mb2").on('click',function () {
+            $.ajax({
+                url: '/login',
+                method: 'POST',
+                data: {
+                    username:$('input[name=username]').val(),
+                    password:$('input[name=password]').val(),
+                    kaptcha:$('input[name=kaptcha]').val()
+                },
+                dataType : 'json',
+                success: function (r) {
+                    if (r.code === '0'){
+                        $("#errorMsg").hide();
+                        location.href = '/index';
+                    }else{
+                        $("#errorMsg").html('*'+r.msg);
+                        $("#errorMsg").show();
+                        $("#kaptchaImg").click();
+                    }
+                }
+            });
+        })
+
+        $("#kaptchaImg").on('click',function () {
+            $(this).attr("src", "/kaptcha.jpg?tm=" + Math.random());
+        })
+    });
+</script>
+</body>
+</html>

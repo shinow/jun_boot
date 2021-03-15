@@ -1,0 +1,12 @@
+/target
+.classpath
+.project
+.factorypath
+/.DS_Store
+/ifast.iml
+
+.yml
+
+.idea
+
+*.iml

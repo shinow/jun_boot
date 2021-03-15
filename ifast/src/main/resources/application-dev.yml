@@ -1,0 +1,85 @@
+ifast:
+  projectName: ifast
+  projectRootURL: http://127.0.0.1:${server.port}/
+  demoMode: false
+  devMode: true
+  tempDir: /Users/Aron/dev_projects/idea/ifast/temp/
+  jwt:
+    userPrimaryKey: userId
+    expireTokenKeyPrefix: ifast:expireToken
+    expireTime: 60000
+    refreshTokenExpire: 604800000
+  swagger:
+    title: ifast接口文档
+    description: 开发人员太懒，没有写描述
+    contactName: Aron
+    contactEmail: izenglong@163.com
+    contactUrl: http://ifast.site/doc.html
+    basePackage: com.ifast
+    termsOfServiceUrl: ${ifast.projectRootURL}doc.html
+  shiro:
+    jsessionidKey: SESSION
+    sessionKeyPrefix: ${ifast.projectName}:session
+  oss:
+    local: # 配置 localPath 启用本地上传（默认方式）
+      localPath: upload
+      rootURL: ${ifast.projectRootURL}upload
+    aliyun: # 配置 accessKeySecret 启用阿里云OSS
+      accessKeyId:
+      accessKeySecret:
+      bucketName:
+      # endpoint以深圳为例，其它region请按实际情况填写
+      endpoint: http://oss-cn-shenzhen.aliyuncs.com
+    qiniu: # 配置 accessKey 启用七牛云OSS
+      accessKey: 8-HMj9EgGNIP-xuOCpSzTn-OMyGOFtR3TxLdn4Uu
+      secretKey: SjpGg3V6PsMdJgn42PeEd5Ik-6aNyuwdqV5CPM6A
+      bucket: ifast
+      accessURL: http://cdn.ifast.site/
+  sms:
+    cacheKey: ${ifast.projectName}:cache
+    cacheKeyPrefix: sms
+    codeExpireTime: 900000
+    scenes: # 短信内容清单
+      validCode: 验证码{code}，您正在进行身份验证，打死也不要告诉别人哦！
+    zt: # 配置 uname 启用上海助通短信平台
+      uname: UNAME
+      passwd: PASSWD
+      productId: PRODUCT_ID
+    # 配置accessKeyId和accessKeySecret，添加配置表项sys_config.sms_aliyun_validCode
+    aliyun: # 配置 accessKeySecret 启用上海助通短信平台
+      accessKeyId:
+      accessKeySecret:
+      scenes:
+        # 配置格式为包含SignName和TemplateCode的json字符串：sys_config.sms_aliyun_validCode = {SignName, TemplateCode}
+        validCode: sms_aliyun_validCode
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/ifast-new2?useUnicode=true&useSSL=false
+    # 推荐utf8mb4编码以便支持表情字符，sys_log记录系统数据变动需要支持utf8mb4
+    connectionInitSqls: SET NAMES utf8mb4;
+    username: root
+    password: aron
+    initialSize: 1
+    minIdle: 3
+    maxActive: 20
+    # 配置获取连接等待超时的时间
+    maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 30000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,slf4j
+    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    # 合并多个DruidDataSource的监控数据
+    #useGlobalDataSourceStat: true

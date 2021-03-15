@@ -1,0 +1,20 @@
+server:
+  port: 8881
+
+# Redis数据库索引（默认为0）
+spring:
+  redis:
+    database: 0
+    # Redis服务器地址
+    host: 127.0.0.1
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码（默认为空）
+    password: 123456789
+  rabbitmq:
+      host: 172.16.14.93
+      port: 5672
+      username: dreamer
+      password: dreamer
+      virtualHost: eboot
+      publisherConfirms: true

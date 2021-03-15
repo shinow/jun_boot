@@ -24,12 +24,12 @@ spring:
       time-zone: GMT+8
    servlet:
       multipart:
-         max-file-size: 100MB
-         max-request-size: 100MB
+         max-file-size: 10MB
+         max-request-size: 10MB
    mail:
       host: smtp.qq.com #发送邮件服务器
       username: 245783660@qq.com #发送邮件的邮箱地址
-      password: 123 #客户端授权码，不是邮箱密码，这个在qq邮箱设置里面自动生成的
+      password: wujun #客户端授权码，不是邮箱密码，这个在qq邮箱设置里面自动生成的
       properties.mail.smtp.port: 465 #端口号465或587
       from: 245783660@qq.com # 发送邮件的地址，和上面username一致
       properties.mail.smtp.starttls.enable: true
@@ -66,5 +66,5 @@ pagehelper:
    params: count=countSql
 # 系统自定义全局配置，可根据实际需要扩展使用
 global:
-   workDir: D:/web-project/ht-file # 文件路径 示例（ Windows配置D:/web-project/profile，Linux配置 /home/hplus-file/profile）
+   workDir: D:/jun_boot/upload-file # 文件路径 示例（ Windows配置D:/jun_boot/profile，Linux配置 /home/jun_boot/profile）
    redisrun: false # 开启redis值：true, 不开启redis值：false
